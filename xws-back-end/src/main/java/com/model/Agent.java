@@ -8,6 +8,12 @@
 
 package com.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -48,19 +54,33 @@ import javax.xml.bind.annotation.XmlType;
     "adresa",
     "poslovniMBR"
 })
+@Entity
+@Table(name = "agent")
 @XmlRootElement(name = "Agent")
 public class Agent {
+	
+ 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @Column(name = "agent_id", nullable = false, updatable = false)
+ 	@XmlElement(name = "id", required = true)
+	private Long id;
 
+ 	@Column(name = "username")
     @XmlElement(name = "Username", required = true)
     protected String username;
+ 	@Column(name = "password")
     @XmlElement(name = "Password", required = true)
     protected String password;
+ 	@Column(name = "ime")
     @XmlElement(name = "Ime", required = true)
     protected String ime;
+ 	@Column(name = "prezime")
     @XmlElement(name = "Prezime", required = true)
     protected String prezime;
+ 	@Column(name = "adresa")
     @XmlElement(name = "Adresa", required = true)
     protected String adresa;
+ 	@Column(name = "poslovnimbr")
     @XmlElement(name = "Poslovni_MBR", required = true)
     protected String poslovniMBR;
 

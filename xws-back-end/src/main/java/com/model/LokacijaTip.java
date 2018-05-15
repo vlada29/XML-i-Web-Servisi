@@ -8,6 +8,12 @@
 
 package com.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -43,14 +49,26 @@ import javax.xml.bind.annotation.XmlType;
     "grad",
     "drzava"
 })
+@Entity
+@Table(name = "lokacijatip")
 public class LokacijaTip {
+	
+ 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @Column(name = "lokacija_id", nullable = false, updatable = false)
+ 	@XmlElement(name = "id", required = true)
+	private Long id;
 
+	@Column(name = "ulica")
     @XmlElement(name = "Ulica", required = true)
     protected String ulica;
+	@Column(name = "broj")
     @XmlElement(name = "Broj", required = true)
     protected String broj;
+	@Column(name = "grad")
     @XmlElement(name = "Grad", required = true)
     protected String grad;
+	@Column(name = "drzava")
     @XmlElement(name = "Drzava", required = true)
     protected String drzava;
 
@@ -126,7 +144,15 @@ public class LokacijaTip {
         this.grad = value;
     }
 
-    /**
+    public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
      * Gets the value of the drzava property.
      * 
      * @return

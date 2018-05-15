@@ -8,6 +8,12 @@
 
 package com.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -46,17 +52,30 @@ import javax.xml.bind.annotation.XmlType;
     "password",
     "active"
 })
+@Entity
+@Table(name = "user")
 @XmlRootElement(name = "User")
 public class User {
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @Column(name = "id_user", nullable = false, updatable = false)
+ 	@XmlElement(name = "id", required = true)
+	private Long id;
 
+	@Column(name = "ime")
     @XmlElement(name = "Ime", required = true)
     protected String ime;
+	@Column(name = "prezime")
     @XmlElement(name = "Prezime", required = true)
     protected String prezime;
+	@Column(name = "username")
     @XmlElement(name = "Username", required = true)
     protected String username;
+	@Column(name = "password")
     @XmlElement(name = "Password", required = true)
     protected String password;
+	@Column(name = "active")
     @XmlElement(name = "Active")
     protected boolean active;
 

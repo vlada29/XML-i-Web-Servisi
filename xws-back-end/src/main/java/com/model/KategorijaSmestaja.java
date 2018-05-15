@@ -8,6 +8,12 @@
 
 package com.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -25,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="Id_Kategorije" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *         &lt;element name="Naziv_Kategorije" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="Opis_Kategorije" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
@@ -38,17 +44,26 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "idKategorije",
+    "id",
     "nazivKategorije",
     "opisKategorije"
 })
+@Entity
+@Table(name = "kategorijasmestaja")
 @XmlRootElement(name = "Kategorija_Smestaja")
 public class KategorijaSmestaja {
 
-    @XmlElement(name = "Id_Kategorije")
-    protected int idKategorije;
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @Column(name = "id_kategorije", nullable = false, updatable = false)
+ 	@XmlElement(name = "id", required = true)
+	private Long id;
+	
+  
+    @Column(name = "nazivkategorije")
     @XmlElement(name = "Naziv_Kategorije", required = true)
     protected String nazivKategorije;
+    @Column(name = "opiskategorije")
     @XmlElement(name = "Opis_Kategorije", required = true)
     protected String opisKategorije;
 
@@ -56,17 +71,20 @@ public class KategorijaSmestaja {
      * Gets the value of the idKategorije property.
      * 
      */
-    public int getIdKategorije() {
-        return idKategorije;
+    public long getId() {
+        return id;
     }
 
-    /**
+
+
+	/**
      * Sets the value of the idKategorije property.
      * 
      */
-    public void setIdKategorije(int value) {
-        this.idKategorije = value;
-    }
+
+    public void setId(Long id) {
+		this.id = id;
+	}
 
     /**
      * Gets the value of the nazivKategorije property.
@@ -79,6 +97,7 @@ public class KategorijaSmestaja {
     public String getNazivKategorije() {
         return nazivKategorije;
     }
+    
 
     /**
      * Sets the value of the nazivKategorije property.

@@ -8,6 +8,12 @@
 
 package com.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -44,15 +50,27 @@ import javax.xml.bind.annotation.XmlType;
     "firstName",
     "lastName"
 })
+@Entity
+@Table(name = "admin")
 @XmlRootElement(name = "Admin")
-public class Admin {
+public class Admin{
+	
+ 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @Column(name = "admin_id", nullable = false, updatable = false)
+ 	@XmlElement(name = "id", required = true)
+	private Long id;
 
+	@Column(name = "username")
     @XmlElement(name = "Username", required = true)
     protected String username;
+	@Column(name = "password")
     @XmlElement(name = "Password", required = true)
     protected String password;
+	@Column(name = "firstname")
     @XmlElement(name = "First_Name", required = true)
     protected String firstName;
+	@Column(name = "lastname")
     @XmlElement(name = "Last_Name", required = true)
     protected String lastName;
 

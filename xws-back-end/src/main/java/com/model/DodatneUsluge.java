@@ -8,6 +8,12 @@
 
 package com.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -25,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="Id_Usluge" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long/>
  *         &lt;element name="Naziv_Usluge" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="Opis_Usluge" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
@@ -38,17 +44,25 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "idUsluge",
+    "id",
     "nazivUsluge",
     "opisUsluge"
 })
+@Entity
+@Table(name = "dodatneusluge")
 @XmlRootElement(name = "Dodatne_Usluge")
 public class DodatneUsluge {
 
-    @XmlElement(name = "Id_Usluge")
-    protected int idUsluge;
+ 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @Column(name = "id_usluge", nullable = false, updatable = false)
+ 	@XmlElement(name = "id", required = true)
+	private Long id;
+
+    @Column(name = "nazivusluge")
     @XmlElement(name = "Naziv_Usluge", required = true)
     protected String nazivUsluge;
+    @Column(name = "opisusluge")
     @XmlElement(name = "Opis_Usluge", required = true)
     protected String opisUsluge;
 
@@ -56,17 +70,18 @@ public class DodatneUsluge {
      * Gets the value of the idUsluge property.
      * 
      */
-    public int getIdUsluge() {
-        return idUsluge;
-    }
-
+    public Long getId() {
+		return id;
+	}
+ 
     /**
      * Sets the value of the idUsluge property.
      * 
      */
-    public void setIdUsluge(int value) {
-        this.idUsluge = value;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 
     /**
      * Gets the value of the nazivUsluge property.
@@ -80,7 +95,11 @@ public class DodatneUsluge {
         return nazivUsluge;
     }
 
-    /**
+
+
+
+
+	/**
      * Sets the value of the nazivUsluge property.
      * 
      * @param value

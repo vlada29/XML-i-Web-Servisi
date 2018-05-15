@@ -8,6 +8,12 @@
 
 package com.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -42,13 +48,21 @@ import javax.xml.bind.annotation.XmlType;
     "nazivTipa",
     "opisTipa"
 })
+@Entity
+@Table(name = "tipsmestaja")
 @XmlRootElement(name = "Tip_Smestaja")
 public class TipSmestaja {
 
-    @XmlElement(name = "Id_Tipa")
-    protected int idTipa;
+ 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @Column(name = "tip_id", nullable = false, updatable = false)
+ 	@XmlElement(name = "id", required = true)
+	private Long id;
+  
+ 	@Column(name = "nazivtipa")
     @XmlElement(name = "Naziv_Tipa", required = true)
     protected String nazivTipa;
+ 	@Column(name = "opistipa")
     @XmlElement(name = "Opis_Tipa", required = true)
     protected String opisTipa;
 
@@ -56,16 +70,16 @@ public class TipSmestaja {
      * Gets the value of the idTipa property.
      * 
      */
-    public int getIdTipa() {
-        return idTipa;
+    public Long getId() {
+        return id;
     }
 
     /**
      * Sets the value of the idTipa property.
      * 
      */
-    public void setIdTipa(int value) {
-        this.idTipa = value;
+    public void setId(Long value) {
+        this.id = value;
     }
 
     /**
