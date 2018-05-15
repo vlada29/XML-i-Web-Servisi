@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="page-header">
+      <h1 style="text-align: center;" >Comments</h1>
+    </div>
+
+    <div *ngFor="let c of comments">
+      <div class="media">
+          <div class="media-left media-middle">
+            <img src="assets/comment.png" class="media-object img-circle" style="width:60px">
+          </div>
+
+          <div class="media-body">
+            <h4 class="media-heading"><strong>{{c.user.username}}</strong> commented on: <strong>{{c.smestajnaJedinica.naziv}}</strong></h4>
+            <p>{{c.sadrzaj}}</p>
+            <p>Ocena: <strong>{{c.ocena}}</strong></p>
+            <button type="button" class="btn btn-info" (click)="approve(c)">Approve</button>
+            <button type="button" class="btn btn-danger" (click)="remove(c)">Remove</button>
+          </div>
+
+      </div>
+      <hr>
+    </div>
+    
+</div>

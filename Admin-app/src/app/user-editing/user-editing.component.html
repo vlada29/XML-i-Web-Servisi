@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="page-header">
+    <h1 style="text-align: center;" >Users</h1>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Username</th>
+        <th>Options</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let u of users">
+        <tr>
+          <td>{{u.ime}}</td>
+          <td>{{u.prezime}}</td>
+          <td>{{u.username}}</td>
+          <td>
+              <button type="button" class="btn btn-danger btn-sm" (click)="remove(u)">Remove</button>
+
+              <span *ngIf="u.active then active; else blocked"></span>
+              
+              <ng-template #active>
+                  <button type="button" class="btn btn-warning btn-sm" (click)="block(u)">Block</button>
+              </ng-template>
+              
+              <ng-template #blocked>
+                  <button type="button" class="btn btn-success btn-sm" (click)="activate(u)">Activate</button>
+              </ng-template>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,32 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">Admin app</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a (click)="logout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+<ul class="nav nav-tabs nav-justified">
+  <li class="active"><a data-toggle="tab" href="#menu0">Catalog editing</a></li>
+  <li><a data-toggle="tab" href="#menu1">Comment editing</a></li>
+  <li><a data-toggle="tab" href="#menu2">User editing</a></li>
+  <li><a data-toggle="tab" href="#menu3">Agent editing</a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="menu0" class="tab-pane fade in active">
+    <app-catalog-editing></app-catalog-editing>
+  </div>
+  <div id="menu1" class="tab-pane fade">
+    <app-comment-editing></app-comment-editing>
+  </div>
+  <div id="menu2" class="tab-pane fade">
+    <app-user-editing></app-user-editing>
+  </div>
+  <div id="menu3" class="tab-pane fade">
+    <app-agent-editing></app-agent-editing>
+  </div>
+</div>
