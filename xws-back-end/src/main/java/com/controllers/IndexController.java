@@ -29,7 +29,7 @@ public class IndexController implements ErrorController {
 	@GetMapping("/index")
 	public String sayHello(){
 		System.out.println("Rest controller working.");
-		System.out.println(adminRepository.findOneById((long) 1));
+		System.out.println(adminRepository.findOneById((long) 1).getFirstName());
 		return "Welcome";
 	}
 }
