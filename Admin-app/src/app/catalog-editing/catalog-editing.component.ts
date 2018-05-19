@@ -24,9 +24,9 @@ export class CatalogEditingComponent implements OnInit {
   constructor(private catalog_service: CatalogServiceService) { }
 
   ngOnInit() {
-    this.tipovi = this.catalog_service.getTipove();
-    this.kategorije = this.catalog_service.getKategorije();
-    this.dodatneUsluge = this.catalog_service.getDodatneUsluge();
+    this.catalog_service.getTipove().subscribe(data => this.tipovi = data);
+    this.catalog_service.getKategorije().subscribe(data => this.kategorije = data);
+    this.catalog_service.getDodatneUsluge().subscribe(data => this.dodatneUsluge = data);
   }
 
   setEditovanje(){
@@ -38,20 +38,75 @@ export class CatalogEditingComponent implements OnInit {
   }
 
   obrisiTip(value){
-    console.log(value);
+    this.catalog_service.obrisiTip(value);
   }
 
   obrisiKategoriju(value){
-
+    this.catalog_service.obrisiKategoriju(value);
   }
 
   obrisiUslugu(value){
-
+    this.catalog_service.obrisiUslugu(value);
   }
 
   test(r1,r2,r3,id,ime,opis){
-    console.log("ID: ",id);
-    console.log(r1);
+    if(r1 == true){
+        var tip;
+        if(this.editInProgress == true){
+            tip = {
+               id:id,
+               nazivTipa:ime,
+               opisTipa:opis
+            }
+        }else{
+            tip = {
+               id:null,
+               nazivTipa:ime,
+               opisTipa:opis
+            }
+        }
+        
+        console.log('snimanje tipa');
+        this.catalog_service.snimiTip(tip);
+    }else if (r2 == true){
+        var kategorija;
+        if(this.editInProgress == true){
+            kategorija = {
+               id:id,
+               nazivKategorije:ime,
+               opisKategorije:opis
+            }
+        }else{
+            kategorija = {
+               id:null,
+               nazivKategorije:ime,
+               opisKategorije:opis
+            }
+        }
+        
+        console.log('snimanje kategorije');
+        this.catalog_service.snimiKategoriju(kategorija);
+    }else if (r3 == true){
+        var usluga;
+        if(this.editInProgress == true){
+            usluga = {
+               id:id,
+               nazivUsluge:ime,
+               opisUsluge:opis
+            }
+        }else{
+            usluga = {
+               id:null,
+               nazivUsluge:ime,
+               opisUsluge:opis
+            }
+        }
+        console.log('snimanje usluge');
+        this.catalog_service.snimiUslugu(usluga);
+    }else{
+        alert('Greska');
+    }
+    
     this.idtext = "";
     this.nametext = "";
     this.opistext = "";

@@ -10,9 +10,8 @@
           </div>
 
           <div class="media-body">
-            <h4 class="media-heading"><strong>{{c.user.username}}</strong> commented on: <strong>{{c.smestajnaJedinica.naziv}}</strong></h4>
+            <h4 class="media-heading"><strong>{{c.user.username}}</strong> commented on: <strong>{{c.smestajnaJedinica}}</strong></h4>
             <p>{{c.sadrzaj}}</p>
-            <p>Ocena: <strong>{{c.ocena}}</strong></p>
             <button type="button" class="btn btn-info" (click)="approve(c)">Approve</button>
             <button type="button" class="btn btn-danger" (click)="remove(c)">Remove</button>
           </div>

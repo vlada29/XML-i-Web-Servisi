@@ -1,25 +1,23 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { IAgent } from '../interfaces/IAgent';
+import { IUser } from "../interfaces/IUser";
 
 @Injectable()
 export class AgentServiceService {
-  private agents = null;
   
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  public getAgents():IAgent[]{
-    this.agents = [{
-      username: 'Agent1', password: 'pas1', ime: 'Firstname1', prezime: 'Lastname1', adresa: 'Adress1', poslovniMBR: '20201'
-    },{
-      username: 'Agent2', password: 'pas2', ime: 'Firstname2', prezime: 'Lastname2', adresa: 'Adress2', poslovniMBR: '20202'
-    },{
-      username: 'Agent3', password: 'pas3', ime: 'Firstname3', prezime: 'Lastname3', adresa: 'Adress3', poslovniMBR: '20203'
-    }];
-
-    return this.agents;
+  public getAgents():Observable<IAgent[]>{
+    return this.http.get<IAgent[]>('/getAllAgents');
   }
 
   public createAgent(agent){
-    console.log(agent);
+    this.http.post('/saveAgent',agent).subscribe(
+       data => {}, 
+       error => { alert("Greska"); } 
+    )
   }
+
 }

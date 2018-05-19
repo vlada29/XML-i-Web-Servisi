@@ -1,5 +1,5 @@
 export interface IKategorijaSmestaja {
-    idKategorije: number;
+    id: number;
     nazivKategorije: string;
     opisKategorije: string;
 }

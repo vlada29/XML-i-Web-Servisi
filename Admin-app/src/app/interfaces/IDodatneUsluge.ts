@@ -1,5 +1,5 @@
 export interface IDodatneUsluge {
-    idUsluge: number;
+    id: number;
     nazivUsluge: string;
     opisUsluge: string;
 }

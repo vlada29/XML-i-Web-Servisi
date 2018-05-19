@@ -10,8 +10,7 @@ export class CommentServiceService {
   public getComments(): IKomentar[]{
     this.comments = [{
       idKomentara: 0, 
-      ocena: 10, 
-      smestajnaJedinica: {naziv: 'Grand Casino Belgrade'}, 
+      smestajnaJedinica: 1, 
       user: {
         ime: 'Vlada',prezime: 'Djurdjevic', username: 'Dovla29', password: 'Dovla29', active: true
       }, 
@@ -19,8 +18,7 @@ export class CommentServiceService {
       odobren: false
     },{
       idKomentara: 1, 
-      ocena: 7, 
-      smestajnaJedinica: {naziv: 'President Hotel Belgrade'}, 
+      smestajnaJedinica: 3, 
       user: {
         ime: 'Danilo',prezime: 'Bujisa', username: 'qanilo', password: 'qanilo', active: true
       }, 
@@ -28,8 +26,7 @@ export class CommentServiceService {
       odobren: false
     },{
       idKomentara: 2, 
-      ocena: 2, 
-      smestajnaJedinica: {naziv: 'Grand Palace Paris'}, 
+      smestajnaJedinica: 2, 
       user: {
         ime: 'Olivera',prezime: 'Hrnjakovic', username: 'OljaH', password: 'OljaH', active: false
       }, 

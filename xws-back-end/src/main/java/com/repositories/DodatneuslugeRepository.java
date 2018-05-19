@@ -7,14 +7,14 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.model.User;
+import com.model.DodatneUsluge;
 
 @Repository
 @Transactional
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface DodatneuslugeRepository extends JpaRepository<DodatneUsluge, Long> {
 	
-	ArrayList<User> findAll();
-	User findOneById(Long id);
-	void delete(User entity);
+	ArrayList<DodatneUsluge> findAll();
+	DodatneUsluge findOneById(Long id);
+	void delete(DodatneUsluge entity);
 	
 }

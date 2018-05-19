@@ -9,7 +9,8 @@ import { IAgent } from '../interfaces/IAgent';
 })
 export class AgentEditingComponent implements OnInit {
   private agents;
-
+  private user = null;
+  
   constructor(private agent_service: AgentServiceService) { }
 
   ngOnInit() {

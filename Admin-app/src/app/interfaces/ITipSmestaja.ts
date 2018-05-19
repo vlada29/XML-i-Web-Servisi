@@ -1,5 +1,5 @@
 export interface ITipSmestaja {
-    idTipa: number;
+    id: number;
     nazivTipa: string;
     opisTipa: string;
 }
