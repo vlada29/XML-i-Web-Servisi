@@ -12,7 +12,7 @@ export class UserEditingComponent implements OnInit {
   constructor(private user_service: UserServiceService) { }
 
   ngOnInit() {
-    this.users = this.user_service.getUsers();
+    this.user_service.getUsers().subscribe(data => this.users = data);
   }
 
   activate(user){

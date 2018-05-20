@@ -50,17 +50,19 @@ export class CatalogEditingComponent implements OnInit {
   }
 
   test(r1,r2,r3,id,ime,opis){
+      console.log(r1,r2,r3);
+      console.log(this.tipr,this.katr,this.uslr);
     if(r1 == true){
         var tip;
         if(this.editInProgress == true){
             tip = {
-               id:id,
+               hjid:id,
                nazivTipa:ime,
                opisTipa:opis
             }
         }else{
             tip = {
-               id:null,
+               hjid:null,
                nazivTipa:ime,
                opisTipa:opis
             }
@@ -72,13 +74,13 @@ export class CatalogEditingComponent implements OnInit {
         var kategorija;
         if(this.editInProgress == true){
             kategorija = {
-               id:id,
+               hjid:id,
                nazivKategorije:ime,
                opisKategorije:opis
             }
         }else{
             kategorija = {
-               id:null,
+               hjid:null,
                nazivKategorije:ime,
                opisKategorije:opis
             }
@@ -90,13 +92,13 @@ export class CatalogEditingComponent implements OnInit {
         var usluga;
         if(this.editInProgress == true){
             usluga = {
-               id:id,
+               hjid:id,
                nazivUsluge:ime,
                opisUsluge:opis
             }
         }else{
             usluga = {
-               id:null,
+               hjid:null,
                nazivUsluge:ime,
                opisUsluge:opis
             }
@@ -104,7 +106,7 @@ export class CatalogEditingComponent implements OnInit {
         console.log('snimanje usluge');
         this.catalog_service.snimiUslugu(usluga);
     }else{
-        alert('Greska');
+        alert('Greska ovde');
     }
     
     this.idtext = "";
@@ -121,7 +123,7 @@ export class CatalogEditingComponent implements OnInit {
     this.tipr = true;
     this.katr = false;
     this.uslr = false;
-    this.idtext = obj.idTipa;
+    this.idtext = obj.hjid;
     this.nametext = obj.nazivTipa;
     this.opistext = obj.opisTipa;
   }
@@ -132,7 +134,7 @@ export class CatalogEditingComponent implements OnInit {
     this.tipr = false;
     this.katr = true;
     this.uslr = false;
-    this.idtext = obj.idKategorije;
+    this.idtext = obj.hjid;
     this.nametext = obj.nazivKategorije;
     this.opistext = obj.opisKategorije;
   }
@@ -143,7 +145,7 @@ export class CatalogEditingComponent implements OnInit {
     this.tipr = false;
     this.katr = false;
     this.uslr = true;
-    this.idtext = obj.idUsluge;
+    this.idtext = obj.hjid;
     this.nametext = obj.nazivUsluge;
     this.opistext = obj.opisUsluge;
   }

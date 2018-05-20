@@ -30,7 +30,7 @@
                 </thead>
                 <tbody *ngFor="let t of tipovi">
                   <tr>
-                    <td>{{t.id}}</td>
+                    <td>{{t.hjid}}</td>
                     <td>{{t.nazivTipa}}</td>
                     <td>{{t.opisTipa}}</td>
                     <td>
@@ -57,7 +57,7 @@
                 </thead>
                 <tbody *ngFor="let k of kategorije">
                   <tr>
-                    <td>{{k.id}}</td>
+                    <td>{{k.hjid}}</td>
                     <td>{{k.nazivKategorije}}</td>
                     <td>{{k.opisKategorije}}</td>
                     <td>
@@ -84,7 +84,7 @@
                 </thead>
                 <tbody *ngFor="let u of dodatneUsluge">
                   <tr>
-                    <td>{{u.id}}</td>
+                    <td>{{u.hjid}}</td>
                     <td>{{u.nazivUsluge}}</td>
                     <td>{{u.opisUsluge}}</td>
                     <td>
@@ -154,7 +154,7 @@
           </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-info" data-dismiss="modal" (click)="test(r1.checked,r2.checked,r3.ckecked,idd.value,cname.value,opis.value)">OK</button>
+        <button type="button" class="btn btn-info" data-dismiss="modal" (click)="test(r1.checked,r2.checked,r3.checked,idd.value,cname.value,opis.value)">OK</button>
       </div>
     </div>
   </div>

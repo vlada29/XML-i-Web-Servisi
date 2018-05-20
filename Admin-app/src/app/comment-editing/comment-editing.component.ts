@@ -12,7 +12,7 @@ export class CommentEditingComponent implements OnInit {
   constructor(private comment_service: CommentServiceService ) { }
 
   ngOnInit() {
-    this.comments = this.comment_service.getComments();
+    this.comment_service.getComments().subscribe(data => this.comments = data);
   }
 
   approve(com){

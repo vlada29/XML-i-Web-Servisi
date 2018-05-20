@@ -1,6 +1,6 @@
 import { IUser } from './IUser';
 export interface IKomentar {
-    idKomentara: number;
+    hjid: number;
     smestajnaJedinica: number;
     user: IUser;
     sadrzaj: string;

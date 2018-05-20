@@ -14,7 +14,7 @@ export class AgentEditingComponent implements OnInit {
   constructor(private agent_service: AgentServiceService) { }
 
   ngOnInit() {
-    this.agents = this.agent_service.getAgents();
+    this.agent_service.getAgents().subscribe(data => this.agents=data);
   }
 
   test(f,l,u,p,a,pi){
@@ -24,7 +24,8 @@ export class AgentEditingComponent implements OnInit {
       username:u,
       password:p,
       adresa:a,
-      poslovniMBR:pi
+      poslovniMBR:pi,
+      hjid: null
     }
 
     this.agent_service.createAgent(agent);

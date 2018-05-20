@@ -1,6 +1,6 @@
 import { IUser } from './IUser';
 export interface IOcena {
-    idOcene: number;
+    hjid: number;
     smestajnaJedinica: number;
     user: IUser;
     ocena: number;

@@ -5,4 +5,5 @@ export interface IAgent {
     prezime: string;
     adresa: string;
     poslovniMBR: string;
+    hjid: number;
 }

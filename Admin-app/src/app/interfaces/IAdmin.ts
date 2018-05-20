@@ -3,4 +3,5 @@ export interface IAdmin {
     password: string;
     firstName: string;
     lastName: string;
+    hjid: number;
 }
