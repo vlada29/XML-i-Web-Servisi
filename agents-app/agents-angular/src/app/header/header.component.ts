@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserServiceService } from '../user-service.service';
+import { LoginService } from '../services/login.service';
 
 
 @Component({
@@ -11,7 +11,7 @@ export class HeaderComponent implements OnInit {
 
     public loggedIn = false;
      public username:string;
-     constructor(private _userService: UserServiceService) {
+     constructor(private login_service: LoginService) {
 
 
      }
@@ -19,10 +19,10 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
   isLoggedIn() {
-          return this._userService.getLoggedIn();
+          return this.login_service.getLoggedIn();
       }
 
       getUsername(){
-          return this._userService.getUsername();
+          return this.login_service.getUsername();
       }
 }

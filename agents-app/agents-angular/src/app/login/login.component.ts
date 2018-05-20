@@ -1,8 +1,7 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from "@angular/common/http";
-import { UserServiceService } from '../user-service.service';
-
+import { LoginService } from '../services/login.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,18 +10,16 @@ import { UserServiceService } from '../user-service.service';
 export class LoginComponent implements OnInit {
 
     constructor(
-        private router:Router,
-        private http: HttpClient,
-        private user_service: UserServiceService) { }
+        private login_service: LoginService) { }
 
   ngOnInit(){}
   @ViewChild('username') username:any;
   @ViewChild('password') password:any;
 
-  login(e){
+  login(){
       console.log(this.username.nativeElement.value, this.password.nativeElement.value);
 
-      this.user_service.login(this.username.nativeElement.value, this.password.nativeElement.value);
+      this.login_service.login(this.username.nativeElement.value, this.password.nativeElement.value);
       // if(this.user_service.getLoggedIn()){
       //     this.router.navigate(['chatroom']);
       // } else {

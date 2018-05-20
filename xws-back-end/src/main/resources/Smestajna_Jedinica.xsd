@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+>
+    <xs:include schemaLocation="Kategorija_Smestaja.xsd"/>
+    <xs:include schemaLocation="Tip_Smestaja.xsd"/>
+    <xs:include schemaLocation="Dodatne_Usluge.xsd"/>
+    <xs:include schemaLocation="Agent.xsd"/>
+    <xs:element name="Smestajna_Jedinica">
+        <xs:complexType>
+            <xs:sequence>
+               
+                <xs:element ref="Agent"/>
+                <xs:element name="Lokacija" type="Lokacija_Tip"/>
+                <xs:element name="Naziv" type="xs:string"/>
+                <xs:element name="Opis" type="xs:string"/>
+                <xs:element name="Broj_Osoba" type="xs:int"/> 
+                <xs:element ref="Kategorija_Smestaja"/>
+                <xs:element ref="Tip_Smestaja"/>
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="unbounded" name="Picture" type="xs:base64Binary"/>
+                </xs:sequence>
+                <xs:sequence>
+                    <xs:element ref="Dodatne_Usluge"/>
+                </xs:sequence>
+                <xs:element name="Plan_Cena">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" minOccurs="1" name="Cena" type="Plan_Cena_Tip"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="Plan_Cena_Tip">
+        <xs:sequence>
+            <xs:element name="Cena" type="xs:double"/>
+            <xs:element name="Pocetak_Vazenja" type="xs:date"/>
+            <xs:element name="Kraj_Vazenja" type="xs:date"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Lokacija_Tip">
+        <xs:sequence>
+            <xs:element name="Ulica" type="xs:string"/>
+            <xs:element name="Broj" type="xs:string"/>
+            <xs:element name="Grad" type="xs:string"/>
+            <xs:element name="Drzava" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

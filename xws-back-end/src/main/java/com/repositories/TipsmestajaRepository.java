@@ -14,6 +14,6 @@ import com.model.TipSmestaja;
 public interface TipsmestajaRepository extends JpaRepository<TipSmestaja,Long>{
 	
 	ArrayList<TipSmestaja> findAll();
-	TipSmestaja findOneById(Long id);
+	TipSmestaja findOneByHjid(Long id);
 	void delete(TipSmestaja entity);
 }

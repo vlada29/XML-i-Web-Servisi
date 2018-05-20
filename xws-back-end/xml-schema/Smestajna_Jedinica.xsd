@@ -3,12 +3,12 @@
     <xs:include schemaLocation="Kategorija_Smestaja.xsd"/>
     <xs:include schemaLocation="Tip_Smestaja.xsd"/>
     <xs:include schemaLocation="Dodatne_Usluge.xsd"/>
-    <xs:include schemaLocation="User.xsd"/>
+    <xs:include schemaLocation="Agent.xsd"/>
     <xs:element name="Smestajna_Jedinica">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="Id_jedinice" type="xs:int"/>
-                <xs:element ref="User"/>
+               
+                <xs:element ref="Agent"/>
                 <xs:element name="Lokacija" type="Lokacija_Tip"/>
                 <xs:element name="Naziv" type="xs:string"/>
                 <xs:element name="Opis" type="xs:string"/>

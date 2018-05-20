@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"> 
     <xs:include schemaLocation="User.xsd"/>
-    <xs:include schemaLocation="Smestajna_Jedinica.xsd"/>
     <xs:element name="Komentar">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="Id_Komentara" type="xs:int"/>
-                <xs:element name="Ocena" type="xs:int"/>
-                <xs:element ref="Smestajna_Jedinica"/>
+                <xs:element name="Smestajna_Jedinica" type="xs:int"/>
                 <xs:element ref="User"/>
                 <xs:element name="Sadrzaj" type="xs:string"/>
             </xs:sequence>

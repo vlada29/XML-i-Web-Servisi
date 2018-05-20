@@ -9,11 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import com.model.Admin;
 
+
+
 @Repository
 @Transactional
 public interface AdminRepository  extends JpaRepository<Admin, Long>{
 	
 	ArrayList<Admin> findAll();
-	Admin findOneById(Long id);
+	Admin findOneByHjid(Long id);
 
 }

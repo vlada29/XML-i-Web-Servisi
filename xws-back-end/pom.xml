@@ -69,20 +69,168 @@
     <version>5.1.46</version>
 </dependency>
 		
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.0</version>
+</dependency>
+		
+		
 <dependency>
    <groupId>com.microsoft.sqlserver</groupId>
    <artifactId>mssql-jdbc</artifactId>
 </dependency>
 		
+		
+	
+		<dependency>
+			<groupId>wsdl4j</groupId>
+			<artifactId>wsdl4j</artifactId>
+		</dependency>
+		
+		
+		
+		
+		
+		<!-- for jaxb persistence -->
+		<dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jvnet.jaxb2_commons</groupId>
+            <artifactId>jaxb2-basics-runtime</artifactId>
+            <version>0.6.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jvnet.hyperjaxb3</groupId>
+            <artifactId>maven-hyperjaxb3-plugin</artifactId>
+            <version>0.5.6</version>
+        </dependency>
+		
+		
+		
+				
+		
+		
 	</dependencies>
 
 	<build>
-		<plugins>
+		<!-- <pluginManagement> -->
+        <plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-		</plugins>
+			
+			
+			
+			<!-- 
+			<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                    	<id>xjc</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                
+                <configuration>
+	                
+                    <schemaDirectory>${project.basedir}/src/main/resources/xml-schema-soap/</schemaDirectory>
+                    <clearOutputDir>false</clearOutputDir>
+                   
+                </configuration>
+            </plugin>
+            -->
+            
+            
+            
+            <!-- Generates classes from .xsd file and annotates them as persistent 
+                entities: -->
+               <!--  
+            <plugin>
+                <groupId>org.jvnet.hyperjaxb3</groupId>
+                <artifactId>maven-hyperjaxb3-plugin</artifactId>
+                <version>0.5.6</version>
+                <executions>
+                    <execution>                                       
+                        
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <variant>jpa2</variant>
+                        
+                             
+                            <extension>true</extension>
+                            <removeOldOutput>true</removeOldOutput>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+			-->
+
+   		
+   		
+   		
+   		
+   		
+   		
+   		
+   		
+   		
+		
+
+			<plugin>
+				<groupId>org.jvnet.hyperjaxb3</groupId>
+				<artifactId>maven-hyperjaxb3-plugin</artifactId>
+				<version>0.6.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+							
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<extension>true</extension>
+					
+				</configuration>
+			</plugin>
+			
+	
+   			<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>build-helper-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+                <goal>add-source</goal>
+            </goals>
+            <configuration>
+                <sources>
+                    <source>${project.build.directory}/generated-sources/xjc/</source>
+                </sources>
+            </configuration>
+        </execution>
+    </executions>
+ </plugin>
+   		
+   		</plugins>
+   		
+   		
+   		
 	</build>
 
 

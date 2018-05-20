@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.repositories.AdminRepository;
+import com.model.Admin;
 
 
 @RestController
@@ -29,7 +30,9 @@ public class IndexController implements ErrorController {
 	@GetMapping("/index")
 	public String sayHello(){
 		System.out.println("Rest controller working.");
-		System.out.println(adminRepository.findOneById((long) 1).getFirstName());
+		//System.out.println(adminRepository.findOneByHjid((long) 1).getFirstName());
+		adminRepository.save(new Admin());
+		System.out.println(adminRepository.findAll());
 		return "Welcome";
 	}
 }

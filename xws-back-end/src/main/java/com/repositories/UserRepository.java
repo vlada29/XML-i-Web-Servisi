@@ -14,7 +14,7 @@ import com.model.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 	
 	ArrayList<User> findAll();
-	User findOneById(Long id);
+	User findOneByHjid(Long id);
 	void delete(User entity);
 	
 }

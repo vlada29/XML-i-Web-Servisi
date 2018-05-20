@@ -14,6 +14,6 @@ import com.model.KategorijaSmestaja;
 public interface KategorijasmestajaRepository extends JpaRepository<KategorijaSmestaja, Long> {
 	
 	ArrayList<KategorijaSmestaja> findAll();
-	KategorijaSmestaja findOneById(Long id);
+	KategorijaSmestaja findOneByHjid(Long id);
 	void delete(KategorijaSmestaja entity);
 }

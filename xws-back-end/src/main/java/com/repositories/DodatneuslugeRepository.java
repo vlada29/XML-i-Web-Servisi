@@ -14,7 +14,7 @@ import com.model.DodatneUsluge;
 public interface DodatneuslugeRepository extends JpaRepository<DodatneUsluge, Long> {
 	
 	ArrayList<DodatneUsluge> findAll();
-	DodatneUsluge findOneById(Long id);
+	DodatneUsluge findOneByHjid(Long id);
 	void delete(DodatneUsluge entity);
 	
 }

@@ -5,12 +5,13 @@ import { RegisterComponent } from './register/register.component';
 import { Routes, RouterModule } from '@angular/router';
 //import { UserprofileComponent } from './userprofile/userprofile.component';
 import { LogoutComponent } from './logout/logout.component';
+import {WorkspaceComponent} from './workspace/workspace.component';
 //import { AuthGuard} from './auth.guard';
 
 const routes: Routes = [
   {
     path: '',
-    component: LoginComponent,
+    component: WorkspaceComponent,
     pathMatch: 'full'
   },
   {

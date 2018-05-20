@@ -14,7 +14,8 @@ import com.model.Agent;
 public interface AgentRepository extends JpaRepository<Agent, Long> {
 
 	ArrayList<Agent> findAll();
-	Agent findOneById(Long id);
+	Agent findByHjid(Long id);
+	Agent findByUsername(String username);
 	void delete(Agent entity);
 	
 }
