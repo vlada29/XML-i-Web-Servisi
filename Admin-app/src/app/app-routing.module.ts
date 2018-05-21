@@ -4,7 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { WorkspaceComponentComponent } from './workspace-component/workspace-component.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/workspace', pathMatch: 'full'},
+  { path: '', redirectTo: '/login', pathMatch: 'full'},
   { path: 'login', component: LoginComponent},
   { path: 'workspace', component: WorkspaceComponentComponent}
 ];

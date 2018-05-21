@@ -15,6 +15,7 @@ import { UserServiceService } from './services/user-service.service';
 import { CommentServiceService } from './services/comment-service.service';
 import { AgentServiceService } from './services/agent-service.service';
 import { CatalogServiceService } from './services/catalog-service.service';
+import { LoginServiceService } from './services/login-service.service';
 
 
 @NgModule({
@@ -32,7 +33,7 @@ import { CatalogServiceService } from './services/catalog-service.service';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [ UserServiceService, CommentServiceService, AgentServiceService, CatalogServiceService ],
+  providers: [ UserServiceService, CommentServiceService, AgentServiceService, CatalogServiceService, LoginServiceService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

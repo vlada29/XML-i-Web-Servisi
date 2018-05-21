@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-workspace-component',
@@ -7,13 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WorkspaceComponentComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
   logout(){
-    console.log('logout admin');
+    this.router.navigate(['login']);
   }
 
 }
