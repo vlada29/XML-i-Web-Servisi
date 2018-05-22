@@ -16,18 +16,21 @@ export class UserEditingComponent implements OnInit {
   }
 
   activate(user){
-    console.log('Activate ',user.username);
-    this.user_service.activateUser(user);
+    this.user_service.activateUser(user).subscribe(
+            data => {this.user_service.getUsers().subscribe(data => this.users = data);},
+            error => {alert("Greska")});
   }
 
   block(user){
-    console.log('Block ',user.username);
-    this.user_service.blockUser(user);
+    this.user_service.blockUser(user).subscribe(
+            data => {this.user_service.getUsers().subscribe(data => this.users = data);},
+            error => {alert("Greska")});
   }
 
   remove(user){
-    console.log('Remove ',user.username);
-    this.user_service.removeUser(user);
+    this.user_service.removeUser(user).subscribe(
+            data => {this.user_service.getUsers().subscribe(data => this.users = data);},
+            error => {alert("Greska")});
   }
 
 

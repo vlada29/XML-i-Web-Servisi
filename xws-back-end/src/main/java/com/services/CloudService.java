@@ -134,11 +134,11 @@ public class CloudService {
 		return ret;
 	}
 	
-	public String getKomentariForAdmin(Long id) {
+	public String getKomentariForAdmin() {
 		String ret = "[";
 		Gson g = new Gson();
 		try {	
-			String data = getDataForKomentari(id);
+			String data = getDataForKomentariAdmin();
 			System.out.println(data);
 			if(data == null) {
 				System.out.println("data je null");
@@ -155,7 +155,8 @@ public class CloudService {
 					if(zarez) {
 						ret+=",";
 					}
-					ret+=g.toJson(entry.getValue());
+					CommentWrapper cw = new CommentWrapper(entry.getValue(),entry.getKey());
+					ret+=g.toJson(cw);
 					zarez=true;
 				}
 			}
@@ -219,6 +220,52 @@ public class CloudService {
 			return null;
 		}
 		return ret;
+	}
+	
+	private String getDataForKomentariAdmin() {
+		String ret = "";
+		
+		try {
+			String url = "https://rating-system-ca802.firebaseio.com/comments.json";
+			HttpGet request = new HttpGet( url );
+			@SuppressWarnings({"resource" })
+			HttpClient client = new DefaultHttpClient();
+			HttpResponse response = client.execute( request );
+			HttpEntity entity = response.getEntity();
+			
+			Writer writer = new StringWriter();
+			InputStream is = entity.getContent();
+			char[] buffer = new char[1024];
+			Reader reader = new BufferedReader( new InputStreamReader( is, "UTF-8" ) );
+			int n;
+			while( (n=reader.read(buffer)) != -1 ) {
+				writer.write( buffer, 0, n );
+			}
+			
+			ret = writer.toString();
+		}catch(Exception e) {
+			return null;
+		}
+		return ret;
+	}
+	
+	public class CommentWrapper{
+		private Komentar comment;
+		private String cloudStorageKey;
+		
+		public CommentWrapper(Komentar comment, String cloudStorageKey) {
+			super();
+			this.comment = comment;
+			this.cloudStorageKey = cloudStorageKey;
+		}
+
+		@Override
+		public String toString() {
+			return "CommentWrapper [comment=" + comment + ", cloudStorageKey=" + cloudStorageKey + "]";
+		}
+		
+		
+		
 	}
 	
 }

@@ -13,11 +13,8 @@ export class AgentServiceService {
     return this.http.get<IAgent[]>('/getAllAgents');
   }
 
-  public createAgent(agent){
-    this.http.post('/saveAgent',agent).subscribe(
-       data => {}, 
-       error => { alert("Greska"); } 
-    )
+  public createAgent(agent): Observable<any>{
+    return this.http.post('/saveAgent',agent);
   }
 
 }

@@ -28,6 +28,8 @@ export class AgentEditingComponent implements OnInit {
       hjid: null
     }
 
-    this.agent_service.createAgent(agent);
+    this.agent_service.createAgent(agent).subscribe(
+            data => {this.agent_service.getAgents().subscribe(data => this.agents=data);},
+            error => {alert("Greska")});
   }
 }

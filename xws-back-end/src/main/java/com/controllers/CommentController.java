@@ -14,7 +14,7 @@ public class CommentController {
 	public String getComments() { 
 		System.out.println("pozvao get comments");
 		CloudService cs = new CloudService();
-		String ret = cs.getKomentariForAdmin((long) 1);
+		String ret = cs.getKomentariForAdmin();
 		if(ret == null){
 			System.out.println("vratio gresku");
 			return "[]";

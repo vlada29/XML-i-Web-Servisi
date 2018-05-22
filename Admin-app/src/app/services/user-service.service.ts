@@ -16,25 +16,16 @@ export class UserServiceService {
     return this.http.get<IUser[]>('/getAllUsers');
   }
 
-  public removeUser(user){
-    this.http.post('/removeUser',user).subscribe(
-      data => {}, 
-      error => { alert("Greska"); } 
-    )
+  public removeUser(user): Observable<any>{
+    return this.http.post('/removeUser',user);
   }
 
-  public activateUser(user){
-    this.http.post('/activateUser',user).subscribe(
-      data => {}, 
-      error => { alert("Greska"); } 
-    )
+  public activateUser(user): Observable<any>{
+    return this.http.post('/activateUser',user);
   }
 
-  public blockUser(user){
-    this.http.post('/blockUser',user).subscribe(
-      data => {}, 
-      error => { alert("Greska"); } 
-    )
+  public blockUser(user): Observable<any>{
+    return this.http.post('/blockUser',user);
   }
 
 }

@@ -16,10 +16,14 @@ export class CommentEditingComponent implements OnInit {
   }
 
   approve(com){
-    console.log('Approve ',com.idKomentara)
+    this.comment_service.approveComment(com).subscribe(
+            data => {this.comment_service.getComments().subscribe(data => this.comments = data);},
+            error => {alert("Greska")});
   }
 
   remove(com){
-    console.log('Remove ',com.idKomentara)
+    this.comment_service.deleteComment(com).subscribe(
+            data => {this.comment_service.getComments().subscribe(data => this.comments = data);},
+            error => {alert("Greska")});
   }
 }

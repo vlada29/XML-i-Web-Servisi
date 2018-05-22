@@ -38,15 +38,21 @@ export class CatalogEditingComponent implements OnInit {
   }
 
   obrisiTip(value){
-    this.catalog_service.obrisiTip(value);
+    this.catalog_service.obrisiTip(value).subscribe(
+            data => {this.catalog_service.getTipove().subscribe(data => this.tipovi = data);},
+            error => {alert("Greska")});
   }
 
   obrisiKategoriju(value){
-    this.catalog_service.obrisiKategoriju(value);
+    this.catalog_service.obrisiKategoriju(value).subscribe(
+            data =>{this.catalog_service.getKategorije().subscribe(data => this.kategorije = data);},
+            error => {alert("Greska")});
   }
 
   obrisiUslugu(value){
-    this.catalog_service.obrisiUslugu(value);
+    this.catalog_service.obrisiUslugu(value).subscribe(
+            data =>{this.catalog_service.getDodatneUsluge().subscribe(data => this.dodatneUsluge = data);},
+            error => {alert("Greska")});
   }
 
   test(r1,r2,r3,id,ime,opis){
@@ -69,7 +75,9 @@ export class CatalogEditingComponent implements OnInit {
         }
         
         console.log('snimanje tipa');
-        this.catalog_service.snimiTip(tip);
+        this.catalog_service.snimiTip(tip).subscribe(
+                data =>{this.catalog_service.getTipove().subscribe(data => this.tipovi = data);},
+                error => {alert("Greska")});
     }else if (r2 == true){
         var kategorija;
         if(this.editInProgress == true){
@@ -87,7 +95,9 @@ export class CatalogEditingComponent implements OnInit {
         }
         
         console.log('snimanje kategorije');
-        this.catalog_service.snimiKategoriju(kategorija);
+        this.catalog_service.snimiKategoriju(kategorija).subscribe(
+                data =>{this.catalog_service.getKategorije().subscribe(data => this.kategorije = data);},
+                error => {alert("Greska")});
     }else if (r3 == true){
         var usluga;
         if(this.editInProgress == true){
@@ -104,7 +114,9 @@ export class CatalogEditingComponent implements OnInit {
             }
         }
         console.log('snimanje usluge');
-        this.catalog_service.snimiUslugu(usluga);
+        this.catalog_service.snimiUslugu(usluga).subscribe(
+                data =>{this.catalog_service.getDodatneUsluge().subscribe(data => this.dodatneUsluge = data);},
+                error => {alert("Greska")});
     }else{
         alert('Greska ovde');
     }

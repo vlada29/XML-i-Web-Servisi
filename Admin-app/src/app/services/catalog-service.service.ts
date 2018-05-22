@@ -22,46 +22,28 @@ export class CatalogServiceService {
     return this.http.get<IDodatneUsluge[]>('/getDodatneUsluge');
   }
   
-  public obrisiTip(tip){
-      this.http.post('/obrisiTip',tip).subscribe(
-              data => { this.getTipove(); }, 
-              error => { alert("Greska"); } 
-      )
+  public obrisiTip(tip): Observable<any>{
+      return this.http.post('/obrisiTip',tip);
   }
   
-  public obrisiKategoriju(kategorija){
-      this.http.post('/obrisiKategoriju',kategorija).subscribe(
-              data => { this.getKategorije(); }, 
-              error => { alert("Greska"); } 
-      )
+  public obrisiKategoriju(kategorija): Observable<any>{
+      return this.http.post('/obrisiKategoriju',kategorija);
   }
   
-  public obrisiUslugu(usluga){
-      this.http.post('/obrisiUslugu',usluga).subscribe(
-              data => { this.getDodatneUsluge(); }, 
-              error => { alert("Greska"); } 
-      )
+  public obrisiUslugu(usluga): Observable<any>{
+      return this.http.post('/obrisiUslugu',usluga);
   }
   
-  public snimiTip(tip){
-      this.http.post('/snimiTip',tip).subscribe(
-              data => {},
-              error => { alert("Greska");}
-      )
+  public snimiTip(tip): Observable<any>{
+      return this.http.post('/snimiTip',tip);
   }
   
-  public snimiKategoriju(kategorija){
-      this.http.post('/snimiKategoriju',kategorija).subscribe(
-              data => {},
-              error => { alert("Greska");}
-      )
+  public snimiKategoriju(kategorija): Observable<any>{
+      return this.http.post('/snimiKategoriju',kategorija);
   }
   
-  public snimiUslugu(usluga){
-      this.http.post('/snimiUslugu',usluga).subscribe(
-              data => {},
-              error => { alert("Greska");}
-      )
+  public snimiUslugu(usluga): Observable<any>{
+      return this.http.post('/snimiUslugu',usluga);
   }
 
 }
