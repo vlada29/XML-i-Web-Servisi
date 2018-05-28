@@ -20,7 +20,7 @@ export class CatalogEditingComponent implements OnInit {
   public katr = false;
   public uslr = false;
   public mode = "New";
-
+ 
   constructor(private catalog_service: CatalogServiceService) { }
 
   ngOnInit() {
@@ -180,7 +180,7 @@ export class CatalogEditingComponent implements OnInit {
     this.idtext = "";
     this.nametext = "";
     this.opistext = "";
-    this.tipr = false;
+    this.tipr = false; 
     this.katr = false;
     this.uslr = false;
   }

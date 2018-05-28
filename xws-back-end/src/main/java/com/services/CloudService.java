@@ -10,7 +10,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Map;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -177,7 +176,7 @@ public class CloudService {
 			@SuppressWarnings({"resource" })
 			HttpClient client = new DefaultHttpClient();
 			HttpResponse response = client.execute( request );
-			HttpEntity entity = response.getEntity();
+			org.apache.http.HttpEntity entity = response.getEntity();
 			
 			Writer writer = new StringWriter();
 			InputStream is = entity.getContent();
@@ -204,7 +203,7 @@ public class CloudService {
 			@SuppressWarnings({"resource" })
 			HttpClient client = new DefaultHttpClient();
 			HttpResponse response = client.execute( request );
-			HttpEntity entity = response.getEntity();
+			org.apache.http.HttpEntity entity = response.getEntity();
 			
 			Writer writer = new StringWriter();
 			InputStream is = entity.getContent();
@@ -231,7 +230,7 @@ public class CloudService {
 			@SuppressWarnings({"resource" })
 			HttpClient client = new DefaultHttpClient();
 			HttpResponse response = client.execute( request );
-			HttpEntity entity = response.getEntity();
+			org.apache.http.HttpEntity entity = response.getEntity();
 			
 			Writer writer = new StringWriter();
 			InputStream is = entity.getContent();
