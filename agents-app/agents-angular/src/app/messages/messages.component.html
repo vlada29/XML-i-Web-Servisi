@@ -3,111 +3,74 @@
       <h1 style="text-align: center;" >Messages</h1>
     </div>
     <div class="btn-group">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">New</button>
-      <button type="button" class="btn btn-primary" (click)="setEditovanje()">View All</button>
+      <button type="button" class="btn btn-primary" (click)="getMyMessages()">Refresh</button>
+
 
     </div>
+
+
     <hr>
     <div class="row">
         <div class="col-md-3">
           <ul class="nav nav-pills nav-stacked">
-            <li class="active"><a data-toggle="pill" href="#tip">Inbox</a></li>
-            <li><a data-toggle="pill" href="#kategorije">Sent</a></li>
-            <li><a data-toggle="pill" href="#dodatno">Extras</a></li>
+            <li class="active"><a data-toggle="pill" href="#inbox">Inbox</a></li>
+            <li><a data-toggle="pill" href="#sent">Sent</a></li>
+
            </ul>
         </div>
 
         <div class="col-md-9 tab-content">
-            <div id="tip" class="tab-pane fade in active" style="border-left: solid gray 1px;">
+
+            <div id="inbox" class="tab-pane fade in active" style="border-left: solid gray 1px;">
               <table class="table table-condensed">
+
                 <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th></th>
+                    <th>From</th>
                   </tr>
                 </thead>
-                <tbody *ngFor="let t of tipovi">
-                  <tr>
-                    <td>{{t.idTipa}}</td>
-                    <td>{{t.nazivTipa}}</td>
-                    <td>{{t.opisTipa}}</td>
-                    <td>
-                      <span *ngIf="editovanje">
-                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" (click)="setForEditT(t)">Edit</button>
-                      </span>
-                      <span *ngIf="brisanje">
-                        <button type="button" class="btn btn-primary btn-xs" (click)="obrisiTip(t)">Delete</button>
-                      </span>
+                <tbody *ngFor="let m of my_messages; let i=index">
+
+                  <tr *ngIf="m.senderType=='User'">
+                    <td >
+                        <button type="button" class="btn btn-default btn-block"  (click)="openMessage(m)">{{m.user.username}}</button>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <div id="kategorije" class="tab-pane fade" style="border-left: solid gray 1px;">
+
+
+            <div id="sent" class="tab-pane fade in" style="border-left: solid gray 1px;">
               <table class="table table-condensed">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody *ngFor="let k of kategorije">
-                  <tr>
-                    <td>{{k.idKategorije}}</td>
-                    <td>{{k.nazivKategorije}}</td>
-                    <td>{{k.opisKategorije}}</td>
-                    <td>
-                      <span *ngIf="editovanje">
-                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" (click)="setForEditK(k)">Edit</button>
-                      </span>
-                      <span *ngIf="brisanje">
-                        <button type="button" class="btn btn-primary btn-xs" (click)="obrisiKategoriju(k)">Delete</button>
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
+                            <thead>
+                              <tr>
+                                <th>To</th>
+                              </tr>
+                            </thead>
+                            <tbody *ngFor="let m of my_messages">
+                               <tr *ngIf="m.senderType=='Agent'">
+                                 <td >
+                                     <button type="button" class="btn btn-default btn-block" (click)="openSentMessage(m.content)">{{m.user.username}}</button>
+                                 </td>
+
+
+                              </tr>
+                            </tbody>
               </table>
             </div>
-            <div id="dodatno" class="tab-pane fade" style="border-left: solid gray 1px;">
-              <table class="table table-condensed">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody *ngFor="let u of dodatneUsluge">
-                  <tr>
-                    <td>{{u.idUsluge}}</td>
-                    <td>{{u.nazivUsluge}}</td>
-                    <td>{{u.opisUsluge}}</td>
-                    <td>
-                      <span *ngIf="editovanje">
-                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" (click)="setForEditE(u)">Edit</button>
-                      </span>
-                      <span *ngIf="brisanje">
-                        <button type="button" class="btn btn-primary btn-xs" (click)="obrisiUslugu(u)">Delete</button>
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+
         </div>
-    </div>
+
+        </div>
+
 </div>
 
 
 
 
 <!-- Modal -->
-<div class="modal fade" id="myModal2" role="dialog">
+<div class="modal fade" id="newMessageModal" role="dialog" >
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -121,90 +84,114 @@
 
 
             <div class="form-group">
-              <label class="control-label col-sm-2" for="idd">Location:</label>
+              <label class="control-label col-sm-2" for="idd">To:</label>
               <div class="col-sm-10">
-                <input type="number" [value]="idtext" [disabled]="editInProgress" class="form-control" id="idd" placeholder="Enter location" name="idd" #idd>
+                <input type="text" [value]="idtext" [disabled]="editInProgress" class="form-control" id="idd" placeholder="To whom" name="idd" #idd>
               </div>
             </div>
 
-            <div class="form-group">
-              <label class="control-label col-sm-2">Accomodation type:</label>
+
+            <div class="form-group" style="height: 300px;">
+              <label class="control-label col-sm-2" for="opis">Message:</label>
               <div class="col-sm-10">
-                <div class="radio-inline">
-                  <label><input type="radio" name="optradio" [disabled]="editInProgress" [checked] = "checkedT()" #r1>Hotel </label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="radio" name="optradio" [disabled]="editInProgress" [checked] = "checkedK()" #r2>Bad & Breakfast</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="radio" name="optradio" [disabled]="editInProgress" [checked] = "checkedE()" #r3>Apartman</label>
-                </div>
+                <textarea  style="height: 300px;" [value]="opistext" class="form-control" id="opis" placeholder="" name="" ></textarea>
               </div>
             </div>
 
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="opis">Description:</label>
-              <div class="col-sm-10">
-                <input type="text" [value]="opistext" class="form-control" id="opis" placeholder="Enter description" name="opis" #opis>
-              </div>
-            </div>
 
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="opis">Images:</label>
-              <div class="col-sm-10">
-                <input type="button" [value]="opistext" class="form-control" id="opis" value="Browse" name="opis" #opis>
-              </div>
-            </div>
 
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="opis">Number of guests:</label>
-              <div class="col-sm-10">
-                <input type="text" [value]="opistext" class="form-control" id="opis" placeholder="Enter number of guests" name="opis" #opis>
-              </div>
-            </div>
 
-            <div class="form-group">
-              <label class="control-label col-sm-2">BOnus:</label>
-              <div class="col-sm-10">
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" [checked] = "checkedT()" #r1>Parking </label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" [checked] = "checkedK()" #r2>WiFi</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" [checked] = "checkedE()" #r3>Breakfast</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" [checked] = "checkedE()" #r4>Half-Pansion</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" [checked] = "checkedE()" #r5>Pansion</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" [checked] = "checkedE()" #r6>TV</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" [checked] = "checkedE()" #r7>Mini Kitchen / Kitchen</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" [checked] = "checkedE()" #r8>Private Bathroom</label>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="opis">Price plan:</label>
-              <div class="col-sm-10">
-                <input type="text" [value]="opistext" class="form-control" id="opis" placeholder="Enter number of guests" name="opis" #opis>
-              </div>
-            </div>
 
           </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-info" data-dismiss="modal" (click)="test(r1.checked,r2.checked,r3.ckecked,idd.value,cname.value,opis.value)">OK</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" (click)="test(r1.checked,r2.checked,r3.ckecked,idd.value,cname.value,opis.value)">Send</button>
       </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="openMessageModule" role="dialog" #openMessageModule>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" (click)="odustani()">&times;</button>
+
+       </div>
+      <div class="modal-body">
+
+
+          <form class="form-horizontal" >
+
+
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="from">Sender:</label>
+              <div class="col-sm-10" name="from">
+                  {{from}}
+              </div>
+            </div>
+
+
+            <div class="form-group" style="height: 200px;">
+              <label class="control-label col-sm-2" for="opis">Message:</label>
+              <div class="col-sm-10">
+                <textarea disabled style="height: 200px;" class="form-control" #contentrecieved>{{contentrec}}</textarea>
+              </div>
+            </div>
+
+            <div class="form-group" style="height: 200px;">
+              <label class="control-label col-sm-2" for="opis"></label>
+              <div class="col-sm-10">
+                <textarea  style="height: 200px;" class="form-control"  placeholder="Reply" name="opis" #replycontent></textarea>
+              </div>
+            </div>
+
+
+            <div class="modal-footer">
+              <button type="button" class="btn" data-dismiss="modal">Dismiss</button>
+              <button type="button" class="btn btn-success" style="width:60px;" data-dismiss="modal" (click)="reply(replycontent)">  Send  </button>
+
+            </div>
+
+
+
+          </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="sentModal" role="dialog" #sentModal>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" (click)="odustani()">&times;</button>
+
+       </div>
+      <div class="modal-body">
+
+
+          <form class="form-horizontal" >
+
+            <div class="form-group" style="height: 200px;">
+              <label class="control-label col-sm-2" for="opis">Message:</label>
+              <div class="col-sm-10">
+                <textarea disabled style="height: 200px;" class="form-control" #contentrecieved>{{sentcontent}}</textarea>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn" data-dismiss="modal">Close</button>
+            </div>
+
+
+
+          </form>
+      </div>
+
     </div>
   </div>
 </div>

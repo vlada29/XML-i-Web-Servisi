@@ -72,15 +72,50 @@
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
 		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web-services</artifactId>
-		</dependency>
+		
+		
+
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.0</version>
+</dependency>
+		
+
+		
 		<dependency>
 			<groupId>wsdl4j</groupId>
 			<artifactId>wsdl4j</artifactId>
 		</dependency>
 		
+		
+		
+		
+		
+		<!-- for jaxb persistence -->
+		<dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jvnet.jaxb2_commons</groupId>
+            <artifactId>jaxb2-basics-runtime</artifactId>
+            <version>0.6.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jvnet.hyperjaxb3</groupId>
+            <artifactId>maven-hyperjaxb3-plugin</artifactId>
+            <version>0.5.6</version>
+        </dependency>
+		
+		
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20160212</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -89,6 +124,205 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
+			
+			
+			
+			
+			  <!-- Generates classes from .xsd file and annotates them as persistent 
+                entities: -->
+               <!--  
+            <plugin>
+                <groupId>org.jvnet.hyperjaxb3</groupId>
+                <artifactId>maven-hyperjaxb3-plugin</artifactId>
+                <version>0.5.6</version>
+                <executions>
+                    <execution>                                       
+                        
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <variant>jpa2</variant>
+                        
+                             
+                            <extension>true</extension>
+                            <removeOldOutput>true</removeOldOutput>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+			-->
+
+   		
+   		
+   		
+   		
+   		
+   		
+   		
+   		
+   		<!-- na promenu seme uncomment -->
+   		<!-- 
+   		
+   		
+		
+
+			<plugin>
+				<groupId>org.jvnet.hyperjaxb3</groupId>
+				<artifactId>maven-hyperjaxb3-plugin</artifactId>
+				<version>0.6.0</version>
+				<executions>
+				
+				
+					<execution>
+					 <id>xsdgen-JAXB</id>
+						<goals>
+							<goal>generate</goal>
+							
+						</goals>
+				
+					
+						<configuration>
+					
+							<extension>true</extension>
+							 <bindingExcludes>
+		                        <exclude>usluge_binding.xjb</exclude>
+		                	</bindingExcludes>
+						</configuration>
+				
+					</execution>
+						
+						
+						
+						
+						<execution>
+						 <id>xsdgen-JAXB2</id>
+							<goals>
+								<goal>generate</goal>
+								
+							</goals>
+					
+						
+							<configuration>
+								<extension>true</extension>
+							 	<bindingIncludes>
+		                        <includes>usluge_binding.xjb</includes>
+		                		</bindingIncludes>
+							</configuration>
+				
+						</execution>
+					
+					
+					
+					
+					
+				</executions>
+				
+			</plugin>
+			
+			
+			
+			
+			
+			
+			
+	
+   			<plugin>
+			    <groupId>org.codehaus.mojo</groupId>
+			    <artifactId>build-helper-maven-plugin</artifactId>
+			    <executions>
+			        <execution>
+			            <id>add-source</id>
+			            <phase>generate-sources</phase>
+			            <goals>
+			                <goal>add-source</goal>
+			            </goals>
+			            <configuration>
+			                <sources>
+			                    <source>${project.build.directory}/generated-sources/xjc/</source>
+			                </sources>
+			            </configuration>
+			        </execution>
+			    </executions>
+			 </plugin>
+			
+			-->
+			
+			
+			
+			
+			
+			
+			<!-- Uncomment ako se promeni sema -->
+   		
+		
+	<!-- 
+			<plugin>
+				<groupId>org.jvnet.hyperjaxb3</groupId>
+				<artifactId>maven-hyperjaxb3-plugin</artifactId>
+				<version>0.6.0</version>
+				<executions>
+				
+				
+					<execution>
+					 <id>xsdgen-JAXB</id>
+						<goals>
+							<goal>generate</goal>
+							
+						</goals>
+				
+					
+						<configuration>
+					
+							<extension>true</extension>
+							 <bindingExcludes>
+		                        <exclude>usluge_binding.xjb</exclude>
+		                	</bindingExcludes>
+						</configuration>
+				
+					</execution>
+						
+						
+						
+						
+						
+					
+					
+					
+					
+					
+				</executions>
+				
+			</plugin>
+			
+	
+   			<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>build-helper-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+                <goal>add-source</goal>
+            </goals>
+            <configuration>
+                <sources>
+                    <source>${project.build.directory}/generated-sources/xjc/</source>
+                </sources>
+            </configuration>
+        </execution>
+    </executions>
+ </plugin>
+			
+			-->
+			
+			
+			
+			
+			
 		</plugins>
 	</build>
 

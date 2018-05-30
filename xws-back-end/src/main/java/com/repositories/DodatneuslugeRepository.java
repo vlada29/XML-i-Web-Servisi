@@ -7,14 +7,14 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.model.DodatneUsluge;
+import com.model.DodatnaUsluga;
 
 @Repository
 @Transactional
-public interface DodatneuslugeRepository extends JpaRepository<DodatneUsluge, Long> {
+public interface DodatneuslugeRepository extends JpaRepository<DodatnaUsluga, Long> {
 	
-	ArrayList<DodatneUsluge> findAll();
-	DodatneUsluge findOneByHjid(Long id);
-	void delete(DodatneUsluge entity);
+	ArrayList<DodatnaUsluga> findAll();
+	DodatnaUsluga findOneByHjid(Long id);
+	void delete(DodatnaUsluga entity);
 	
 }

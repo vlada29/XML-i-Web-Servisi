@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
-import com.model.DodatneUsluge;
+import com.model.DodatnaUsluga;
 import com.model.KategorijaSmestaja;
 import com.model.TipSmestaja;
 import com.repositories.DodatneuslugeRepository;
@@ -70,7 +70,7 @@ public class CatalogController {
 	@GetMapping("/getDodatneUsluge")
 	public String getDodatneUsluge() {
 		String ret = "[";
-		ArrayList<DodatneUsluge> a = dodRep.findAll();
+		ArrayList<DodatnaUsluga> a = dodRep.findAll();
 		Gson g = new Gson();
 		for(int i=0;i<a.size();i++) {
 			if(i!=0) {
@@ -113,7 +113,7 @@ public class CatalogController {
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value=HttpStatus.OK)
-	public void obrisiUslugu(@RequestBody DodatneUsluge usluga,HttpServletResponse response,HttpSession session) throws IOException {
+	public void obrisiUslugu(@RequestBody DodatnaUsluga usluga,HttpServletResponse response,HttpSession session) throws IOException {
 		try {
 			dodRep.delete(usluga);
 		}catch(Exception e) {
@@ -152,7 +152,7 @@ public class CatalogController {
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value=HttpStatus.OK)
-	public void snimiUslugu(@RequestBody DodatneUsluge usluga,HttpServletResponse response,HttpSession session) throws IOException {
+	public void snimiUslugu(@RequestBody DodatnaUsluga usluga,HttpServletResponse response,HttpSession session) throws IOException {
 		try {
 			dodRep.save(usluga);
 		}catch(Exception e) {

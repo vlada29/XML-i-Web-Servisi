@@ -37,7 +37,7 @@ public class SoapWebServiceConfig extends WsConfigurerAdapter {
         definition.setSchema(userSchema);
         definition.setLocationUri("/soapWS");
         definition.setPortTypeName("UserServicePort");
-        definition.setTargetNamespace("ns");
+        definition.setTargetNamespace("model");
         return definition;
     }
 

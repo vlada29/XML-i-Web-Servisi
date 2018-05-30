@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 //import { UserprofileComponent } from './userprofile/userprofile.component';
 import { LogoutComponent } from './logout/logout.component';
 import {WorkspaceComponent} from './workspace/workspace.component';
+import {SyncComponent} from './sync/sync.component';
 //import { AuthGuard} from './auth.guard';
 
 const routes: Routes = [
@@ -25,6 +26,14 @@ const routes: Routes = [
  {
    path: 'logout',
    component: LogoutComponent
+},
+{
+  path: 'workspace',
+  component: WorkspaceComponent
+},
+{
+  path: 'sync',
+  component: SyncComponent
 }
 ];
 @NgModule({

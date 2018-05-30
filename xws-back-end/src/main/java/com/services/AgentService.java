@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.model.Agent;
 
 
-@Service
+
 public interface AgentService {
 	Agent findOne(Long id);
 	Agent findByUsername(String username);
