@@ -6,7 +6,7 @@ import { IUser } from '../interfaces/Iuser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class LoginService {
-    private user;
+    public user;
     private loggedIn;
     private ws;
 
@@ -42,13 +42,15 @@ export class LoginService {
          username: username,
          password: password
         }
-
+        this.router.navigate(['sync']);
         this.http.post('/login', user).subscribe(data => {
+
             if(data != null){
                 this.setUser(data);
-                this.router.navigate(['userpage']);
+                this.router.navigate(['workspace']);
             } else {
                 alert('Wrong username or password');
+                this.router.navigate(['login']);
             }
          })
     }

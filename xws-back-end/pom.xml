@@ -29,6 +29,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
@@ -128,6 +129,7 @@
         </dependency>
 		
 		
+
 		
 				
 		
@@ -204,24 +206,49 @@
    		
    		
    		
-		
+   		
+   		
+   		
+   		<!-- Uncomment ako se promeni sema -->
+   		
+		<!-- 
 
 			<plugin>
 				<groupId>org.jvnet.hyperjaxb3</groupId>
 				<artifactId>maven-hyperjaxb3-plugin</artifactId>
 				<version>0.6.0</version>
 				<executions>
+				
+				
 					<execution>
+					 <id>xsdgen-JAXB</id>
 						<goals>
 							<goal>generate</goal>
 							
 						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<extension>true</extension>
+				
 					
-				</configuration>
+						<configuration>
+					
+							<extension>true</extension>
+							 <bindingExcludes>
+		                        <exclude>usluge_binding.xjb</exclude>
+		                	</bindingExcludes>
+						</configuration>
+				
+					</execution>
+						
+						
+						
+						
+						
+					
+					
+					
+					
+					
+				</executions>
+				
 			</plugin>
 			
 	
@@ -243,6 +270,9 @@
         </execution>
     </executions>
  	</plugin>
+   		
+   		
+   		-->
    		
    		</plugins>
    		

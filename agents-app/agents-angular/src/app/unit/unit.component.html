@@ -3,102 +3,127 @@
       <h1 style="text-align: center;" >Units</h1>
     </div>
     <div class="btn-group">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">New</button>
-      <button type="button" class="btn btn-primary" (click)="setEditovanje()">View All</button>
-
+      <button type="button" class="btn btn-primary"  (click)="getReady()">New</button>
+      <button type="button" class="btn btn-primary" (click)="getMyUnits()">Refresh</button>
     </div>
     <hr>
     <div class="row">
-        <div class="col-md-3">
-          <ul class="nav nav-pills nav-stacked">
-            <li class="active"><a data-toggle="pill" href="#tip">Type</a></li>
-            <li><a data-toggle="pill" href="#kategorije">Category</a></li>
-            <li><a data-toggle="pill" href="#dodatno">Extras</a></li>
-           </ul>
-        </div>
-
         <div class="col-md-9 tab-content">
             <div id="tip" class="tab-pane fade in active" style="border-left: solid gray 1px;">
               <table class="table table-condensed">
                 <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>Name</th>
                     <th>Description</th>
+                    <th>Type</th>
+                    <th>Category</th>
+                    <th>Guests</th>
+                    <th>Country</th>
+                    <th>City</th>
+                    <th>Street</th>
+                    <th>Number</th>
+                    <th style="width:100px;">Extras</th>
+                    <th>Images</th>
+                    <th style="width:100px;">Price Plans</th>
+                    <th>Available</th>
                     <th></th>
                   </tr>
                 </thead>
-                <tbody *ngFor="let t of tipovi">
+                <tbody *ngFor="let m of my_units; let i=index" id="tabela" #tabela>
                   <tr>
-                    <td>{{t.idTipa}}</td>
-                    <td>{{t.nazivTipa}}</td>
-                    <td>{{t.opisTipa}}</td>
-                    <td>
-                      <span *ngIf="editovanje">
-                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" (click)="setForEditT(t)">Edit</button>
-                      </span>
-                      <span *ngIf="brisanje">
-                        <button type="button" class="btn btn-primary btn-xs" (click)="obrisiTip(t)">Delete</button>
-                      </span>
+                    <td>{{m.opis}}</td>
+                    <td>{{m.tipSmestaja}}</td>
+                    <td>{{m.kategorijaSmestaja}}</td>
+                    <td>{{m.brojOsoba}}</td>
+                    <td>{{m.lokacija.drzava}}</td>
+                    <td>{{m.lokacija.grad}}</td>
+                    <td>{{m.lokacija.ulica}}</td>
+                    <td>{{m.lokacija.broj}}</td>
+
+                    <td width="100px;">
+
+
+
+
+                        <div class="dropdown">
+                          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Extras
+                          <span class="caret"></span></button>
+                          <ul class="dropdown-menu">
+                            <li  *ngFor="let d of m.dodatneUsluge"><a href="#" data-toggle="tooltip" title="opis usluge">{{d.nazivUsluge}}</a></li>
+
+                          </ul>
+                        </div>
+
+
+
+
                     </td>
+
+
+                    <td><list-upload (click)="getIndex(i)" [slikeUrls] = "m.slike"></list-upload></td>
+
+<!--
+
+-->
+
+                    <td width="100px;">
+
+
+
+
+                        <div class="dropdown">
+                          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Prices
+                          <span class="caret"></span></button>
+                          <ul class="dropdown-menu" >
+
+                            <li class="dropdown-header" *ngFor="let c of m.cene">
+                                <ul style="list-style-type: none;">
+                                    <li>
+                                    {{c.pocetakVazenja}} to {{c.krajVazenja}}
+                                    </li>
+                                    <li><a href="#">${{c.cena}}</a></li>
+                                    <li class="divider"></li>
+                                </ul>
+                            </li>
+
+
+                          </ul>
+
+                      </div>
+
+
+
+                    </td>
+
+
+                    <td>
+
+
+
+                        <div class="dropdown">
+                          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Unavailable
+                          <span class="caret"></span></button>
+                          <ul class="dropdown-menu">
+                            <li  *ngFor="let z of m.listaZauzetosti"><a href="#">{{z.od}} - {{z.do}}</a></li>
+
+                          </ul>
+                          <button type="button" class="btn btn-primary btn-md" (click)="zauzmi(i)">Update</button>
+                        </div>
+
+
+
+
+
+
+
+                    </td>
+
+
                   </tr>
                 </tbody>
               </table>
             </div>
-            <div id="kategorije" class="tab-pane fade" style="border-left: solid gray 1px;">
-              <table class="table table-condensed">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody *ngFor="let k of kategorije">
-                  <tr>
-                    <td>{{k.idKategorije}}</td>
-                    <td>{{k.nazivKategorije}}</td>
-                    <td>{{k.opisKategorije}}</td>
-                    <td>
-                      <span *ngIf="editovanje">
-                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" (click)="setForEditK(k)">Edit</button>
-                      </span>
-                      <span *ngIf="brisanje">
-                        <button type="button" class="btn btn-primary btn-xs" (click)="obrisiKategoriju(k)">Delete</button>
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div id="dodatno" class="tab-pane fade" style="border-left: solid gray 1px;">
-              <table class="table table-condensed">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody *ngFor="let u of dodatneUsluge">
-                  <tr>
-                    <td>{{u.idUsluge}}</td>
-                    <td>{{u.nazivUsluge}}</td>
-                    <td>{{u.opisUsluge}}</td>
-                    <td>
-                      <span *ngIf="editovanje">
-                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" (click)="setForEditE(u)">Edit</button>
-                      </span>
-                      <span *ngIf="brisanje">
-                        <button type="button" class="btn btn-primary btn-xs" (click)="obrisiUslugu(u)">Delete</button>
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+
+
         </div>
     </div>
 </div>
@@ -107,7 +132,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="myModal" role="dialog" #myModal>
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -121,23 +146,70 @@
 
 
             <div class="form-group">
-              <label class="control-label col-sm-2" for="idd">Location:</label>
+              <label class="control-label col-sm-2" for="country">Country:</label>
               <div class="col-sm-10">
-                <input type="number" [value]="idtext" [disabled]="editInProgress" class="form-control" id="idd" placeholder="Enter location" name="idd" #idd>
+                <input type="text"  [disabled]="editInProgress" class="form-control" id="country" placeholder="Enter Country" name="country" #country>
               </div>
             </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="city">City:</label>
+              <div class="col-sm-10">
+                <input type="text" [disabled]="editInProgress" class="form-control" id="city" placeholder="Enter City" name="city" #city>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="address">Address:</label>
+              <div class="col-sm-10">
+                <input type="text" [disabled]="editInProgress" class="form-control" id="address" placeholder="Enter Address" name="address" #address>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="anumber">Address number:</label>
+              <div class="col-sm-10">
+                <input type="number" [value]="idtext" [disabled]="editInProgress" class="form-control" id="anumber" placeholder="Enter Address Number" name="anumber" #anumber>
+              </div>
+            </div>
+
+
 
             <div class="form-group">
               <label class="control-label col-sm-2">Accomodation type:</label>
               <div class="col-sm-10">
                 <div class="radio-inline">
-                  <label><input type="radio" name="optradio" [disabled]="editInProgress" [checked] = "checkedT()" #r1>Hotel </label>
+                  <label><input type="radio" name="r1" [value]="r1"  [(ngModel)]="acctype" #r1>Hotel </label>
                 </div>
                 <div class="radio-inline">
-                  <label><input type="radio" name="optradio" [disabled]="editInProgress" [checked] = "checkedK()" #r2>Bad & Breakfast</label>
+                  <label><input type="radio" name="r2" [value]="r2" [(ngModel)]="acctype" #r2>Bad & Breakfast</label>
                 </div>
                 <div class="radio-inline">
-                  <label><input type="radio" name="optradio" [disabled]="editInProgress" [checked] = "checkedE()" #r3>Apartman</label>
+                  <label><input type="radio" name="r3" [value]="r3"  [(ngModel)]="acctype"  #r3>Apartman</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-2">Category:</label>
+              <div class="col-sm-10">
+                <div class="radio-inline">
+                  <label><input type="radio" name="nekat" [value]="nekat"  [(ngModel)]="cat" #nekat>Hotel </label>
+                </div>
+                <div class="radio-inline">
+                  <label><input type="radio" name="z1" [value]="z1" [(ngModel)]="cat" #z1>1 Star</label>
+                </div>
+                <div class="radio-inline">
+                  <label><input type="radio" name="z2"  [value]="z2"  [(ngModel)]="cat"  #z2>2 Stars</label>
+                </div>
+                <div class="radio-inline">
+                  <label><input type="radio" name="z3" [value]="z3"  [(ngModel)]="cat"  #z3>3 Stars</label>
+                </div>
+                <div class="radio-inline">
+                  <label><input type="radio" name="z4"  [value]="z4"  [(ngModel)]="cat"  #z4>4 Stars</label>
+                </div>
+                <div class="radio-inline">
+                  <label><input type="radio" name="z5" [value]="z5"  [(ngModel)]="cat"  #z5>5 Stars</label>
                 </div>
               </div>
             </div>
@@ -145,65 +217,292 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="opis">Description:</label>
               <div class="col-sm-10">
-                <input type="text" [value]="opistext" class="form-control" id="opis" placeholder="Enter description" name="opis" #opis>
+                <textarea  class="form-control" id="opis" placeholder="Enter description" name="opis" #opis></textarea>
               </div>
             </div>
 
             <div class="form-group">
-              <label class="control-label col-sm-2" for="opis">Images:</label>
+                <label  class="control-label col-sm-2" for="file">Choose </label>
+                <div class="col-sm-10">
+
+
+                       <form-upload></form-upload>
+
+                    	<br/>
+                    	<br/>
+
+                    	<list-upload></list-upload>
+                    </div>
+            </div>
+
+
+
+
+
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="guests">Number of guests:</label>
               <div class="col-sm-10">
-                <input type="button" [value]="opistext" class="form-control" id="opis" value="Browse" name="opis" #opis>
+                <input type="number" class="form-control" id="guests" placeholder="Enter number of guests" name="guests" #guests>
               </div>
             </div>
 
             <div class="form-group">
-              <label class="control-label col-sm-2" for="opis">Number of guests:</label>
+              <label class="control-label col-sm-2">Additional Services:</label>
               <div class="col-sm-10">
-                <input type="text" [value]="opistext" class="form-control" id="opis" placeholder="Enter number of guests" name="opis" #opis>
+
+
+                    <!--
+                      <div class="radio-inline">
+                        <label><input type="radio" name="breakfast" [value]="breakfast" [checked]=true  [(ngModel)]="food" #breakfast>Breakfast </label>
+                      </div>
+                      <div class="radio-inline">
+                        <label><input type="radio" name="hp" [value]="hp" [(ngModel)]="food" #hp>Half Pansion</label>
+                      </div>
+                      <div class="radio-inline">
+                        <label><input type="radio" name="p" [value]="p"  [(ngModel)]="food"  #p>Pansion</label>
+                      </div>
+                  -->
+
+                      <div class="radio-inline">
+                        <label><input type="checkbox" name="optradio" [value]="breakfast" [checked]=true  #breakfast>Breakfast </label>
+                      </div>
+                      <div class="radio-inline">
+                        <label><input type="checkbox" name="optradio" [value]="hp" #hp>Half Pansion</label>
+                      </div>
+                      <div class="radio-inline">
+                        <label><input type="checkbox" name="optradio" [value]="p"  #p>Pansion</label>
+                      </div>
+
+                <div class="radio-inline">
+                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(parking)" #parking>Parking </label>
+                </div>
+                <div class="radio-inline">
+                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(wifi)" #wifi>WiFi</label>
+                </div>
+                <div class="radio-inline">
+                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(tv)" #tv>TV</label>
+                </div>
+
+                <div class="radio-inline">
+                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(mini)" #mini>Mini Kitchen / Kitchen</label>
+                </div>
+                <div class="radio-inline">
+                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(bathroom)" #bathroom>Private Bathroom</label>
+                </div>
               </div>
             </div>
 
             <div class="form-group">
-              <label class="control-label col-sm-2">BOnus:</label>
+              <label class="control-label col-sm-2" for="images">Price Plan:</label>
               <div class="col-sm-10">
+                <button type="button" class="btn btn-primary btn-xm" data-toggle="modal" data-target="#modalDatumPlanCena" >Add New</button>
+              </div>
+
+
+
+            </div>
+
+
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="country"></label>
+              <div class="col-sm-10">
+                  {{cene | json}}
+                  <hr>
+
+              </div>
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button
+        type="button"
+        class="btn btn-info"
+        data-dismiss="modal"
+        (click)="createNewUnit(
+        country.value,
+        city.value,
+        address.value,
+        anumber.value,
+        r1,r2,r3,
+        opis.value,
+        guests.value,
+        breakfast, hp, p,
+        parking, wifi, tv, mini, bathroom,
+        nekat, z1, z2, z3, z4, z5
+
+        )">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalZauzimanje" role="dialog" #modalZauzimanje>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" (click)="odustani()">&times;</button>
+        <h4 class="modal-title" style="text-align: center;">{{mode}}</h4>
+       </div>
+      <div class="modal-body">
+
+
+          <form class="form-horizontal" >
+
+
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="country">Dates:</label>
+              <div class="col-sm-10">
+
+
+                  <p>Select days</p>
+
+                        <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t">
+                        </ngb-datepicker>
+
+                        <ng-template #t let-date="date" let-focused="focused">
+                          <span class="custom-day"
+                                [class.focused]="focused"
+                                [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
+                                [class.faded]="isHovered(date) || isInside(date)"
+                                (mouseenter)="hoveredDate = date"
+                                (mouseleave)="hoveredDate = null">
+                            {{ date.day }}
+                          </span>
+                        </ng-template>
+
+                        <hr>
+
+                        <pre>From: {{ fromDate | json }} </pre>
+                        <pre>To: {{ toDate | json }} </pre>
+
+
+              </div>
+            </div>
+
+
+            <!--
+            <div class="form-group">
+              <label class="control-label col-sm-2">Additional Services:</label>
+              <div class="col-sm-10">
+
+
+                      <div class="radio-inline">
+                        <label><input type="radio" name="breakfast" [value]="breakfast" [checked]=true  [(ngModel)]="food" #breakfast>Breakfast </label>
+                      </div>
+                      <div class="radio-inline">
+                        <label><input type="radio" name="hp" [value]="hp" [(ngModel)]="food" #hp>Half Pansion</label>
+                      </div>
+                      <div class="radio-inline">
+                        <label><input type="radio" name="p" [value]="p"  [(ngModel)]="food"  #p>Pansion</label>
+                      </div>
+
+
+                     <br>
                 <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" [checked] = "checkedT()" #r1>Parking </label>
+                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(parking)" #parking>Parking </label>
                 </div>
                 <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" [checked] = "checkedK()" #r2>WiFi</label>
+                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(wifi)" #wifi>WiFi</label>
                 </div>
                 <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" [checked] = "checkedE()" #r3>Breakfast</label>
+                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(tv)" #tv>TV</label>
+                </div>
+
+                <div class="radio-inline">
+                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(mini)" #mini>Mini Kitchen / Kitchen</label>
                 </div>
                 <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" [checked] = "checkedE()" #r4>Half-Pansion</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" [checked] = "checkedE()" #r5>Pansion</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" [checked] = "checkedE()" #r6>TV</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" [checked] = "checkedE()" #r7>Mini Kitchen / Kitchen</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" [checked] = "checkedE()" #r8>Private Bathroom</label>
+                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(bathroom)" #bathroom>Private Bathroom</label>
                 </div>
               </div>
             </div>
 
-            <div class="form-group">
-              <label class="control-label col-sm-2" for="opis">Price plan:</label>
-              <div class="col-sm-10">
-                <input type="text" [value]="opistext" class="form-control" id="opis" placeholder="Enter number of guests" name="opis" #opis>
-              </div>
-            </div>
+        -->
 
           </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-info" data-dismiss="modal" (click)="createNewUnit()">Save</button>
+        <button
+        type="button"
+        class="btn btn-info"
+        data-dismiss="modal"
+        (click)="saveZauzetost()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalDatumPlanCena" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" (click)="odustani()">&times;</button>
+        <h4 class="modal-title" style="text-align: center;">{{mode}}</h4>
+       </div>
+      <div class="modal-body">
+
+
+          <form class="form-horizontal" >
+
+
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="country">Dates:</label>
+              <div class="col-sm-10">
+
+
+                  <p>Select days</p>
+
+                        <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t">
+                        </ngb-datepicker>
+
+                        <ng-template #t let-date="date" let-focused="focused">
+                          <span class="custom-day"
+                                [class.focused]="focused"
+                                [class.range]="isFrom(date) || isTo(date) || isInside(date) || isHovered(date)"
+                                [class.faded]="isHovered(date) || isInside(date)"
+                                (mouseenter)="hoveredDate = date"
+                                (mouseleave)="hoveredDate = null">
+                            {{ date.day }}
+                          </span>
+                        </ng-template>
+
+                        <hr>
+
+                        <pre>From: {{ fromDate | json }} </pre>
+                        <pre>To: {{ toDate | json }} </pre>
+
+
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="price">$ Price:</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="price" placeholder="Enter price for this period" name="price" #price>
+              </div>
+            </div>
+
+
+
+
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button
+        type="button"
+        class="btn btn-info"
+        data-dismiss="modal"
+        (click)="saveNewPricePlan(price.value)">Save</button>
       </div>
     </div>
   </div>

@@ -1,4 +1,5 @@
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+<soapenv:Envelope
+ xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
                  
     <soapenv:Header/>
     <soapenv:Body>
@@ -8,3 +9,20 @@
         </loginAgentRequest>
     </soapenv:Body>
 </soapenv:Envelope>
+
+<!-- ovako!
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+				  xmlns:ns="model"
+	>
+                 
+    <soapenv:Header/>
+    <soapenv:Body>
+        <ns:loginAgentRequest>
+            <ns:username>Sam</ns:username>
+            <ns:password>pas</ns:password>
+        </ns:loginAgentRequest>
+    </soapenv:Body>
+</soapenv:Envelope>
+
+ -->

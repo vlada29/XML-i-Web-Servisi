@@ -17,6 +17,16 @@ import { UnitComponent } from './unit/unit.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ReservationsComponent } from './reservations/reservations.component';
 
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { SyncComponent } from './sync/sync.component';
+
+
+
+import {ListUploadComponent} from './list-upload/list-upload.component';
+import {UploadFileService} from './upload-file.service';
+import { DetailsUploadComponent } from './details-upload/details-upload.component';
+import { FormUploadComponent } from './form-upload/form-upload.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,15 +37,23 @@ import { ReservationsComponent } from './reservations/reservations.component';
     WorkspaceComponent,
     UnitComponent,
     MessagesComponent,
-    ReservationsComponent
+    ReservationsComponent,
+    SyncComponent,
+    DetailsUploadComponent,
+    FormUploadComponent,
+    DetailsUploadComponent,
+    FormUploadComponent,
+    ListUploadComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    NgbModule.forRoot()
+
   ],
-  providers: [LoginService, UnitService],
+  providers: [LoginService, UnitService,UploadFileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

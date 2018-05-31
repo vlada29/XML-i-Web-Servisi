@@ -1,3 +1,56 @@
-<p>
-  reservations works!
-</p>
+<div class="container">
+    <div class="page-header">
+      <h1 style="text-align: center;" >Reservations</h1>
+    </div>
+    <div class="btn-group">
+
+      <button type="button" class="btn btn-primary" (click)="getResOfMyUnits()">Refresh</button>
+
+    </div>
+    <hr>
+    <div class="row">
+
+        <div class="col-md-9 tab-content">
+            <div id="tip" class="tab-pane fade in active" style="border-left: solid gray 1px;">
+              <table class="table table-condensed">
+                <thead>
+                  <tr>
+                    <th>Unit ID</th>
+                    <th>Od</th>
+                    <th>Do</th>
+                    <th>Realised</th>
+
+
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let r of res_of_my_units">
+                  <tr>
+                    <td>{{r.smestajnaJedinica.hjid}}</td>
+                    <td>{{r.od}}</td>
+                    <td>{{r.do}}</td>
+
+                    <td *ngFor="let d of r.dodatneUsluge">
+                        {{d.nazivUsluge}}
+                    </td>
+
+
+                    <td>
+                      <span *ngIf="r.realizovana">
+                        <button type="button" class="btn btn-success btn-xs" >Realised</button>
+                      </span>
+                      <span *ngIf="r.realizovana == false">
+                        <button type="button" class="btn btn-primary btn-xs" (click)="confirmArrival(r.hjid)">Confirm Arrival</button>
+                      </span>
+                    </td>
+
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+
+        </div>
+    </div>
+</div>

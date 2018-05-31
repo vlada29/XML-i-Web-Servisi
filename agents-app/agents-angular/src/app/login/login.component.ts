@@ -18,13 +18,9 @@ export class LoginComponent implements OnInit {
 
   login(){
       console.log(this.username.nativeElement.value, this.password.nativeElement.value);
-
+      
       this.login_service.login(this.username.nativeElement.value, this.password.nativeElement.value);
-      // if(this.user_service.getLoggedIn()){
-      //     this.router.navigate(['chatroom']);
-      // } else {
-      //     alert('Wrong username or password!');
-      // }
+
       return false;
   }
 }
