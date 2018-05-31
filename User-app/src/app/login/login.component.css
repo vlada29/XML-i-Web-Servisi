@@ -1,0 +1,9 @@
+
+.vertical-offset-100{
+    padding-top:150px;
+    padding-left:400px;
+    position: fixed;
+}
+.panel-body{
+    position: fixed;
+}
