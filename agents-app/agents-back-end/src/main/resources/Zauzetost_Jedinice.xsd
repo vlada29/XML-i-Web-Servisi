@@ -4,7 +4,7 @@ xmlns="model"
 xmlns:xs="http://www.w3.org/2001/XMLSchema" 
 elementFormDefault="qualified"
 targetNamespace="model"> 
-   		 <xs:include schemaLocation="Smestajna_Jedinica.xsd"/>
+   		<xs:include schemaLocation="Smestajna_Jedinica.xsd"/>
         <xs:complexType name="Zauzetost_Jedinice">
             <xs:sequence>
                 <xs:element ref="Smestajna_Jedinica"/>

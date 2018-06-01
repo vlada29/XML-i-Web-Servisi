@@ -10,6 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.model.Agent;
+import com.repositories.CategoryRepository;
+import com.repositories.ExtrasRepository;
+import com.repositories.TypesRepository;
 import com.services.AgentService;
 import com.services.MessageService;
 import com.services.RezService;
@@ -38,6 +41,15 @@ public class AgentsBackEndApplication implements CommandLineRunner{
 	@Autowired
 	MessageService messService;
 	
+	@Autowired
+	CategoryRepository catRepo;
+	
+	@Autowired
+	ExtrasRepository extrasRepo;
+	
+	@Autowired
+	TypesRepository typesRepo;
+	
 	public static void main(String[] args) throws JAXBException {
 		
 		SpringApplication.run(AgentsBackEndApplication.class, args);
@@ -58,12 +70,16 @@ public class AgentsBackEndApplication implements CommandLineRunner{
 		rezService.deleteAll();
 		messService.deleteAll();	
 		unitService.deleteAll();
-		
+		extrasRepo.deleteAll();
+		catRepo.deleteAll();
+		typesRepo.deleteAll();
 		
 		syncService.syncroniseWithCloudRes(a.getUsername());
 		syncService.syncroniseWithCloudWS("daca");
 		syncService.syncroniseWithCloudMess(Long.valueOf(0));
-		
+		syncService.syncroniseWithCloudCategories();
+		syncService.syncroniseWithCloudExtras();
+		syncService.syncroniseWithCloudTypes();
 		
 		//slike
 		//storageService.deleteAll();

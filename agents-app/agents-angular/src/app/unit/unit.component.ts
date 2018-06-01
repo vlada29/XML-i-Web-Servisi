@@ -1,4 +1,4 @@
-import {Component, Directive, Input, ViewChild, OnInit, ElementRef, AfterViewInit } from '@angular/core';
+import {Component, Directive, Input, ViewChild, OnInit, ElementRef, AfterViewInit, Pipe, PipeTransform } from '@angular/core';
 import { UnitService } from '../services/unit.service';
 import {HttpClient} from "@angular/common/http";
 import {LoginService} from '../services/login.service';
@@ -7,6 +7,7 @@ import {Observable} from 'rxjs/Observable';
 import {UploadFileService} from '../upload-file.service';
 import {NgbDateStruct, NgbCalendar, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/observable/of';
+import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
   one && two && two.year === one.year && two.month === one.month && two.day === one.day;
@@ -70,7 +71,8 @@ export class UnitComponent implements OnInit {
               private http: HttpClient,
               calendar: NgbCalendar,
               private uploadService: UploadFileService,
-              private modalService: NgbModal
+              private modalService: NgbModal,
+              private _sanitizer: DomSanitizer
   ) {
       this.fromDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
@@ -78,6 +80,13 @@ export class UnitComponent implements OnInit {
 
   ngOnInit(){
     this.getMyUnits();
+    this.getCats();
+    this.getTypes();
+    this.getExtras();
+    //$('.selectpicker').selectpicker('refresh');
+    // setTimeout(() => {
+    //   $('.selectpicker').selectpicker('refresh');
+    // }, 500);
   }
 
   onDateSelection(date: NgbDateStruct) {
@@ -149,21 +158,16 @@ export class UnitComponent implements OnInit {
       ;
 }
 
-  checkedT(){}
-  checkedK(){}
-  checkedE(){}
 
   createNewUnit(
       country,
       city,
       address,
       anumber,
-      r1,r2,r3,
       opis,
-      guests,
-      breakfast, hp, p,
-      parking, wifi, tv, mini, bathroom,
-      nekat,z1,z2,z3,z4,z5,
+      guests
+
+
 
   ){
       console.log('Creating new unit.');
@@ -177,123 +181,141 @@ export class UnitComponent implements OnInit {
         broj: anumber
       }
 
-      let type;
-      if(r1.checked) type='hotel';
-      if(r2.checked) type='bad&breakfast';
-      if(r3.checked) type='apartman';
-
-      let food;
-      if(breakfast.checked) food='breakfast';
-      if(hp.checked) food='half-pansion';
-      if(p.checked) food='pansion';
-
-      let cat;
-      if(nekat.checkedK) cat='Nekategorisan';
-      if(z1) cat = 'One Star';
-      if(z2) cat = 'Two Stars';
-      if(z3) cat = 'Three Stars';
-      if(z4) cat = 'Four Stars';
-      if(z5) cat = 'Five Stars';
-
-      var DodatneUsluge = {
-        nazivUsluge: food,
-        opisUsluge: 'temp opis'
+      for(let c of this.cats){
+          if(c.nazivKategorije == this.selectedCat){
+              this.catObj = c;
+              break;
+          }
       }
 
-      this.dodatne_usluge.push(DodatneUsluge);
+      for(let t of this.types){
+          if(t.nazivTipa == this.selectedType){
+              this.typeObj = t;
+              break;
+          }
+      }
 
-      this.popuniDodatne(parking,wifi,tv,mini,bathroom);
+      //this.dodatne_usluge.push(DodatneUsluge);
+
 
       var agent = {
-          username: "coda",
-          password: "daca",
-          ime: "Danilo",
-          prezime: "Bujisa",
-          adresa: "Milice Tomic 14",
-          poslovniMBR: 4323,
+         username: "daca",
+         // password: "daca",
+         // ime: "Danilo",
+         // prezime: "Bujisa",
+         // adresa: "Milice Tomic 14",
+         // poslovniMBR: 4323,
           hjid: 0
       }
 
-      var tipSmestaja = {
-          nazivTipa: type
+      var usluge = [];
+      for(let u of this.extrasModelProperty){
+          var uslugaJedinice = {
+              usluga: u
+          }
+          usluge.push(uslugaJedinice);
       }
-
-      var kategorijaSmestaja = {
-          nazivKategorije: cat
-      }
-
+      console.log('usluge: ', usluge);
       var unit = {
         naziv: "none",
         agent: agent,
         lokacija: location,
         opis: opis,
         brojOsoba: guests,
-        dodatneUsluge: this.dodatne_usluge,
+        usluge: usluge,
         cene: this.cene,
         dostupna: true,
         slike: this.slike,
-        kategorijaSmestaja: kategorijaSmestaja,
-        tipSmestaja: tipSmestaja
+        kategorijaSmestaja: this.catObj,
+        tipSmestaja: this.typeObj
 
       }
       this.clearInputs();
       console.log(unit);
-      this.http.post('/createNewUnit/daca', unit).subscribe(data => {
-          if(data != null){
-              console.log('After creating: ');
-              console.log(data);
-              this.my_units = [];
-              this.my_units = data as any[];
-              //this.getMyUnits();
-          } else {
-              alert('Error while creating new unit!');
-          }
-       })
+
+      if(this.slike.length > 0){
+          this.http.post('/createNewUnit/daca', unit).subscribe(data => {
+              if(data != null){
+                  console.log('After creating: ');
+                  console.log(data);
+                  this.my_units = [];
+                  this.my_units = data as any[];
+                  //this.getMyUnits();
+              } else {
+                  alert('Error while creating new unit!');
+              }
+           })
+       } else {
+           alert('You need to upload atleast one image!');
+       }
 
 
        this.filesPathsOnly = [];
   }
 
-  popuniDodatne(parking,wifi,tv,mini,bathroom){
-      var DodatneUsluge;
-      if(parking.checked){
-          DodatneUsluge = {
-            nazivUsluge: 'parking',
-            opisUsluge: 'temp opis'
-          }
-          this.dodatne_usluge.push(DodatneUsluge);
-      }
-      if(wifi.checked){
-          DodatneUsluge = {
-            nazivUsluge: 'wifi',
-            opisUsluge: 'temp opis'
-          }
-          this.dodatne_usluge.push(DodatneUsluge);
-      }
-      if(tv.checked){
-          DodatneUsluge = {
-            nazivUsluge: 'tv',
-            opisUsluge: 'temp opis'
-          }
-          this.dodatne_usluge.push(DodatneUsluge);
-      }
-      if(mini.checked){
-          DodatneUsluge = {
-            nazivUsluge: 'mini',
-            opisUsluge: 'temp opis'
-          }
-          this.dodatne_usluge.push(DodatneUsluge);
-      }
-      if(bathroom.checked){
-          DodatneUsluge = {
-            nazivUsluge: 'bathroom',
-            opisUsluge: 'temp opis'
-          }
-          this.dodatne_usluge.push(DodatneUsluge);
-      }
+  catObj: any;
+  typeObj: any;
+
+  selectedCat: any;
+  selectedType: any;
+
+  catChanged(catValue){
+      this.selectedCat = catValue;
   }
 
+  typeChanged(typeValue){
+      this.selectedType = typeValue;
+  }
 
+  extrasModelProperty = [];
+  printExtras(){
+          console.log('extrasModelProperty ',this.extrasModelProperty);
+  }
+
+  types: any;
+  cats: any;
+  extras: any;
+
+  getTypes(){
+      this.http.get('/getTypes').subscribe(data => {
+      if(data != null){
+        console.log('Type: ',data);
+        this.types = data as any[];
+        this.typeObj = data[0];
+
+
+
+      }
+    })
+  }
+
+  getCats(){
+      this.http.get('/getCategories').subscribe(data => {
+      if(data != null){
+        console.log('Cats: ',data);
+        this.cats = data as any[];
+        this.catObj = data[0];
+
+      }
+    })
+
+  }
+
+  getExtras(){
+      this.http.get('/getExtras').subscribe(data => {
+      if(data != null){
+        console.log('Extras: ',data);
+        this.extras = data as any[];
+        // var temp;
+        // for(let i in this.extras){
+        //     this.temp.push(i.nazivUsluge);
+        // }
+        this.extrasModelProperty = this.extras;//.split(',');
+        console.log('extrasModelProperty ',this.extrasModelProperty);
+      }
+      })
+
+  }
 
   confirmRes(){
 
@@ -324,18 +346,18 @@ odustani(){
 
   zauzetost = null;
    zauzmi(i){
-       console.log('reserving');
+       console.log('reserving row: ', i);
+       this.row_z = i;
        $(this.modalZauzimanje.nativeElement).modal('show');
 
 
 
    }
-
+   row_z: any;
    saveZauzetost(){
 
-       // var hjid = 68;//this.my_units[i].hjid;
        var unit = {
-        hjid: 13
+        hjid: this.my_units[this.row_z].hjid
        }
 
        this.zauzetost = {
@@ -351,6 +373,61 @@ odustani(){
            this.getMyUnits();
        })
    }
+
+   image_urls = [];
+   image_to_show: any;
+   binaryData = [];
+   show_images = false;
+
+   public o_images: Observable<any>
+   b64strings = [];
+   createUrls(i, hjid){
+       var x = document.getElementById(hjid);
+       if (x.style.display === "none") {
+           x.style.display = "block";
+       } else {
+           x.style.display = "none";
+       }
+
+      this.my_units.forEach((item, index) => {
+            if(index!=i){
+                x = document.getElementById(item.hjid);
+                x.style.display = "none";
+            }
+        });
+
+
+
+
+
+       var urlCreator = window.URL; // || window.webkitURL;
+       this.image_urls = [];
+       this.b64strings = [];
+       for(let image_blob of this.my_units[i].picture){
+           this.b64strings.push(image_blob);
+           this.binaryData = [];
+           this.binaryData.push(image_blob);
+           this.image_to_show = urlCreator.createObjectURL(new Blob(this.binaryData, {type: "application/zip"}));
+           this.image_urls.push(this.image_to_show);
+
+
+       }
+       console.log(this.image_urls);
+       this.o_images =  Observable.of(this.image_urls);
+       this.show_images = true;
+  // } else {
+    //   this.show_images = false;
+  // }
+
+   }
+
+   approveImage(toReturnImage){
+       return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
+                 + toReturnImage);
+
+   }
+
+
 }
 
 declare var $:any;

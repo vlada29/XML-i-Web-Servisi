@@ -1,47 +1,33 @@
 package com.soapservices;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jws.WebMethod;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.ws.WebServiceException;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
-import org.springframework.ws.soap.client.core.SoapActionCallback;
 
-import com.services.AgentService;
-import com.services.AvailabilityService;
-import com.services.MessageService;
-import com.services.RezService;
-import com.services.UnitService;
-import com.soapservices.soapenv.ConfirmArrival;
-import com.soaputils.SOAPUtils;
-import com.model.Agent;
-import com.model.LoginAgentRequest;
-import com.model.LoginAgentResponse;
 import com.model.Message;
 import com.model.Rezervacija;
 import com.model.SmestajnaJedinica;
 import com.model.SmestajnaJedinicaPictureItem;
 import com.model.ZauzetostJedinice;
+import com.repositories.DodatneuslugeRepository;
+import com.repositories.KategorijasmestajaRepository;
+import com.repositories.TipsmestajaRepository;
+import com.services.AvailabilityService;
+import com.services.MessageService;
+import com.services.RezService;
+import com.services.UnitService;
+import com.soapservices.soapenv.CatsWrapper;
+import com.soapservices.soapenv.ConfirmArrival;
+import com.soapservices.soapenv.ExtrasWrapper;
+import com.soapservices.soapenv.MessWrapper;
+import com.soapservices.soapenv.ResWrapper;
+import com.soapservices.soapenv.TypesWrapper;
+import com.soapservices.soapenv.UnitsWrapper;
 
 @Endpoint
 public class AgentEndpoint {
@@ -56,6 +42,15 @@ public class AgentEndpoint {
 	
 	@Autowired
 	private MessageService messService;
+	
+	@Autowired
+	private KategorijasmestajaRepository catRepo;
+	
+	@Autowired
+	private TipsmestajaRepository typesRepo;
+	
+	@Autowired 
+	private DodatneuslugeRepository extrasRepo;
 	
 	@PayloadRoot(namespace="model", localPart = "Smestajna_Jedinica")
 	@ResponsePayload
@@ -72,7 +67,7 @@ public class AgentEndpoint {
 		System.out.println("*******************************************");
 		
 		System.out.println("###########################################");
-		System.out.println("### Units Wrapper Request Message: ###");
+		System.out.println("### Unit Request Message: ###");
 		System.out.println(request);
 		SmestajnaJedinica savedUnit = unitService.save(request);
 		System.out.println("###########################################");
@@ -244,5 +239,29 @@ public class AgentEndpoint {
 	@ResponsePayload
 	public Message sendMessage(@RequestPayload Message message)  throws Exception {
 		return messService.save(message);
+	}
+	
+	@PayloadRoot(namespace="model", localPart = "Cats_Wrapper")
+	@ResponsePayload
+	public CatsWrapper getCategories(@RequestPayload CatsWrapper request)  throws Exception {
+		CatsWrapper cw = new CatsWrapper();
+		cw.setCategories(catRepo.findAll());
+		return cw;
+	}
+	
+	@PayloadRoot(namespace="model", localPart = "Types_Wrapper")
+	@ResponsePayload
+	public TypesWrapper getTypes(@RequestPayload TypesWrapper request)  throws Exception {
+		TypesWrapper tw = new TypesWrapper();
+		tw.setTypes(typesRepo.findAll());
+		return tw;
+	}
+	
+	@PayloadRoot(namespace="model", localPart = "Extras_Wrapper")
+	@ResponsePayload
+	public ExtrasWrapper getExtras(@RequestPayload ExtrasWrapper request)  throws Exception {
+		ExtrasWrapper ew = new ExtrasWrapper();
+		ew.setExtras(extrasRepo.findAll());
+		return ew;
 	}
 }

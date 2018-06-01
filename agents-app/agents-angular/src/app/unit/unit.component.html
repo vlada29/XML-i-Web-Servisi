@@ -31,8 +31,8 @@
                 <tbody *ngFor="let m of my_units; let i=index" id="tabela" #tabela>
                   <tr>
                     <td>{{m.opis}}</td>
-                    <td>{{m.tipSmestaja}}</td>
-                    <td>{{m.kategorijaSmestaja}}</td>
+                    <td data-toggle="tooltip" title="{{m.tipSmestaja.opisTipa}}">{{m.tipSmestaja.nazivTipa}}</td>
+                    <td data-toggle="tooltip" title="{{m.kategorijaSmestaja.opisKategorije}}">{{m.kategorijaSmestaja.nazivKategorije}}</td>
                     <td>{{m.brojOsoba}}</td>
                     <td>{{m.lokacija.drzava}}</td>
                     <td>{{m.lokacija.grad}}</td>
@@ -45,10 +45,10 @@
 
 
                         <div class="dropdown">
-                          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Extras
+                          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Extras
                           <span class="caret"></span></button>
                           <ul class="dropdown-menu">
-                            <li  *ngFor="let d of m.dodatneUsluge"><a href="#" data-toggle="tooltip" title="opis usluge">{{d.nazivUsluge}}</a></li>
+                            <li  *ngFor="let d of m.usluge"><a href="#" data-toggle="tooltip" title="d.usluga.opisUsluge">{{d.usluga.nazivUsluge}}</a></li>
 
                           </ul>
                         </div>
@@ -58,11 +58,20 @@
 
                     </td>
 
+                        <td><button class="btn btn-primary"  type="button" (click)="createUrls(i, m.hjid)">Show Images</button>
+                            <div   [attr.id]="m.hjid" >
+                                <div *ngFor="let s of b64strings ">
 
-                    <td><list-upload (click)="getIndex(i)" [slikeUrls] = "m.slike"></list-upload></td>
+                                    <a><img [src]="'data:image/jpg;base64,'+s" style="width: 400px;height:250px;"/></a>
+                                </div>
+                            </div>
+
+
+                        </td>
+
 
 <!--
-
+<td><list-upload (click)="getIndex(i)" [slikeUrls] = "m.slike"></list-upload></td>
 -->
 
                     <td width="100px;">
@@ -78,7 +87,8 @@
                             <li class="dropdown-header" *ngFor="let c of m.cene">
                                 <ul style="list-style-type: none;">
                                     <li>
-                                    {{c.pocetakVazenja}} to {{c.krajVazenja}}
+                                    {{c.pocetakVazenja  | date:'dd/MM/yyyy'}} to {{c.krajVazenja | date:'dd/MM/yyyy'}}
+
                                     </li>
                                     <li><a href="#">${{c.cena}}</a></li>
                                     <li class="divider"></li>
@@ -100,13 +110,13 @@
 
 
                         <div class="dropdown">
-                          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Unavailable
+                          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Show Dates
                           <span class="caret"></span></button>
                           <ul class="dropdown-menu">
-                            <li  *ngFor="let z of m.listaZauzetosti"><a href="#">{{z.od}} - {{z.do}}</a></li>
+                            <li  *ngFor="let z of m.listaZauzetosti"><a href="#">{{z.od  | date:'dd/MM/yyyy'}} - {{z.do  | date:'dd/MM/yyyy'}}</a></li>
 
                           </ul>
-                          <button type="button" class="btn btn-primary btn-md" (click)="zauzmi(i)">Update</button>
+                          <button type="button" class="btn btn-basic btn-md" (click)="zauzmi(i)">Update</button>
                         </div>
 
 
@@ -126,6 +136,7 @@
 
         </div>
     </div>
+
 </div>
 
 
@@ -178,39 +189,18 @@
             <div class="form-group">
               <label class="control-label col-sm-2">Accomodation type:</label>
               <div class="col-sm-10">
-                <div class="radio-inline">
-                  <label><input type="radio" name="r1" [value]="r1"  [(ngModel)]="acctype" #r1>Hotel </label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="radio" name="r2" [value]="r2" [(ngModel)]="acctype" #r2>Bad & Breakfast</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="radio" name="r3" [value]="r3"  [(ngModel)]="acctype"  #r3>Apartman</label>
-                </div>
+                  <select (change)="typeChanged($event.target.value)" class="selectpicker">
+                    <option *ngFor="let type of types" value="{{type.nazivTipa}}" data-toggle="tooltip" title="{{type.opisTipa}}">{{type.nazivTipa}}</option>
+                  </select>
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-2">Category:</label>
               <div class="col-sm-10">
-                <div class="radio-inline">
-                  <label><input type="radio" name="nekat" [value]="nekat"  [(ngModel)]="cat" #nekat>Hotel </label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="radio" name="z1" [value]="z1" [(ngModel)]="cat" #z1>1 Star</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="radio" name="z2"  [value]="z2"  [(ngModel)]="cat"  #z2>2 Stars</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="radio" name="z3" [value]="z3"  [(ngModel)]="cat"  #z3>3 Stars</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="radio" name="z4"  [value]="z4"  [(ngModel)]="cat"  #z4>4 Stars</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="radio" name="z5" [value]="z5"  [(ngModel)]="cat"  #z5>5 Stars</label>
-                </div>
+                  <select (change)="catChanged($event.target.value)" class="selectpicker">
+                    <option *ngFor="let cat of cats" value="{{cat.nazivKategorije}}" data-toggle="tooltip" title="{{cat.opisKategorije}}">{{cat.nazivKategorije}}</option>
+                  </select>
               </div>
             </div>
 
@@ -235,10 +225,6 @@
                     </div>
             </div>
 
-
-
-
-
             <div class="form-group">
               <label class="control-label col-sm-2" for="guests">Number of guests:</label>
               <div class="col-sm-10">
@@ -249,46 +235,9 @@
             <div class="form-group">
               <label class="control-label col-sm-2">Additional Services:</label>
               <div class="col-sm-10">
-
-
-                    <!--
-                      <div class="radio-inline">
-                        <label><input type="radio" name="breakfast" [value]="breakfast" [checked]=true  [(ngModel)]="food" #breakfast>Breakfast </label>
-                      </div>
-                      <div class="radio-inline">
-                        <label><input type="radio" name="hp" [value]="hp" [(ngModel)]="food" #hp>Half Pansion</label>
-                      </div>
-                      <div class="radio-inline">
-                        <label><input type="radio" name="p" [value]="p"  [(ngModel)]="food"  #p>Pansion</label>
-                      </div>
-                  -->
-
-                      <div class="radio-inline">
-                        <label><input type="checkbox" name="optradio" [value]="breakfast" [checked]=true  #breakfast>Breakfast </label>
-                      </div>
-                      <div class="radio-inline">
-                        <label><input type="checkbox" name="optradio" [value]="hp" #hp>Half Pansion</label>
-                      </div>
-                      <div class="radio-inline">
-                        <label><input type="checkbox" name="optradio" [value]="p"  #p>Pansion</label>
-                      </div>
-
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(parking)" #parking>Parking </label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(wifi)" #wifi>WiFi</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(tv)" #tv>TV</label>
-                </div>
-
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(mini)" #mini>Mini Kitchen / Kitchen</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(bathroom)" #bathroom>Private Bathroom</label>
-                </div>
+                  <select [(ngModel)]="extrasModelProperty" (change)="printExtras()" class="selectpicker" name="extras_selected" multiple>
+                    <option *ngFor="let extra of extras" [value]="extra" data-toggle="tooltip" title="{{extra.opisUsluge}}">{{extra.nazivUsluge}}</option>
+                  </select>
               </div>
             </div>
 
@@ -323,12 +272,9 @@
         city.value,
         address.value,
         anumber.value,
-        r1,r2,r3,
         opis.value,
-        guests.value,
-        breakfast, hp, p,
-        parking, wifi, tv, mini, bathroom,
-        nekat, z1, z2, z3, z4, z5
+        guests.value
+
 
         )">Save</button>
       </div>
@@ -381,44 +327,7 @@
             </div>
 
 
-            <!--
-            <div class="form-group">
-              <label class="control-label col-sm-2">Additional Services:</label>
-              <div class="col-sm-10">
 
-
-                      <div class="radio-inline">
-                        <label><input type="radio" name="breakfast" [value]="breakfast" [checked]=true  [(ngModel)]="food" #breakfast>Breakfast </label>
-                      </div>
-                      <div class="radio-inline">
-                        <label><input type="radio" name="hp" [value]="hp" [(ngModel)]="food" #hp>Half Pansion</label>
-                      </div>
-                      <div class="radio-inline">
-                        <label><input type="radio" name="p" [value]="p"  [(ngModel)]="food"  #p>Pansion</label>
-                      </div>
-
-
-                     <br>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(parking)" #parking>Parking </label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(wifi)" #wifi>WiFi</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(tv)" #tv>TV</label>
-                </div>
-
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(mini)" #mini>Mini Kitchen / Kitchen</label>
-                </div>
-                <div class="radio-inline">
-                  <label><input type="checkbox" name="optradio" [disabled]="editInProgress" (ngModelChange) = "change(bathroom)" #bathroom>Private Bathroom</label>
-                </div>
-              </div>
-            </div>
-
-        -->
 
           </form>
       </div>
@@ -457,7 +366,6 @@
             <div class="form-group">
               <label class="control-label col-sm-2" for="country">Dates:</label>
               <div class="col-sm-10">
-
 
                   <p>Select days</p>
 

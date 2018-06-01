@@ -194,7 +194,7 @@
    		
    		<!-- Uncomment ako se promeni sema -->
    		
-		<!-- 
+		 <!-- 
 
 			<plugin>
 				<groupId>org.jvnet.hyperjaxb3</groupId>
@@ -254,8 +254,8 @@
     </executions>
  </plugin>
    		
-   		
    		-->
+   	
    		
    		</plugins>
    		

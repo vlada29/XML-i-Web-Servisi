@@ -45,7 +45,8 @@ public class SOAPUtils {
 
         // SOAP Body
         SOAPBody soapBody = envelope.getBody();
-        SOAPElement soapBodyElem = soapBody.addDocument(convertStringToDocument(request));
+        if(request!=null)
+        	soapBody.addDocument(convertStringToDocument(request));
         //SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("username", myNamespace);
         //soapBodyElem1.addTextNode("Sam");
     }

@@ -12,8 +12,7 @@ targetNamespace="model">
             
             <xs:sequence>
                 <xs:element ref="User"/>
-                <xs:element ref="Smestajna_Jedinica"/>
-                <xs:element type="Dodatna_Usluga" name="Dodatne_Usluge" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element ref="Smestajna_Jedinica"/>    
             </xs:sequence>
             
             <xs:attribute name="Od" type="xs:date"/>

@@ -25,21 +25,18 @@ public class SoapWebServiceConfig extends WsConfigurerAdapter {
     }
 
 
-    @Bean
-    public XsdSchema userSchema() {
-        return new SimpleXsdSchema(new ClassPathResource("agentActions.xsd"));
-    }
 
-    @Bean
-    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema userSchema) {
 
-        DefaultWsdl11Definition definition = new DefaultWsdl11Definition();
-        definition.setSchema(userSchema);
-        definition.setLocationUri("/soapWS");
-        definition.setPortTypeName("UserServicePort");
-        definition.setTargetNamespace("ns");
-        return definition;
-    }
+//    @Bean
+//    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema userSchema) {
+//
+//        DefaultWsdl11Definition definition = new DefaultWsdl11Definition();
+//        definition.setSchema(userSchema);
+//        definition.setLocationUri("/soapWS");
+//        definition.setPortTypeName("UserServicePort");
+//        definition.setTargetNamespace("ns");
+//        return definition;
+//    }
 
 
 }

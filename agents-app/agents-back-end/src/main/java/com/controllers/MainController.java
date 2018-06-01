@@ -29,15 +29,21 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.model.Agent;
+import com.model.DodatnaUsluga;
+import com.model.KategorijaSmestaja;
 import com.model.Message;
 import com.model.Rezervacija;
 import com.model.SmestajnaJedinica;
 import com.model.SmestajnaJedinicaPictureItem;
+import com.model.TipSmestaja;
 import com.model.ZauzetostJedinice;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Updates;
+import com.repositories.CategoryRepository;
+import com.repositories.ExtrasRepository;
+import com.repositories.TypesRepository;
 import com.services.AgentService;
 import com.services.AvailableService;
 import com.services.MessageService;
@@ -69,6 +75,15 @@ public class MainController {
 	@Autowired
 	MessageService messService;
 	
+	@Autowired
+	CategoryRepository catRepo;
+	
+	@Autowired
+	ExtrasRepository extrasRepo;
+	
+	@Autowired
+	TypesRepository typesRepo;
+	
 	@RequestMapping(
 			value = "/createNewUnit/{username}", 
 			method = RequestMethod.POST, 
@@ -83,7 +98,7 @@ public class MainController {
 		JsonParser jp = new JsonParser();
 		JsonElement je = jp.parse(mapper.writeValueAsString(unit));
 		String prettyJsonString = gson.toJson(je);
-		System.out.println("New unit = " + prettyJsonString);
+		//System.out.println("New unit = " + prettyJsonString);
 		
 		
 		
@@ -116,8 +131,8 @@ public class MainController {
 		ObjectMapper mapper2 = new ObjectMapper();
 		   	   
 	    String u = mapper2.writeValueAsString(units);
-	    System.out.println("After creating, " + unit.getAgent().getUsername()+"'s units:");
-	    System.out.println(u);
+	    //System.out.println("After creating, " + unit.getAgent().getUsername()+"'s units:");
+	    //System.out.println(u);
 	    return u;
 	}
 	
@@ -128,9 +143,9 @@ public class MainController {
 		ArrayList<SmestajnaJedinica> units = new ArrayList<>();
 		
 		for(SmestajnaJedinica sj : unitService.findAll()){
-			System.out.println("agent : " + sj.getAgent());
+			
 			if(sj.getAgent()!=null){
-				System.out.println("username:" + sj.getAgent().getUsername());
+				
 				if(sj.getAgent().getUsername().equals(username)){
 					System.out.println(sj.getHjid());
 					units.add(sj);
@@ -140,8 +155,8 @@ public class MainController {
 		ObjectMapper mapper = new ObjectMapper();
 		   	   
 	    String u = mapper.writeValueAsString(units);
-	    System.out.println(username+"'s units:");
-	    System.out.println(u);
+	    //System.out.println(username+"'s units:");
+	    //System.out.println(u);
 	    return u;
 	}
 	
@@ -299,6 +314,33 @@ public class MainController {
 	@ResponseStatus(value = HttpStatus.OK)
 	public List<Message> getMessages(@PathVariable Long hjid) throws SOAPException, JAXBException, IOException, JSONException{
 		return messService.findByAgentHjid(hjid);
+	}
+	
+	@RequestMapping(
+			value = "/getCategories", 
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<KategorijaSmestaja> getCategories() throws SOAPException, JAXBException, IOException, JSONException{
+		return catRepo.findAll();
+	}
+	
+	@RequestMapping(
+			value = "/getTypes", 
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<TipSmestaja> getTypes() throws SOAPException, JAXBException, IOException, JSONException{
+		return typesRepo.findAll();
+	}
+	
+	@RequestMapping(
+			value = "/getExtras", 
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<DodatnaUsluga> getExtras() throws SOAPException, JAXBException, IOException, JSONException{
+		return extrasRepo.findAll();
 	}
 
 }

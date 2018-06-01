@@ -26,7 +26,7 @@ targetNamespace="model">
                     <xs:element minOccurs="1" maxOccurs="unbounded" name="Picture" type="xs:base64Binary"/>
                 </xs:sequence>
                 
-                	<xs:element type="Dodatna_Usluga" name="Dodatne_Usluge" minOccurs="1" maxOccurs="unbounded"/>
+                	<xs:element type="Usluga_Jedinice" name="Usluge" maxOccurs="unbounded"/>
     	
                     <xs:element maxOccurs="unbounded" minOccurs="1" name="Cene" type="Plan_Cena"/>
                          
@@ -50,6 +50,11 @@ targetNamespace="model">
             <xs:element name="Broj" type="xs:string"/>
             <xs:element name="Grad" type="xs:string"/>
             <xs:element name="Drzava" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Usluga_Jedinice">
+        <xs:sequence>
+            <xs:element name="Usluga" type="Dodatna_Usluga"/>
         </xs:sequence>
     </xs:complexType>
     
