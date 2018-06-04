@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +32,7 @@ import org.springframework.ui.Model;
 
 
 @RestController 
-@CrossOrigin
+@CrossOrigin(origins="http://localhost:4213")
 public class UserController {
 	
 	@Autowired
@@ -121,7 +122,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/userLogin", method = RequestMethod.POST, consumes="application/json")
-	public ResponseEntity userLogin(
+	public ResponseEntity<?> userLogin(
 			@RequestBody LoginUserDto loginUserDTO,
 			HttpServletRequest request) {
 		
@@ -131,7 +132,7 @@ public class UserController {
 		System.out.println(logged);
 		if (logged!=null) {
 			userService.setCurrentUser(logged);
-			return new ResponseEntity(HttpStatus.OK);
+			return new ResponseEntity(logged, HttpStatus.OK);
 			
 		}
 
@@ -139,21 +140,39 @@ public class UserController {
 		
 	}
 	
-    @RequestMapping(
-            value = "/getLoggedInUser", method = RequestMethod.GET, produces="application/json")
-    public ResponseEntity<?> getLoggedInUser() {
-
-        LoginUserDto userDTO = new LoginUserDto();
-        if (userService.getCurrentUser() != null) {
-        	User u = userService.getCurrentUser();
-            userDTO.setUsername(u.getUsername());
-            userDTO.setPassword(u.getPassword());
-            return new ResponseEntity<>(userDTO, HttpStatus.OK);
-
-        } else {
-            return new ResponseEntity<>(userDTO, HttpStatus.OK);
-        }
-    }
+	
+	
+	@RequestMapping(value = "/getLoggedUserById", method = RequestMethod.GET, produces="application/json")
+	public ResponseEntity<?> getLoggedUserById(
+			@RequestParam(value="id") String id) {
+		
+		Long hjid = Long.parseLong(id);
+		
+		User u = userService.getLoggedUserById(hjid);
+		if (u!=null)
+			return new ResponseEntity(u, HttpStatus.OK);
+		
+		return new ResponseEntity(HttpStatus.BAD_REQUEST); 
+		
+		
+	}
+	
+// za security - ne radi	
+//    @RequestMapping(
+//            value = "/getLoggedUser", method = RequestMethod.GET, produces="application/json")
+//    public ResponseEntity<?> getLoggedUser() {
+//
+//        LoginUserDto userDTO = new LoginUserDto();
+//        if (userService.getCurrentUser() != null) {
+//        	User u = userService.getCurrentUser();
+//            userDTO.setUsername(u.getUsername());
+//            userDTO.setPassword(u.getPassword());
+//            return new ResponseEntity<>(userDTO, HttpStatus.OK);
+//
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 	
 	
 	

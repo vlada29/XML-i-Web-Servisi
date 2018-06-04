@@ -9,4 +9,5 @@ public interface UserService {
     void setCurrentUser(User user);
     User findUser(LoginUserDto lUDTO);
     User getCurrentUser();
+    User getLoggedUserById(Long hjid);
 }

@@ -80,5 +80,13 @@ public class UserServiceImpl implements UserService {
 			return null;
 		}
 	}
+	
+	public User getLoggedUserById(Long hjid) {
+		try {
+			return userRepository.findOneByHjid(hjid);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
 }

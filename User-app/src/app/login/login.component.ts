@@ -13,13 +13,24 @@ export class LoginComponent implements OnInit {
   constructor(private loginService: LoginServiceService,
   private router: Router) { }
 
+  private loggedUser;
+
   ngOnInit() {
   }
 
   onSubmit(form : NgForm) {
 
-    this.loginService.submitLogin(form.value).subscribe();
-   // this.router.navigateByUrl('home');
+    this.loginService.submitLogin(form.value).subscribe(
+    data => { 
+      this.loggedUser = data;
+      localStorage.setItem('currentUserId', this.loggedUser.hjid);
+      console.log(localStorage.getItem('currentUserId'));
+      this.router.navigate(['/home']);
+    }
+      
+    );
+    
+    
  
    }
 
