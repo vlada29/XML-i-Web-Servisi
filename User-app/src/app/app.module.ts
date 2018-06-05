@@ -10,6 +10,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { LoginServiceService } from './services/login-service.service';
 import { HomeComponent } from './home/home.component';
+import { ProfileComponent } from './profile/profile.component';
+import { HomeService } from './services/home.service';
 
 
 @NgModule({
@@ -17,7 +19,8 @@ import { HomeComponent } from './home/home.component';
     AppComponent,
     LoginComponent,
     RegistrationComponent,
-    HomeComponent
+    HomeComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +29,8 @@ import { HomeComponent } from './home/home.component';
     FormsModule
   ],
   providers: [//{provide: LocationStrategy, useClass: HashLocationStrategy},
-  LoginServiceService],
+  LoginServiceService,
+  HomeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
