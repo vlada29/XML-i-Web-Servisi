@@ -28,7 +28,7 @@ import { HomeService } from './services/home.service';
     HttpClientModule,
     FormsModule
   ],
-  providers: [//{provide: LocationStrategy, useClass: HashLocationStrategy},
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy},
   LoginServiceService,
   HomeService],
   bootstrap: [AppComponent]

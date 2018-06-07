@@ -19,6 +19,7 @@ export class HomeService {
     console.log(json);
     return this.http
     .post("http://localhost:8080/search", json, {headers:headers})
+    .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
         alert(err.status + " Search error.");

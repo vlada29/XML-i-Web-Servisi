@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output  } from '@angular/core';
 import { LoginServiceService } from '../services/login-service.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import 'rxjs/add/operator/filter'
 import { HomeService } from '../services/home.service';
 import { SearchDTO } from '../model/searchDTO';
@@ -25,9 +25,14 @@ export class HomeComponent implements OnInit {
 
   private searchResults: any;
 
+  private enableButtonLogout: boolean;
+  private enableButtonLogin: boolean = true;
+
+
   constructor(private loginService: LoginServiceService,
     private route: ActivatedRoute, 
-    private homeService: HomeService) {
+    private homeService: HomeService, 
+    private router: Router) {
 
      }
 
@@ -39,6 +44,11 @@ export class HomeComponent implements OnInit {
 
     this.loggedUserId = localStorage.getItem('currentUserId');
     console.log(this.loggedUserId);
+
+    if (this.loggedUserId!=null){
+      this.enableButtonLogout = true;
+      this.enableButtonLogin = false;
+    }
 
     this.loginService.getLoggedUserById(this.loggedUserId).subscribe(data =>
       this.loggedUser = data);
@@ -53,9 +63,26 @@ export class HomeComponent implements OnInit {
     && this.to!="undefined" && this.numberPerson!="undefined"){
       let s = new SearchDTO(this.place, this.from, this.to, this.numberPerson);
      this.homeService.search(s).subscribe(data =>
-     this.searchResults = data);
+    {this.searchResults = data;
+      console.log(this.searchResults)
+    });
+    
+     
+
     }
 
+  }
+
+  logout(){
+    localStorage.removeItem('currentUserId');
+    this.router.navigate(['/home']);
+    this.enableButtonLogin = true;
+    this.enableButtonLogout = false;
+
+  }
+
+  reserve(id: any){
+    console.log(id);
   }
 
 

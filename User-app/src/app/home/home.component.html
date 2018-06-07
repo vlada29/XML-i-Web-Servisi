@@ -1,5 +1,4 @@
 
-
 <input type="checkbox" name="mobile-nav" id="mobile-nav" class="gaadiexp-check" onchange="this.blur()">
 <label for="mobile-nav" class="gaadiexp white" tabindex="0"><span></span></label>
 <nav role="navigation" class="header-nav">
@@ -12,7 +11,8 @@
                   <li><a [routerLink]="['../home']"  class="list-group-item  bg-active"><i class="fa fa-tachometer"></i> Dashboard <span class="badge"></span> </a></li>
                   <li><a [routerLink]="['../profile']"  class="list-group-item"><i class="fa fa-user"></i> My Profile</a> </li>
                   <li><a [routerLink]="['../inbox']" class="list-group-item"><i class="fa fa-list"></i>  Inbox</a> </li>
-                  <li><a href="logout.html" class="list-group-item"><i class="fa fa-power-off"></i> Log Out</a> </li>
+                  <li *ngIf="enableButtonLogout==true"><a [routerLink]="['../home']" (click)="logout()" class="list-group-item"><i class="fa fa-power-off"></i> Log Out</a> </li>
+                  <li *ngIf="enableButtonLogin==true"><a [routerLink]="['../login']" class="list-group-item"><i class="fa fa-power-off"></i> Log In</a> </li>
   
             </ul>
          </div>
@@ -86,7 +86,7 @@
 	              <div class="col-md-7">
 	                  <div class="crane-list-content">
 	                      <div class="crane-title">
-	                          <h3>Jai Jagdamba Crane Services, New Delhi</h3>
+	                          <h3>Maldives</h3>
 	                      </div>
 	                      
 	                      <div class="crane-phone">
@@ -102,13 +102,13 @@
 
 	                          </ul>
 	                      </div>
-	                      <div class="crane-category">
+	                      <!--div class="crane-category">
 	                          <ul class="list-inline">
 	                              <li><a href="#">JCB Crane</a></li>
 	                              <li><a href="#">Crane Towing Service</a></li>
 
 	                          </ul>
-	                      </div>
+	                      </div-->
 	                  </div>
 	              </div>
 	              <div class="col-md-2 padding-b-10 ">
@@ -129,10 +129,66 @@
             <li><a [routerLink]="['../home']"  class="list-group-item  bg-active"><i class="fa fa-tachometer"></i> Dashboard <span class="badge"></span> </a></li>
             <li><a [routerLink]="['../profile']"  class="list-group-item"><i class="fa fa-user"></i> My Profile</a> </li>
             <li><a [routerLink]="['../inbox']" class="list-group-item"><i class="fa fa-list"></i>  Inbox</a> </li>
-            <li><a href="logout.html" class="list-group-item"><i class="fa fa-power-off"></i> Log Out</a> </li>
+            <li *ngIf="enableButtonLogout==true"><a [routerLink]="['../home']" (click)="logout()" class="list-group-item"><i class="fa fa-power-off"></i> Log Out</a> </li>
+            <li *ngIf="enableButtonLogin==true"><a [routerLink]="['../login']" class="list-group-item"><i class="fa fa-power-off"></i> Log In</a> </li>
             </ul>
          </div>
         </div>
     </div>
+
+ <div *ngFor="let s of searchResults">
+    <div class="row">
+        <div class="col-md-9 ">
+            <div class="crane-grid-listing-block">
+                <div class="row">
+                     <div class="col-md-12">
+	          <div class="crane-grid-listing clearfix">
+	              <div class="col-md-3 crane-image-block ">
+	                  <div class="crane-list-img">
+	                      <img class="img-responsive"src="https://media-cdn.tripadvisor.com/media/photo-s/03/9b/2f/ce/maldives.jpg">
+	                  </div>
+                  </div>
+                  
+	              <div class="col-md-7">
+	                  <div class="crane-list-content">
+	                      <div class="crane-title" >
+	                          <h3>{{s.lokacija.drzava}} {{s.lokacija.grad}}</h3>
+	                      </div>
+	                      
+	                      <div class="crane-phone">
+	                          <ul class="list-inline">
+	                              <li><i class="fa fa-phone"></i>{{s.tipSmestaja.nazivTipa}}</li>
+	                          </ul>
+	                      </div>
+	                      <div class="crane-address">
+	                          <ul class="list-inline">
+	                              <li><i class="fa fa-map-marker"></i></li>
+	                              <li> {{s.lokacija.ulica}} {{s.lokacija.broj}}</li>
+
+	                          </ul>
+	                      </div>
+	                      <!--div class="crane-category">
+	                          <ul class="list-inline">
+	                              <li><a href="#">JCB Crane</a></li>
+	                              <li><a href="#">Crane Towing Service</a></li>
+
+	                          </ul>
+	                      </div-->
+	                  </div>
+	              </div>
+	              <div class="col-md-2 padding-b-10 ">
+	                  <div class="margin-t-40 hidden-xs"></div>
+	                  <button type="button"class="btn btn-warning btn-block" (click)="reserve(s.hjid)">Reserve</button>
+	              </div>
+	          </div>
+	         
+	      </div>
+                 </div>
+
+            </div>
+            
+        </div>
+    </div>
+</div>
 </div>
 

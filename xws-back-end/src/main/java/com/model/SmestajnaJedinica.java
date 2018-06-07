@@ -833,4 +833,14 @@ public class SmestajnaJedinica
         return this.hashCode(null, strategy);
     }
 
+	@Override
+	public String toString() {
+		return "SmestajnaJedinica [agent=" + agent + ", lokacija=" + lokacija + ", naziv=" + naziv + ", opis=" + opis
+				+ ", brojOsoba=" + brojOsoba + ", kategorijaSmestaja=" + kategorijaSmestaja + ", tipSmestaja="
+				+ tipSmestaja + ", picture=" + picture + ", usluge=" + usluge + ", cene=" + cene + ", listaZauzetosti="
+				+ listaZauzetosti + ", slike=" + slike + ", dostupna=" + dostupna + ", hjid=" + hjid + "]";
+	}
+    
+    
+
 }

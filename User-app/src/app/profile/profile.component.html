@@ -1,3 +1,70 @@
-<p>
-  profile works!
-</p>
+
+<input type="checkbox" name="mobile-nav" id="mobile-nav" class="gaadiexp-check" onchange="this.blur()">
+<label for="mobile-nav" class="gaadiexp white" tabindex="0"><span></span></label>
+<nav role="navigation" class="header-nav">
+    <div class="fixed-nav">
+        <a class="navbar-brand"  style="margin-left:50px;" href="auction.gaadiexpert.com"></a>
+
+        <div class="menu">
+            <div class="list-group-hover sidebar-widget-1">
+	            <ul class="list-unstyled">
+                  <li><a [routerLink]="['../home']"  class="list-group-item"><i class="fa fa-tachometer"></i> Dashboard <span class="badge"></span> </a></li>
+                  <li><a [routerLink]="['../profile']"  class="list-group-item bg-active"><i class="fa fa-user"></i> My Profile</a> </li>
+                  <li><a [routerLink]="['../inbox']" class="list-group-item"><i class="fa fa-list"></i>  Inbox</a> </li>
+                  <li *ngIf="enableButtonLogout==true"><a [routerLink]="['../home']" (click)="logout()" class="list-group-item"><i class="fa fa-power-off"></i> Log Out</a> </li>
+                  <li *ngIf="enableButtonLogin==true"><a [routerLink]="['../login']" class="list-group-item"><i class="fa fa-power-off"></i> Log In</a> </li>
+  
+            </ul>
+         </div>
+        </div>
+    </div>
+</nav>
+
+<div class="breacrumb-area bg-light-grey-1 ">
+    <div class="container ">
+        <div class="row nav-content-margin">
+            <div class="col-md-12 breadcrumb-box padding-left-20">
+                <a href="#"><h4><i class="fa fa-long-arrow-left"></i> Go Back</h4></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="top-filter-area bg-blue padding-tb-10">
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-sm-12" style="text-align: center">
+              <h2 style="color: orange; font-family: 'Roboto'"> Wellcome, {{loggedUser.ime}} !</h2>
+            </div>
+
+
+           
+        </div>
+    </div>
+
+</div>
+
+
+<div class="wrapper">
+    <table id="acrylic">
+        <thead>
+            <tr>
+                <th>Smestaj</th>
+                <th>Podatak1</th>
+                <th>Podatak2</th>
+                <th>Podatak3</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Nesto</td>
+                <td>vrednost1</td>
+                <td>vrednost2</td>
+                <td>vrednost3</td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
