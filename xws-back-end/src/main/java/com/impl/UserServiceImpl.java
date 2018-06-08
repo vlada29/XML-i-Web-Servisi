@@ -1,4 +1,4 @@
-package com.services;
+package com.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,6 +14,7 @@ import com.model.User;
 import com.model.dto.RegistrationUserDto;
 import com.model.dto.LoginUserDto;
 import com.repositories.UserRepository;
+import com.services.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {

@@ -14,6 +14,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -99,9 +100,7 @@ public class ZauzetostJedinice
      *     {@link SmestajnaJedinica }
      *     
      */
-    @ManyToOne(targetEntity = SmestajnaJedinica.class, cascade = {
-        CascadeType.MERGE
-    })
+    @ManyToOne(targetEntity = SmestajnaJedinica.class, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinColumn(name = "SMESTAJNA_JEDINICA_ZAUZETOST_0")
     public SmestajnaJedinica getSmestajnaJedinica() {
         return smestajnaJedinica;
@@ -285,5 +284,13 @@ public class ZauzetostJedinice
         final HashCodeStrategy strategy = JAXBHashCodeStrategy.INSTANCE;
         return this.hashCode(null, strategy);
     }
+
+	@Override
+	public String toString() {
+		return "ZauzetostJedinice [smestajnaJedinica=" + smestajnaJedinica + ", od=" + od + ", _do=" + _do + ", hjid="
+				+ hjid + "]";
+	}
+    
+    
 
 }

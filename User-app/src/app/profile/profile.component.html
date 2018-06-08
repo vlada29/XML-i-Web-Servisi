@@ -50,18 +50,22 @@
     <table id="acrylic">
         <thead>
             <tr>
-                <th>Smestaj</th>
-                <th>Podatak1</th>
-                <th>Podatak2</th>
-                <th>Podatak3</th>
+                <th>Mesto rezervacije</th>
+                <th>Naziv</th>
+                <th>Tip smestaja</th>
+                <th>Broj osoba</th>
+
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Nesto</td>
-                <td>vrednost1</td>
-                <td>vrednost2</td>
-                <td>vrednost3</td>
+            <tr *ngFor="let r of reservations">
+                <td>{{r.smestajnaJedinica.lokacija.grad}}, {{r.smestajnaJedinica.lokacija.drzava}},
+                     {{r.smestajnaJedinica.lokacija.ulica}}, {{r.smestajnaJedinica.lokacija.broj}}</td>
+                <td>{{r.smestajnaJedinica.naziv}}</td>
+                <td>{{r.smestajnaJedinica.tipSmestaja.nazivTipa}}</td>
+                <td>{{r.smestajnaJedinica.brojOsoba}}</td>
+                <td><button type="button" class="btn btn-danger " (click)="cancel(r.hjid)">Cancel</button></td>
+
             </tr>
 
         </tbody>

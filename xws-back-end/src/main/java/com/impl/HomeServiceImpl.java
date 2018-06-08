@@ -1,4 +1,4 @@
-package com.services;
+package com.impl;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -15,11 +15,16 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.model.Rezervacija;
 import com.model.SmestajnaJedinica;
+import com.model.User;
 import com.model.ZauzetostJedinice;
 import com.model.dto.SearchDto;
 import com.repositories.AvailabilityRepository;
+import com.repositories.RezervacijaRepository;
 import com.repositories.SmestajnaJedinicaRepository;
+import com.repositories.UserRepository;
+import com.services.HomeService;
 
 @Service
 public class HomeServiceImpl implements HomeService {
@@ -29,6 +34,12 @@ public class HomeServiceImpl implements HomeService {
 	
 	@Autowired
 	AvailabilityRepository avRep;
+	
+	@Autowired
+	RezervacijaRepository rezRep;
+	
+	@Autowired
+	UserRepository userRep;
 
 	@Override
 	public ArrayList<SmestajnaJedinica> findSearch(SearchDto searchDto) throws ParseException, DatatypeConfigurationException {
@@ -93,6 +104,48 @@ public class HomeServiceImpl implements HomeService {
 		System.out.println(filtSmestaj);
 		return filtSmestaj;
 	}
+
+	@Override
+	public boolean reserve(Long id, Long idUser, XMLGregorianCalendar d1, XMLGregorianCalendar d2) {
+		SmestajnaJedinica smjed = smJedRep.findOneByHjid(id);
+		User user = userRep.findOneByHjid(idUser);
+		Rezervacija r = new Rezervacija();
+		r.setDo(d2);
+		r.setOd(d1);
+		r.setRealizovana(false);
+		r.setUser(user);
+		r.setSmestajnaJedinica(smjed);
+		r.setUkupnaCena(1200.00); // to do: cena
+		
+		
+		ZauzetostJedinice zj = new ZauzetostJedinice();
+		
+		zj.setSmestajnaJedinica(smjed);
+		zj.setDo(d2);
+		zj.setOd(d1);
+
+		try{
+			rezRep.save(r);
+			try {
+				avRep.save(zj);
+				return true;
+			}catch(Exception e1) {
+				e1.printStackTrace();
+				return false;
+			}
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return false;
+			
+		}
+		
+		
+		
+	}
+	
+	
 
 	
 }

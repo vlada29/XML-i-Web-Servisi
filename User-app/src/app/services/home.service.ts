@@ -28,6 +28,26 @@ export class HomeService {
     
 }
 
+reserve(id: any, idUser: any, from: any, to: any): Observable<any>{
+
+    let params = new HttpParams().append('id', id);
+    params = params.append('idUser', idUser);
+    params = params.append('od', from);
+    params = params.append('do', to);
+
+    let headers = new HttpHeaders({ 
+        'Content-Type': 'application/json'
+     });
+
+    return this.http.get("http://localhost:8080/reserve", {headers:headers, params: params})
+    .map((data:Observable<any>) => data)
+    .catch((err:HttpErrorResponse) =>
+    {
+
+        return Observable.throw(err);
+    });
+}
+
 
 
 }

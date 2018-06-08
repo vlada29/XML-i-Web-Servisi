@@ -81,8 +81,14 @@ export class HomeComponent implements OnInit {
 
   }
 
-  reserve(id: any){
+  reserve(id: any, from: any, to: any){
     console.log(id);
+    this.homeService.reserve(id, 
+      localStorage.getItem('currentUserId'),
+    from, to).subscribe(data => {
+      this.router.navigate(['/profile'])
+
+    });
   }
 
 

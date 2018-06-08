@@ -12,6 +12,7 @@ import { LoginServiceService } from './services/login-service.service';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { HomeService } from './services/home.service';
+import { ProfileService } from './services/profile.service';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { HomeService } from './services/home.service';
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy},
   LoginServiceService,
-  HomeService],
+  HomeService,
+  ProfileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
