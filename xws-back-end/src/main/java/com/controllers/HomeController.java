@@ -27,11 +27,14 @@ import com.model.Rezervacija;
 import com.model.SmestajnaJedinica;
 import com.model.User;
 import com.model.ZauzetostJedinice;
+import com.model.dto.AdvancedSearchDto;
 import com.model.dto.LoginUserDto;
 import com.model.dto.SearchDto;
 import com.repositories.AvailabilityRepository;
+import com.repositories.KategorijasmestajaRepository;
 import com.repositories.RezervacijaRepository;
 import com.repositories.SmestajnaJedinicaRepository;
+import com.repositories.TipsmestajaRepository;
 import com.services.HomeService;
 
 
@@ -52,6 +55,12 @@ public class HomeController {
 	@Autowired
 	AvailabilityRepository avRep;
 	
+	@Autowired
+	KategorijasmestajaRepository katRep;
+	
+	@Autowired
+	TipsmestajaRepository tipRep;
+	
 	
 	
 	
@@ -69,7 +78,7 @@ public class HomeController {
 			}
 	
 			
-		}
+	}
 	
 	@RequestMapping(value = "/reserve", method = RequestMethod.GET, produces="application/json")
 	public ResponseEntity<?> reserve(
@@ -233,6 +242,38 @@ public class HomeController {
 		System.out.println(rezervacije);
 		return new ResponseEntity(rezervacije, HttpStatus.OK);
 		
+	}
+	
+	@RequestMapping(value = "/getCategories", method = RequestMethod.GET, produces="application/json")
+	public ResponseEntity<?> getCategories(){
+		
+		return new ResponseEntity(katRep.findAll(), HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(value = "/getTypes", method = RequestMethod.GET, produces="application/json")
+	public ResponseEntity<?> getTypes(){
+		
+		return new ResponseEntity(tipRep.findAll(), HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(value = "/searchAdvanced", method = RequestMethod.POST, consumes="application/json")
+	public ResponseEntity<?> searchAdvanced(
+			@RequestBody AdvancedSearchDto asearchDto,
+			HttpServletRequest request) throws ParseException, DatatypeConfigurationException {
+		
+			System.out.println(asearchDto);
+			
+			
+			ArrayList<SmestajnaJedinica> smestajneJedinice = homeService.advancedSearch(asearchDto);
+			if (smestajneJedinice!=null) {
+				return new ResponseEntity(smestajneJedinice, HttpStatus.OK);
+			}else {
+				return new ResponseEntity(HttpStatus.BAD_REQUEST);	
+			}
+	
+			
 	}
 
 	

@@ -59,8 +59,85 @@
             </div>
            
         </div>
+<br>
+        <div class="row">
+
+                <div class="col-sm-3">
+
+                        <select [hidden]="searchKategorija" class="form-control" id="searchKategorija" (change)="onChangeKategorija($event.target.value)">
+                                <option hidden selected value="">
+                                    Choose category
+                                </option>
+                                <option *ngFor="let c of categories" [value]="c?.hjid">{{c?.nazivKategorije}}</option>
+                        </select>
+                      
+                </div>
+
+                <div class="col-sm-3">
+
+                    <select [hidden]="searchTip" class="form-control" id="searchType" (change)="onChangeType($event.target.value)">
+                            <option hidden selected value="">
+                                Choose type
+                            </option>
+                            <option *ngFor="let t of types" [value]="t?.hjid">{{t?.nazivTipa}}</option>
+                    </select>
+
+                  
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-1">
+                <label class="labela">Parking
+                <input type="checkbox" name="parking" [(ngModel)]="parking"  >
+                </label>
+            </div>
+            <div class="col-sm-1">
+                <label class="labela">WiFi
+                <input type="checkbox" name="wifi" [(ngModel)] = "wifi" ></label>
+            </div>
+            <div class="col-sm-2">
+                <label class="labela">Dorucak
+                <input type="checkbox" name="dorucak" [(ngModel)] = "dorucak" ></label>
+            </div>
+
+            <div class="col-sm-2">
+                <label class="labela">Polupansion
+                <input type="checkbox" name="polupansion" [(ngModel)] = "polupansion" ></label>
+            </div>
+            <div class="col-sm-1">
+                <label class="labela">Pansion
+                <input type="checkbox" name="pansion" [(ngModel)] = "pansion" ></label>
+            </div>
+
+            <div class="col-sm-1">
+                <label class="labela">Tv
+                <input type="checkbox" name="tv" [(ngModel)] = "tv" ></label>
+            </div>
+            <div class="col-sm-2">
+                <label class="labela">Mini kuhinja/kuhinja
+                <input type="checkbox" name="kuhinja" [(ngModel)] = "kuhinja" ></label>
+            </div>
+
+            <div class="col-sm-2">
+                <label class="labela">Privatno kupatilo
+                <input type="checkbox" name="kupatilo" [(ngModel)] = "kupatilo" ></label>
+            </div>
+
+        </div>
+
+        <div class="row" *ngIf="enableError==true" style="color: red">
+            <h4>
+            You have to choose place, dates and number of persons to search lodging!
+        </h4>
+        </div>
     </div>
 </div>
+
+
+
+         
+
+
 <div class="search-result-title">
     <div class="container">
         <div class="row">

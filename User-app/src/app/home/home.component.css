@@ -81,7 +81,8 @@ a:hover {text-decoration:none;}
 /*************************************
 8. FORM CSS
 **************************************/
-input[type="text"], input[type="password"],  input[type="email"], input[type="date"] {
+input[type="text"], input[type="password"],  input[type="email"], input[type="date"],
+input[type="checkbox"] {
 width: 95%;
 padding: 12px 10px;
 border: 1px solid #febf00 ;
@@ -90,6 +91,14 @@ font-size: 1em;
 margin-bottom: 1.2%;
 color: #000;
 font-family: 'Roboto', sans-serif;
+}
+.form-control{
+    width: 95%;
+    font-size: 1em;
+    font-family: 'Roboto', sans-serif;
+    color: #000;
+
+
 }
 input[type="date"]:before {
     content: attr(placeholder) !important;
