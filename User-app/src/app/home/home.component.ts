@@ -5,6 +5,7 @@ import 'rxjs/add/operator/filter'
 import { HomeService } from '../services/home.service';
 import { SearchDTO } from '../model/searchDTO';
 import { AdvancedSearchDTO } from '../model/advancedsearchDTO';
+import { dodatnaDTO } from '../model/dodatnaDTO';
 
 
 
@@ -38,16 +39,12 @@ export class HomeComponent implements OnInit {
   private categories: any[];
   private types: any[];
 
-  private parking: boolean;
-  private wifi: boolean;
-  private dorucak: boolean;
-  private polupansion: boolean;
-  private pansion: boolean;
-  private tv: boolean;
-  private kuhinja: boolean;
-  private kupatilo: boolean;
-
   private enableError: boolean = false;
+  private sysdate = new Date().toJSON().slice(0,10);
+  private enableErrorDate: boolean = false;
+
+  private dodatneUsluge: any[];
+  private doddto: Array<dodatnaDTO>;
 
 
 
@@ -73,29 +70,58 @@ export class HomeComponent implements OnInit {
     }
 
     this.loginService.getLoggedUserById(this.loggedUserId).subscribe(data =>
-      this.loggedUser = data);
+    this.loggedUser = data);
 
     this.homeService.getCategories().subscribe(data =>
     this.categories = data);
 
     this.homeService.getTypes().subscribe(data =>
     this.types = data);
-  }
+
+    this.homeService.getDodatne().subscribe(data =>{
+      this.dodatneUsluge = data;
+      console.log(this.dodatneUsluge.length);
+      for (let i = 0; i<this.dodatneUsluge.length; i++){
+        this.dodatneUsluge[i] = 
+          {
+            "nazivUsluge": this.dodatneUsluge[i].nazivUsluge,
+            "checked": false,
+        };       
+      }  
+    });
+
+    }
 
   search(){
     console.log('Parametri za pretragu'+this.place+', '+this.from+', '+
     this.to+', '+this.numberPerson);
     // to do: vallidacija na frontu
     //-za datume
-    if (this.place!="" && this.from!=0
-    && this.to!=0 && this.numberPerson!=""){
+
+    if (this.from<this.sysdate || this.to<this.sysdate ){
+      this.enableError= false;
+      this.enableErrorDate = true;
+    }else{
+      if (this.place!="" && this.from!=0
+      && this.to!=0 && this.numberPerson!=""){
       let s = new SearchDTO(this.place, this.from, this.to, this.numberPerson);
       this.enableError = false;
-      console.log(this.parking);
-      if ((!this.parking) && (!this.wifi) && (!this.dorucak)
-      && (!this.pansion) && (!this.polupansion) && (!this.tv)
-      && (!this.kuhinja) && (!this.kupatilo) && (!this.idKat) && (!this.idTip)){
-        console.log(this.parking);
+      this.enableErrorDate = false;
+      let varlength = this.dodatneUsluge.length;
+      let brojac = 0;
+
+      for (let i=0; i<varlength; i++){
+ 
+        if (!this.dodatneUsluge[i].checked){
+   
+          brojac = brojac + 1;
+        }
+      }
+      console.log(brojac);
+      if (brojac==varlength && this.idKat==-1 && this.idTip==-1){
+        console.log("regular search");
+
+        
         this.homeService.search(s).subscribe(data =>
             {this.searchResults = data;
               console.log(this.searchResults)
@@ -104,11 +130,40 @@ export class HomeComponent implements OnInit {
           
 
       }else{
+        console.log("advanced search");
+        this.doddto = [];
+        for (let i = 0; i<this.dodatneUsluge.length; i++){
+  
+          this.doddto.push(new dodatnaDTO(this.dodatneUsluge[i].nazivUsluge, this.dodatneUsluge[i].checked));
+        }
+        let s;
+        if (!this.idKat && !this.idTip){
+          s = new AdvancedSearchDTO(this.place, this.from, this.to, this.numberPerson,
+            this.doddto, "-1", "-1");
+          
+        }
+        else{
+          if (!this.idKat){
+            s = new AdvancedSearchDTO(this.place, this.from, this.to, this.numberPerson,
+              this.doddto, "-1", this.idTip );
 
-        let s = new AdvancedSearchDTO(this.place, this.from, this.to, this.numberPerson,
-        this.parking, this.wifi, this.dorucak, this.polupansion, this.pansion, this.tv,
-        this.kuhinja, this.kupatilo, this.categories[this.idKat].hjid, 
-        this.types[this.idTip].hjid);
+          }
+          else if (!this.idTip){
+            s = new AdvancedSearchDTO(this.place, this.from, this.to, this.numberPerson,
+              this.dodatneUsluge,  this.idKat, "-1",);
+
+          }
+          else{
+          
+            s = new AdvancedSearchDTO(this.place, this.from, this.to, this.numberPerson,
+              this.dodatneUsluge, this.idKat, this.idTip);
+
+          }
+
+        }
+
+        console.log(this.doddto);
+        console.log(s);
         this.homeService.searchAdvanced(s).subscribe(data =>
           {this.searchResults = data;
             console.log(this.searchResults)
@@ -122,10 +177,14 @@ export class HomeComponent implements OnInit {
      
 
     }else{
+        this.enableErrorDate = false;
         this.enableError = true;
 
     }
 
+
+    }
+    
   }
 
   logout(){
@@ -162,14 +221,14 @@ export class HomeComponent implements OnInit {
   }
 
   search2(){
-    console.log(this.parking);
-    console.log(this.wifi);
-    console.log(this.dorucak);
-    console.log(this.polupansion);
-    console.log(this.pansion);
-    console.log(this.tv);
-    console.log(this.kuhinja);
-    console.log(this.kupatilo);
+    for (let i = 0; i<this.dodatneUsluge.length; i++){
+      console.log(this.dodatneUsluge[i].checked);
+ 
+    }
+    console.log(this.idKat);
+    console.log(this.idTip);
+    console.log(this.categories);
+
     
   }
 

@@ -85,13 +85,14 @@
                   
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-1">
-                <label class="labela">Parking
-                <input type="checkbox" name="parking" [(ngModel)]="parking"  >
+        <div class="row" >
+
+            <div class="col-sm-2" *ngFor="let d of dodatneUsluge">
+                <label class="labela">{{d.nazivUsluge}}
+                <input type="checkbox" name="d.nazivUsluge" [(ngModel)]="d.checked"  >
                 </label>
             </div>
-            <div class="col-sm-1">
+            <!-- <div class="col-sm-1">
                 <label class="labela">WiFi
                 <input type="checkbox" name="wifi" [(ngModel)] = "wifi" ></label>
             </div>
@@ -121,7 +122,7 @@
             <div class="col-sm-2">
                 <label class="labela">Privatno kupatilo
                 <input type="checkbox" name="kupatilo" [(ngModel)] = "kupatilo" ></label>
-            </div>
+            </div> -->
 
         </div>
 
@@ -130,6 +131,11 @@
             You have to choose place, dates and number of persons to search lodging!
         </h4>
         </div>
+        <div class="row" *ngIf="enableErrorDate==true" style="color: red">
+                <h4>
+                You have to choose dates after today!
+            </h4>
+            </div>
     </div>
 </div>
 
@@ -141,7 +147,7 @@
 <div class="search-result-title">
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12" *ngIf="searchResults">
                 <h4>Search results</h4>
                 <hr>
             </div>
@@ -150,56 +156,8 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-md-9 ">
-            <div class="crane-grid-listing-block">
-                <div class="row">
-                     <div class="col-md-12">
-	          <div class="crane-grid-listing clearfix">
-	              <div class="col-md-3 crane-image-block ">
-	                  <div class="crane-list-img">
-	                      <img class="img-responsive"src="https://media-cdn.tripadvisor.com/media/photo-s/03/9b/2f/ce/maldives.jpg">
-	                  </div>
-	              </div>
-	              <div class="col-md-7">
-	                  <div class="crane-list-content">
-	                      <div class="crane-title">
-	                          <h3>Maldives</h3>
-	                      </div>
-	                      
-	                      <div class="crane-phone">
-	                          <ul class="list-inline">
-	                              <li><i class="fa fa-phone"></i> +91-44558967</li>
-	                              <li><i class="fa fa-phone"></i> +91-44558967</li>
-	                          </ul>
-	                      </div>
-	                      <div class="crane-address">
-	                          <ul class="list-inline">
-	                              <li><i class="fa fa-map-marker"></i></li>
-	                              <li> 124, Shivalik Road</li>
 
-	                          </ul>
-	                      </div>
-	                      <!--div class="crane-category">
-	                          <ul class="list-inline">
-	                              <li><a href="#">JCB Crane</a></li>
-	                              <li><a href="#">Crane Towing Service</a></li>
-
-	                          </ul>
-	                      </div-->
-	                  </div>
-	              </div>
-	              <div class="col-md-2 padding-b-10 ">
-	                  <div class="margin-t-40 hidden-xs"></div>
-	                  <button type="button"class="btn btn-warning btn-block">Reserve</button>
-	              </div>
-	          </div>
-	         
-	      </div>
-                 </div>
-
-            </div>
-            
-        </div>
+        
         <div class="col-md-3 ">
             <div class="list-group-hover sidebar-widget-1">
 	            <ul class="list-unstyled">
@@ -215,35 +173,52 @@
 
  <div *ngFor="let s of searchResults">
     <div class="row">
-        <div class="col-md-9 ">
+        <div class="col-md-12 ">
             <div class="crane-grid-listing-block">
                 <div class="row">
                      <div class="col-md-12">
 	          <div class="crane-grid-listing clearfix">
-	              <div class="col-md-3 crane-image-block ">
+	              <div class="col-md-4 crane-image-block ">
 	                  <div class="crane-list-img">
 	                      <img class="img-responsive"src="https://media-cdn.tripadvisor.com/media/photo-s/03/9b/2f/ce/maldives.jpg">
 	                  </div>
                   </div>
                   
-	              <div class="col-md-7">
+	              <div class="col-md-12">
 	                  <div class="crane-list-content">
 	                      <div class="crane-title" >
+                              <br>
 	                          <h3>{{s.lokacija.drzava}} {{s.lokacija.grad}}</h3>
 	                      </div>
 	                      
-	                      <div class="crane-phone">
-	                          <ul class="list-inline">
-	                              <li><i class="fa fa-phone"></i>{{s.tipSmestaja.nazivTipa}}</li>
-	                          </ul>
+	                      <div class="row">
+	                          <div class="col-md-3">
+	                              <p><i class="fa fa-phone"></i>Tip: {{s.tipSmestaja.nazivTipa}}</p>
+                              </div>
+                              <div class="col-md-3">
+                                <p><i class="fa fa-phone"></i>Kategorija: {{s.kategorijaSmestaja.nazivKategorije}}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p><i class="fa fa-phone"></i>Kategorija: {{s.kategorijaSmestaja.nazivKategorije}}</p>
+                            </div>
 	                      </div>
-	                      <div class="crane-address">
-	                          <ul class="list-inline">
-	                              <li><i class="fa fa-map-marker"></i></li>
-	                              <li> {{s.lokacija.ulica}} {{s.lokacija.broj}}</li>
+	                      <div class="row">
+	                          <div class="col-md-3">
 
-	                          </ul>
-	                      </div>
+                                  <p>Lokacija: {{s.lokacija.ulica}} {{s.lokacija.broj}}</p>
+                            
+                              </div>
+                              <div class="col-md-3">
+                                <p>Opis: {{s.opis}}</p>
+                            </div>
+                          </div>
+                          <div *ngFor="let c of s.cene">
+                              <div *ngIf="c.krajVazenja>to">
+                                    <p>Cena: {{c.cena}}</p>
+                              </div>
+                            
+                          </div>
+
 	                      <!--div class="crane-category">
 	                          <ul class="list-inline">
 	                              <li><a href="#">JCB Crane</a></li>

@@ -23,6 +23,7 @@ import com.model.TipSmestaja;
 import com.model.User;
 import com.model.ZauzetostJedinice;
 import com.model.dto.AdvancedSearchDto;
+import com.model.dto.DodatnaDto;
 import com.model.dto.SearchDto;
 import com.repositories.AvailabilityRepository;
 import com.repositories.KategorijasmestajaRepository;
@@ -136,6 +137,7 @@ public class HomeServiceImpl implements HomeService {
 		zj.setSmestajnaJedinica(smjed);
 		zj.setDo(d2);
 		zj.setOd(d1);
+		
 
 		try{
 			rezRep.save(r);
@@ -161,6 +163,7 @@ public class HomeServiceImpl implements HomeService {
 	@Override
 	public ArrayList<SmestajnaJedinica> advancedSearch(AdvancedSearchDto asearchDto) throws ParseException, DatatypeConfigurationException {
 		// TODO Auto-generated method stub
+		System.out.println(asearchDto);
 		ArrayList<SmestajnaJedinica> savSmestaj = smJedRep.findAll();
 		ArrayList<SmestajnaJedinica> filtSmestaj = new ArrayList<>();
 		for (SmestajnaJedinica smjed: savSmestaj) {
@@ -221,37 +224,30 @@ public class HomeServiceImpl implements HomeService {
 		System.out.println(filtSmestaj);
 		
 		ArrayList<SmestajnaJedinica> filtSmestajAdv = new ArrayList<>();
-		
-
-		KategorijaSmestaja kat = katRep.findOneByHjid(Long.parseLong(asearchDto.getKategorija()));
-		TipSmestaja tip = tipRep.findOneByHjid(Long.parseLong(asearchDto.getTip()));
+		KategorijaSmestaja kat;
+		if (!asearchDto.getKategorija().equals("-1")) {
+			kat = katRep.findOneByHjid(Long.parseLong(asearchDto.getKategorija()));
+			
+		}else {
+			kat = new KategorijaSmestaja();
+			kat.setHjid((long)-1);
+		}
+		TipSmestaja tip;
+		if (!asearchDto.getTip().equals("-1")) {
+			tip = tipRep.findOneByHjid(Long.parseLong(asearchDto.getTip()));
+		}else {
+			tip = new TipSmestaja();
+			tip.setHjid((long)-1);
+		}
 
 		List<String> listaUsluga = new ArrayList<>();
 		List<String> listaUslugaDodatnih = new ArrayList<>();
+		List<DodatnaDto> listaUslugaIzSearcha = asearchDto.getDodatne();
 		
-		if (asearchDto.isDorucak()) {
-			listaUsluga.add("Dorucak");
-		}
-		if (asearchDto.isWifi()) {
-			listaUsluga.add("WiFi");
-		}
-		if (asearchDto.isParking()) {
-			listaUsluga.add("Parking");
-		}
-		if (asearchDto.isPansion()) {
-			listaUsluga.add("Pansion");
-		}
-		if (asearchDto.isPolupansion()) {
-			listaUsluga.add("Polupansion");
-		}
-		if (asearchDto.isTv()) {
-			listaUsluga.add("Tv");
-		}
-		if (asearchDto.isKuhinja()) {
-			listaUsluga.add("Kuhinja");
-		}
-		if (asearchDto.isKupatilo()) {
-			listaUsluga.add("Kupatilo");
+		for (DodatnaDto d: listaUslugaIzSearcha) {
+			if (d.isChecked()) {
+				listaUsluga.add(d.getNazivUsluge());
+			}
 		}
 		java.util.Collections.sort(listaUsluga);
 		
@@ -277,6 +273,7 @@ public class HomeServiceImpl implements HomeService {
 					}
 				}
 			}
+
 			
 		}
 		

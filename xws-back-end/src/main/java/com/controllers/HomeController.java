@@ -23,14 +23,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.model.DodatnaUsluga;
 import com.model.Rezervacija;
 import com.model.SmestajnaJedinica;
 import com.model.User;
 import com.model.ZauzetostJedinice;
 import com.model.dto.AdvancedSearchDto;
+import com.model.dto.DodatnaDto;
 import com.model.dto.LoginUserDto;
 import com.model.dto.SearchDto;
 import com.repositories.AvailabilityRepository;
+import com.repositories.DodatneuslugeRepository;
 import com.repositories.KategorijasmestajaRepository;
 import com.repositories.RezervacijaRepository;
 import com.repositories.SmestajnaJedinicaRepository;
@@ -61,7 +64,8 @@ public class HomeController {
 	@Autowired
 	TipsmestajaRepository tipRep;
 	
-	
+	@Autowired
+	DodatneuslugeRepository dodUslRep;
 	
 	
 	@RequestMapping(value = "/search", method = RequestMethod.POST, consumes="application/json")
@@ -89,6 +93,9 @@ public class HomeController {
 		
 		Long hjid = Long.parseLong(id);
 		Long hjidUser = Long.parseLong(idUser);
+		if (hjidUser==null) {
+			return new ResponseEntity(HttpStatus.UNAUTHORIZED); 
+		}
 		
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date date1 = format.parse(od);
@@ -264,16 +271,33 @@ public class HomeController {
 			HttpServletRequest request) throws ParseException, DatatypeConfigurationException {
 		
 			System.out.println(asearchDto);
-			
+		
 			
 			ArrayList<SmestajnaJedinica> smestajneJedinice = homeService.advancedSearch(asearchDto);
 			if (smestajneJedinice!=null) {
-				return new ResponseEntity(smestajneJedinice, HttpStatus.OK);
+				return new ResponseEntity( smestajneJedinice, HttpStatus.OK);
 			}else {
 				return new ResponseEntity(HttpStatus.BAD_REQUEST);	
 			}
 	
 			
+	}
+	
+	@RequestMapping(value = "/getReservation", method = RequestMethod.GET, produces="application/json")
+	public ResponseEntity<?> getReservation(
+			@RequestParam(value="id") String id){
+		Rezervacija r = rezRep.findOneByHjid(Long.parseLong(id));
+		System.out.println(r);
+		return new ResponseEntity(r, HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(value = "/getDodatne", method = RequestMethod.GET, produces="application/json")
+	public ResponseEntity<?> getDodatne(){
+		List<DodatnaUsluga> dodatneUsluge = dodUslRep.findAll();
+		System.out.println(dodatneUsluge);
+		return new ResponseEntity(dodatneUsluge, HttpStatus.OK);
+		
 	}
 
 	

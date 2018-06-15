@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule }   from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
+
 import { AppComponent } from './app.component';
 import { HttpClientModule } from "@angular/common/http";
 import { LoginComponent } from './login/login.component';
@@ -13,6 +14,10 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { HomeService } from './services/home.service';
 import { ProfileService } from './services/profile.service';
+import { ReservationComponent } from './reservation/reservation.component';
+import { InboxComponent } from './inbox/inbox.component';
+import { MessageComponent } from './message/message.component';
+import { SentComponent } from './sent/sent.component';
 
 
 @NgModule({
@@ -21,7 +26,11 @@ import { ProfileService } from './services/profile.service';
     LoginComponent,
     RegistrationComponent,
     HomeComponent,
-    ProfileComponent
+    ProfileComponent,
+    ReservationComponent,
+    InboxComponent,
+    MessageComponent,
+    SentComponent
   ],
   imports: [
     BrowserModule,

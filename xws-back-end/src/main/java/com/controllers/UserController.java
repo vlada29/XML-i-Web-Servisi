@@ -2,6 +2,7 @@ package com.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,9 +23,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.model.Agent;
+import com.model.Message;
 import com.model.User;
 import com.model.dto.RegistrationUserDto;
 import com.model.dto.LoginUserDto;
+import com.model.dto.MessageDto;
+import com.repositories.AgentRepository;
+import com.repositories.MessageRepository;
 import com.repositories.UserRepository;
 import com.services.UserService;
 
@@ -37,6 +43,12 @@ public class UserController {
 	
 	@Autowired
 	UserRepository userRep;
+	
+	@Autowired
+	AgentRepository agentRep;
+	
+	@Autowired
+	MessageRepository messRep;
 	
 	@Autowired
 	UserService userService;
@@ -173,6 +185,78 @@ public class UserController {
 //            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 //        }
 //    }
+	
+	@RequestMapping(value = "/sendMessage", method = RequestMethod.POST, consumes="application/json")
+	public ResponseEntity<?> sendMessage(
+			@RequestBody MessageDto messageDto) {
+		
+		System.out.println( messageDto);
+		Message m = new Message();
+		User u = userRep.findByUsername(messageDto.getUser());
+		m.setUser(u);
+		Agent a = agentRep.findByUsername(messageDto.getAgent());
+		m.setAgent(a);
+		m.setContent(messageDto.getContent());
+		m.setSenderType("user");
+
+		try {
+			messRep.save(m);
+			return new ResponseEntity(HttpStatus.OK);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+			
+		}
+
+	}
+	
+	@RequestMapping(value = "/getSentMessages", method = RequestMethod.GET, produces="application/json")
+	public ResponseEntity<?> getSentMessages(
+			@RequestParam(value="idUser") String idUser) {
+		
+		Long hjid = Long.parseLong(idUser);
+		
+		List<Message> poruke = messRep.findAll();
+		if (poruke==null) {
+			return new ResponseEntity(null, HttpStatus.OK); 
+		}
+		System.out.println(poruke);
+		List<Message> poslatePorukeUsera = new ArrayList<>();
+		for (Message m: poruke) {
+			if (m.getUser().getHjid()==hjid && m.getSenderType().equals("user")) {
+				poslatePorukeUsera.add(m);
+			}
+		}
+		System.out.println(poslatePorukeUsera);
+		return new ResponseEntity(poslatePorukeUsera, HttpStatus.OK); 
+		
+		
+	}
+	
+	@RequestMapping(value = "/getReceivedMessages", method = RequestMethod.GET, produces="application/json")
+	public ResponseEntity<?> getReceivedMessages(
+			@RequestParam(value="idUser") String idUser) {
+		
+		Long hjid = Long.parseLong(idUser);
+		
+		List<Message> poruke = messRep.findAll();
+		if (poruke==null) {
+			return new ResponseEntity(null, HttpStatus.OK); 
+		}
+		List<Message> primljenePorukeUsera = new ArrayList<>();
+		for (Message m: poruke) {
+			if (m.getUser().getHjid()==hjid && m.getSenderType().equals("agent")) {
+				primljenePorukeUsera.add(m);
+			}
+		}
+
+		return new ResponseEntity(primljenePorukeUsera, HttpStatus.OK); 
+		
+		
+	}
+	
+	
 	
 	
 	

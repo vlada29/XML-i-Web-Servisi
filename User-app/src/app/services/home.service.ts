@@ -10,7 +10,7 @@ export class HomeService {
 
   constructor(private http:HttpClient, private router: Router) { }
 
-  search(searchDTO : SearchDTO) : Observable<any> {
+search(searchDTO : SearchDTO) : Observable<any> {
 
     let headers = new HttpHeaders({ 
         'Content-Type': 'application/json'
@@ -26,6 +26,25 @@ export class HomeService {
         alert(err.status + " Search error.");
         return Observable.throw(err);
     }); 
+    // return this.http
+    //      .get("http://localhost:8080/search", { headers: headers })
+    //      .map((data: [any]) => data)
+    //      .concatMap((searchResults: any[]) => {
+    //          const observables = searchResults.map(r => this.http.get("http://localhost:8080/getCenu", {
+    //              params: new HttpParams().append('idSmJed',r.smestajnaJedinica), headers: headers 
+    //          }));
+         
+    //          return Observable.forkJoin(observables, (...results) => 
+    //            results.map((result, i) => {
+    //              cena[i] = result;
+    //              return searchResults[i]; 
+    //            })
+    //          )
+    //        }).takeLast(1) 
+    //      .catch((err: HttpErrorResponse) => {
+ 
+    //          return Observable.throw(err);
+    //      });
     
 }
 
@@ -44,7 +63,8 @@ reserve(id: any, idUser: any, from: any, to: any): Observable<any>{
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
-
+        alert(err.status + " Please log in or register to make a reservation.");
+        this.router.navigateByUrl('login');
         return Observable.throw(err);
     });
 }
@@ -86,8 +106,12 @@ searchAdvanced(advancedsearchDTO : AdvancedSearchDTO) : Observable<any> {
     let headers = new HttpHeaders({ 
         'Content-Type': 'application/json'
      });
+    
+    console.log(advancedsearchDTO);
 
     let json = JSON.parse(JSON.stringify(advancedsearchDTO));
+    
+
     console.log(json);
     return this.http
     .post("http://localhost:8080/searchAdvanced", json, {headers:headers})
@@ -99,6 +123,41 @@ searchAdvanced(advancedsearchDTO : AdvancedSearchDTO) : Observable<any> {
     }); 
     
 }
+
+getReservation(id: any): Observable<any>{
+
+    let params = new HttpParams().append('id', id);
+    let headers = new HttpHeaders({ 
+        'Content-Type': 'application/json'
+     });
+
+    return this.http.get("http://localhost:8080/getReservation", {headers:headers, params: params})
+    .map((data:Observable<any>) => data)
+    .catch((err:HttpErrorResponse) =>
+    {
+
+        return Observable.throw(err);
+    });
+}
+
+getDodatne(): Observable<any>{
+
+
+    let headers = new HttpHeaders({ 
+        'Content-Type': 'application/json'
+     });
+
+    return this.http.get("http://localhost:8080/getDodatne", {headers:headers})
+    .map((data:Observable<any>) => data)
+    .catch((err:HttpErrorResponse) =>
+    {
+
+        return Observable.throw(err);
+    });
+}
+
+
+
 
 
 

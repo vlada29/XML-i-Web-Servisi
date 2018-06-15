@@ -60,4 +60,11 @@ export class ProfileComponent implements OnInit {
     this.reservations = data);
   }
 
+  more(id: any){
+    console.log(id);
+    this.router.navigate(['/reservation'],  
+    { queryParams: { id: id}, 
+    });
+  }
+
 }

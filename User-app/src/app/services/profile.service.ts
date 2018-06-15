@@ -95,4 +95,63 @@ export class ProfileService {
     });
   }
 
+  sendMessage(message: any) : Observable<any> {
+
+    let headers = new HttpHeaders({ 
+        'Content-Type': 'application/json'
+     });
+
+    let json = JSON.parse(JSON.stringify(message));
+    console.log(json);
+    return this.http
+    .post("http://localhost:8080/sendMessage", json, {headers:headers})
+    .map((data:Observable<any>) => data)
+    .catch((err:HttpErrorResponse) =>
+    {
+        alert(err.status + " Message could not be sent.");
+        return Observable.throw(err);
+    }); 
+    
+}
+
+getSentMessages(idUser: any){
+
+    let params = new HttpParams().append('idUser', idUser);
+
+
+    let headers = new HttpHeaders({ 
+        'Content-Type': 'application/json'
+     });
+
+     
+    return this.http.get("http://localhost:8080/getSentMessages", {headers:headers, params: params})
+    .map((data:Observable<any>) => data)
+    .catch((err:HttpErrorResponse) =>
+    {
+
+        return Observable.throw(err);
+    });
+
+  }
+
+  getReceivedMessages(idUser: any){
+
+    let params = new HttpParams().append('idUser', idUser);
+
+
+    let headers = new HttpHeaders({ 
+        'Content-Type': 'application/json'
+     });
+
+     
+    return this.http.get("http://localhost:8080/getReceivedMessages", {headers:headers, params: params})
+    .map((data:Observable<any>) => data)
+    .catch((err:HttpErrorResponse) =>
+    {
+
+        return Observable.throw(err);
+    });
+
+  }
+
 }

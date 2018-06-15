@@ -1,0 +1,55 @@
+
+ <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light"
+    style="text-align: center; font-size:26px">
+    
+    
+    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav navbar-expand-md">
+          <li class="nav-item">
+              <a class="nav-link" ></a>
+            </li>
+        <li class="nav-item active">
+          <a class="nav-link" [routerLink]="['/inbox']"> Inbox   <span class="sr-only">(current)</span></a>
+        </li>
+    
+  
+          <li class="nav-link "  [routerLink]="['/sent']"> Sent messages <span class="sr-only"></span>
+             <a class="nav-link"></a>
+        
+  
+          <li class="nav-link" [routerLink]="['/home']"> Home
+            <a class="nav-link"></a>
+          </li>
+        
+        
+        
+      </ul>
+    
+    </div>
+    </nav>
+  <br>
+  <h3>Sent messages</h3>
+  <br>
+   
+            <div class="list-group" *ngFor="let m of sentMessages">
+                <a href="#" class="list-group-item">
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox">
+                        </label>
+                    </div>
+                    <span class="glyphicon glyphicon-star-empty"></span><span class="name" style="min-width: 120px;
+                        display: inline-block;">{{m.agent.username}}</span> 
+                    <span class="text-muted" style="font-size: 11px;">{{m.content}}</span> <span
+                        class="badge"></span> <span class="pull-right"><span class="glyphicon glyphicon-paperclip">
+                    
+                    </span>
+                    </span>
+                    </a>
+            </div>
+                            
+      
+  

@@ -415,4 +415,12 @@ public class Rezervacija
         return this.hashCode(null, strategy);
     }
 
+	@Override
+	public String toString() {
+		return "Rezervacija [user=" + user + ", smestajnaJedinica=" + smestajnaJedinica + ", od=" + od + ", _do=" + _do
+				+ ", ukupnaCena=" + ukupnaCena + ", realizovana=" + realizovana + ", hjid=" + hjid + "]";
+	}
+    
+    
+
 }
