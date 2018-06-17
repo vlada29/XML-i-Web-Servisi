@@ -207,4 +207,12 @@ public class KategorijaSmestaja
         return this.hashCode(null, strategy);
     }
 
+	@Override
+	public String toString() {
+		return "KategorijaSmestaja [nazivKategorije=" + nazivKategorije + ", opisKategorije=" + opisKategorije
+				+ ", hjid=" + hjid + "]";
+	}
+    
+    
+
 }

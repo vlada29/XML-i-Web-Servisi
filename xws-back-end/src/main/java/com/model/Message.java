@@ -9,6 +9,8 @@
 package com.model;
 
 import java.io.Serializable;
+import java.sql.Date;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -84,6 +86,11 @@ public class Message
     protected String content;
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
+    
+    @Column(name = "naslov", length = 25)
+    private String naslov;
+    @Column(name = "datum", length = 25)
+    private Date datum;
 
     /**
      * Gets the value of the senderType property.
@@ -219,8 +226,26 @@ public class Message
     public void setHjid(Long value) {
         this.hjid = value;
     }
+    
+    
 
-    public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
+    public String getNaslov() {
+		return naslov;
+	}
+
+	public void setNaslov(String naslov) {
+		this.naslov = naslov;
+	}
+
+	public Date getDatum() {
+		return datum;
+	}
+
+	public void setDatum(Date datum) {
+		this.datum = datum;
+	}
+
+	public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
         if (!(object instanceof Message)) {
             return false;
         }
@@ -301,5 +326,13 @@ public class Message
         final HashCodeStrategy strategy = JAXBHashCodeStrategy.INSTANCE;
         return this.hashCode(null, strategy);
     }
+
+	@Override
+	public String toString() {
+		return "Message [senderType=" + senderType + ", user=" + user + ", agent=" + agent + ", content=" + content
+				+ ", hjid=" + hjid + ", naslov=" + naslov + ", datum=" + datum + "]";
+	}
+    
+    
 
 }

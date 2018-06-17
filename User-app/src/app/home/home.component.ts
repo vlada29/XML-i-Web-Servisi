@@ -46,6 +46,11 @@ export class HomeComponent implements OnInit {
   private dodatneUsluge: any[];
   private doddto: Array<dodatnaDTO>;
 
+  private sortCena: boolean = false;
+  private sortKat: boolean = false;
+  private sortOcena: boolean = false;
+
+
 
 
   constructor(private loginService: LoginServiceService,
@@ -118,7 +123,7 @@ export class HomeComponent implements OnInit {
         }
       }
       console.log(brojac);
-      if (brojac==varlength && this.idKat==-1 && this.idTip==-1){
+      if (brojac==varlength && !this.idKat && !this.idTip){
         console.log("regular search");
 
         
@@ -230,6 +235,53 @@ export class HomeComponent implements OnInit {
     console.log(this.categories);
 
     
+  }
+
+  sortCenaChanged(pretragaLista: any){
+    console.log(pretragaLista);
+    if (this.sortCena==true){
+      console.log("Sortiraj po ceni");
+      this.homeService.sortCena(pretragaLista).subscribe(data =>
+      this.searchResults = data);
+    }else{
+      console.log("Vrati nazad");
+      this.search();
+    }
+
+  }
+
+  sortKategorijaChanged(pretragaLista: any){
+    console.log(pretragaLista);
+    if (this.sortKat==true){
+      console.log("Sortiraj po kat");
+      this.homeService.sortKat(pretragaLista).subscribe(data =>
+      this.searchResults = data);
+    }else{
+      console.log("Vrati nazad");
+      this.search();
+    }
+
+  }
+
+  sortOcenaChanged(pretragaLista: any){
+    console.log(pretragaLista);
+    if (this.sortOcena==true){
+      console.log("Sortiraj po oceni");
+      this.homeService.sortOcena(pretragaLista).subscribe(data =>
+      this.searchResults = data);
+    }else{
+      console.log("Vrati nazad");
+      this.search();
+    }
+
+  }
+
+  // ponistava sve sortove pretrage
+  backSearch(){
+    this.sortCena = false;
+    this.sortKat = false;
+    this.sortOcena = false;
+    this.search();
   }
 
 

@@ -2,6 +2,7 @@ package com.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -190,14 +191,22 @@ public class UserController {
 	public ResponseEntity<?> sendMessage(
 			@RequestBody MessageDto messageDto) {
 		
+		
+		
 		System.out.println( messageDto);
 		Message m = new Message();
 		User u = userRep.findByUsername(messageDto.getUser());
 		m.setUser(u);
 		Agent a = agentRep.findByUsername(messageDto.getAgent());
+		if (a==null) {
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
 		m.setAgent(a);
 		m.setContent(messageDto.getContent());
 		m.setSenderType("user");
+		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		m.setDatum(date);
+		m.setNaslov(messageDto.getNaslov());
 
 		try {
 			messRep.save(m);
@@ -252,6 +261,21 @@ public class UserController {
 		}
 
 		return new ResponseEntity(primljenePorukeUsera, HttpStatus.OK); 
+		
+		
+	}
+	
+	@RequestMapping(value = "/getMessage", method = RequestMethod.GET, produces="application/json")
+	public ResponseEntity<?> getMessage(
+			@RequestParam(value="id") String id) {
+		
+		Long hjid = Long.parseLong(id);
+		
+		Message m = messRep.findByHjid(hjid);
+		if (m==null) {
+			return new ResponseEntity(null, HttpStatus.OK); 
+		}
+		return new ResponseEntity(m, HttpStatus.OK); 
 		
 		
 	}

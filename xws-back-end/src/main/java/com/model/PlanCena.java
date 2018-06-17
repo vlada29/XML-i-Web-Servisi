@@ -271,4 +271,12 @@ public class PlanCena
         return this.hashCode(null, strategy);
     }
 
+	@Override
+	public String toString() {
+		return "PlanCena [cena=" + cena + ", pocetakVazenja=" + pocetakVazenja + ", krajVazenja=" + krajVazenja
+				+ ", hjid=" + hjid + "]";
+	}
+    
+    
+
 }

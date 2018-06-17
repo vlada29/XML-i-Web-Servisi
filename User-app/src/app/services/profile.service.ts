@@ -154,4 +154,23 @@ getSentMessages(idUser: any){
 
   }
 
+  getMessage(id: any){
+
+    let params = new HttpParams().append('id', id);
+
+
+    let headers = new HttpHeaders({ 
+        'Content-Type': 'application/json'
+     });
+
+
+    return this.http.get("http://localhost:8080/getMessage", {headers:headers, params: params})
+    .map((data:Observable<any>) => data)
+    .catch((err:HttpErrorResponse) =>
+    {
+
+        return Observable.throw(err);
+    });
+  }
+
 }

@@ -152,6 +152,21 @@
                 <hr>
             </div>
         </div>
+    <div *ngIf="searchResults">
+            <label class="labela">Sortiraj po ceni
+                    <input type="checkbox" name="sortCena" [(ngModel)]="sortCena" (change)="sortCenaChanged(searchResults)"  >
+            </label>
+            <label class="labela">Sortiraj po kategoriji
+                <input type="checkbox" name="sortKat" [(ngModel)]="sortKat" (change)="sortKategorijaChanged(searchResults)"  >
+        </label>
+        <label class="labela">Sortiraj po oceni
+            <input type="checkbox" name="sortOcena" [(ngModel)]="sortOcena" (change)="sortOcenaChanged(searchResults)"  >
+    </label>
+    
+        <button type="button" class="btn btn-warning" (click)="backSearch()">Ponisti sve</button>
+
+   
+    </div>
     </div>
 </div>
 <div class="container">
@@ -199,7 +214,7 @@
                                 <p><i class="fa fa-phone"></i>Kategorija: {{s.kategorijaSmestaja.nazivKategorije}}</p>
                             </div>
                             <div class="col-md-3">
-                                <p><i class="fa fa-phone"></i>Kategorija: {{s.kategorijaSmestaja.nazivKategorije}}</p>
+                                <p><i class="fa fa-phone"></i>Tip: {{s.tipSmestaja.nazivTipa}}</p>
                             </div>
 	                      </div>
 	                      <div class="row">
@@ -212,13 +227,16 @@
                                 <p>Opis: {{s.opis}}</p>
                             </div>
                           </div>
-                          <div *ngFor="let c of s.cene">
+                          <div>
+                          <!-- <div *ngFor="let c of s.cene">
                               <div *ngIf="c.krajVazenja>to">
-                                    <p>Cena: {{c.cena}}</p>
+                                    <p>Cena: {{c.cena}}</p> -->
+                                    <p>Cena: {{s.trenutnaCena}}</p>
                               </div>
-                            
-                          </div>
+<!--                             
+                          </div> -->
 
+                      
 	                      <!--div class="crane-category">
 	                          <ul class="list-inline">
 	                              <li><a href="#">JCB Crane</a></li>

@@ -1,4 +1,11 @@
 
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+  
  <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light"
     style="text-align: center; font-size:26px">
@@ -10,12 +17,12 @@
           <li class="nav-item">
               <a class="nav-link" ></a>
             </li>
-        <li class="nav-item active">
-          <a class="nav-link" [routerLink]="['/inbox']"> Inbox   <span class="sr-only">(current)</span></a>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/inbox']"> Inbox   <span class="sr-only"></span></a>
         </li>
     
   
-          <li class="nav-link "  [routerLink]="['/sent']"> Sent messages <span class="sr-only"></span>
+          <li class="nav-link active"  [routerLink]="['/sent']"> Sent messages <span class="sr-only"></span>
              <a class="nav-link"></a>
         
   
@@ -34,22 +41,56 @@
   <br>
    
             <div class="list-group" *ngFor="let m of sentMessages">
-                <a href="#" class="list-group-item">
+                <a (click)="showMessage(m)" class="list-group-item">
 
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox">
-                        </label>
-                    </div>
-                    <span class="glyphicon glyphicon-star-empty"></span><span class="name" style="min-width: 120px;
-                        display: inline-block;">{{m.agent.username}}</span> 
-                    <span class="text-muted" style="font-size: 11px;">{{m.content}}</span> <span
-                        class="badge"></span> <span class="pull-right"><span class="glyphicon glyphicon-paperclip">
                     
-                    </span>
-                    </span>
-                    </a>
+        <span class="glyphicon glyphicon-envelope"></span><span class="name" style="min-width: 120px;
+        display: inline-block;"> {{m.agent.username}}</span><span class="">{{m.naslov}}</span>
+    <span class="text-muted" style="font-size: 11px;">{{m.content}}</span> <span
+        class="badge">{{m.datum}}</span> <span class="pull-right">
+    </span>
+    </a>
             </div>
+                     
+            
+
+            <div class="container" *ngIf="selectMessage==true">
+                <div class="row">
+                    <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                            <div style = "float: right">
+                                  <a (click)="x()" > <span class="glyphicon glyphicon-remove"></span></a>
+                                </div>
+                      <br>
+                      <h3 class="panel-title">  Selected message</h3>
+                      <br>
+                    </div>
+                    <div class="panel-body">
+                    
+                            <div class="row">
+                              <label class="col-md-2" for="inputTo">To</label>
+                              <div class="col-md-2">{{agentSel}}</div>
+                              </div>
+                              
+                              <div class="row">
+                                <label  class="col-md-2" for="inputSubject">Subject</label>
+                                <div  class="col-md-2" >{{naslovSel}}</div>
+                              </div>
+                              <div class="row">
+                              <label  class="col-md-2" for="inputBody">Message</label>
+                              
+                              <div  class="col-md-2">{{contentSel}}<div><div style="z-index: 2; opacity: 1; margin-left: 594px; margin-top: 27px;" class="gr-textarea-btn " data-grammarly-reactid=".3"><div title="Protected by Grammarly" class="gr-textarea-btn_status" data-grammarly-reactid=".3.0">
+                                    </div>
+                              </div>
+                            </div>
+                        
                             
+                            </div>
+    
+                    </div>
+
+                  </div>
+              </div>
+            </div>
       
   

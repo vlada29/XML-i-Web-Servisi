@@ -44,6 +44,7 @@ import org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy;
 import org.jvnet.jaxb2_commons.lang.JAXBHashCodeStrategy;
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
+import javax.persistence.Version;
 
 
 /**
@@ -99,6 +100,8 @@ public class Rezervacija
     protected Boolean realizovana;
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
+    
+
 
     /**
      * Gets the value of the user property.

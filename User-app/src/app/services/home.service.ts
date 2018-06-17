@@ -156,6 +156,76 @@ getDodatne(): Observable<any>{
     });
 }
 
+sortCena(searchList: any) : Observable<any> {
+
+    let headers = new HttpHeaders({ 
+        'Content-Type': 'application/json'
+     });
+    
+    console.log(searchList);
+
+    let json = JSON.parse(JSON.stringify(searchList));
+    
+
+    console.log(json);
+    return this.http
+    .post("http://localhost:8080/sortCena", json, {headers:headers})
+    .map((data:Observable<any>) => data)
+    .catch((err:HttpErrorResponse) =>
+    {
+        alert(err.status + " Search error.");
+        return Observable.throw(err);
+    }); 
+    
+}
+
+sortKat(searchList: any) : Observable<any> {
+
+    let headers = new HttpHeaders({ 
+        'Content-Type': 'application/json'
+     });
+    
+    console.log(searchList);
+
+    let json = JSON.parse(JSON.stringify(searchList));
+    
+
+    console.log(json);
+    return this.http
+    .post("http://localhost:8080/sortKategorija", json, {headers:headers})
+    .map((data:Observable<any>) => data)
+    .catch((err:HttpErrorResponse) =>
+    {
+        alert(err.status + " Search error.");
+        return Observable.throw(err);
+    }); 
+    
+}
+
+sortOcena(searchList: any) : Observable<any> {
+
+    let headers = new HttpHeaders({ 
+        'Content-Type': 'application/json'
+     });
+    
+    console.log(searchList);
+
+    let json = JSON.parse(JSON.stringify(searchList));
+    
+
+    console.log(json);
+    return this.http
+    .post("http://localhost:8080/sortOcena", json, {headers:headers})
+    .map((data:Observable<any>) => data)
+    .catch((err:HttpErrorResponse) =>
+    {
+        alert(err.status + " Search error.");
+        return Observable.throw(err);
+    }); 
+    
+}
+
+
 
 
 

@@ -165,4 +165,11 @@ public class UslugaJedinice
         return this.hashCode(null, strategy);
     }
 
+	@Override
+	public String toString() {
+		return "UslugaJedinice [usluga=" + usluga + ", hjid=" + hjid + "]";
+	}
+    
+    
+
 }

@@ -11,6 +11,11 @@ export class SentComponent implements OnInit {
   private sentMessages: any;
   private loggedUserId: any;
 
+  private selectMessage: boolean = false;
+  private agentSel: any;
+  private naslovSel: any;
+  private contentSel: any;
+
   constructor(private profileService: ProfileService) { }
 
   ngOnInit() {
@@ -21,6 +26,19 @@ export class SentComponent implements OnInit {
       this.profileService.getSentMessages(this.loggedUserId).subscribe(data =>
       this.sentMessages = data);
 
+  }
+
+   showMessage(message: any){
+ 
+    this.agentSel = message.agent.username;
+    this.naslovSel = message.naslov;
+    this.contentSel = message.content;
+
+    this.selectMessage = true;
+  }
+
+  x(){
+    this.selectMessage = false;
   }
 
 }

@@ -25,6 +25,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;   
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -132,8 +133,27 @@ public class SmestajnaJedinica
     protected Long hjid;
     protected transient List<SmestajnaJedinicaPictureItem> pictureItems;
     protected transient List<SmestajnaJedinicaSlikeItem> slikeItems;
+    private double trenutnaCena;
+    private double trenutnaOcena;
+ 
 
-    /**
+    public double getTrenutnaCena() {
+		return trenutnaCena;
+	}
+
+	public void setTrenutnaCena(double trenutnaCena) {
+		this.trenutnaCena = trenutnaCena;
+	}
+	
+	public double getTrenutnaOcena() {
+		return trenutnaOcena;
+	}
+
+	public void setTrenutnaOcena(double trenutnaOcena) {
+		this.trenutnaOcena = trenutnaOcena;
+	}
+
+	/**
      * Gets the value of the agent property.
      * 
      * @return
@@ -838,9 +858,13 @@ public class SmestajnaJedinica
 		return "SmestajnaJedinica [agent=" + agent + ", lokacija=" + lokacija + ", naziv=" + naziv + ", opis=" + opis
 				+ ", brojOsoba=" + brojOsoba + ", kategorijaSmestaja=" + kategorijaSmestaja + ", tipSmestaja="
 				+ tipSmestaja + ", picture=" + picture + ", usluge=" + usluge + ", cene=" + cene + ", listaZauzetosti="
-				+ listaZauzetosti + ", slike=" + slike + ", dostupna=" + dostupna + ", hjid=" + hjid + "]";
+				+ listaZauzetosti + ", slike=" + slike + ", dostupna=" + dostupna + ", hjid=" + hjid + ", trenutnaCena="
+				+ trenutnaCena + ", trenutnaOcena=" + trenutnaOcena + "]";
 	}
+
     
+
+
     
 
 }

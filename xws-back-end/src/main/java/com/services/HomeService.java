@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import com.model.Rezervacija;
 import com.model.SmestajnaJedinica;
 import com.model.dto.AdvancedSearchDto;
 import com.model.dto.SearchDto;

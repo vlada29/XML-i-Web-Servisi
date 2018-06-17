@@ -205,4 +205,11 @@ public class DodatnaUsluga
         return this.hashCode(null, strategy);
     }
 
+	@Override
+	public String toString() {
+		return "DodatnaUsluga [nazivUsluge=" + nazivUsluge + ", opisUsluge=" + opisUsluge + ", hjid=" + hjid + "]";
+	}
+    
+    
+
 }

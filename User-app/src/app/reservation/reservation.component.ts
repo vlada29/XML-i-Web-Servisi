@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HomeService } from '../services/home.service';
 
 
@@ -14,7 +14,8 @@ export class ReservationComponent implements OnInit {
   private r: any; // selected reservation
 
   constructor(private route: ActivatedRoute,
-  private homeService: HomeService) { }
+  private homeService: HomeService,
+  private router: Router) { }
 
   ngOnInit() {
 
@@ -34,6 +35,15 @@ export class ReservationComponent implements OnInit {
     });
 
     
+  }
+
+  messageAgent(username: any){
+    //username = email
+    console.log(username);
+    this.router.navigate(['/message'],  
+    { queryParams: { id: "-1", username: username}, 
+    });
+
   }
 
 }

@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.model.DodatnaUsluga;
+import com.model.KategorijaSmestaja;
 import com.model.Rezervacija;
 import com.model.SmestajnaJedinica;
 import com.model.User;
@@ -97,6 +99,8 @@ public class HomeController {
 			return new ResponseEntity(HttpStatus.UNAUTHORIZED); 
 		}
 		
+	
+		
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date date1 = format.parse(od);
 
@@ -114,6 +118,9 @@ public class HomeController {
 		
 		System.out.println(id);
 		System.out.println(idUser);
+		
+
+
 		if (homeService.reserve(hjid, hjidUser, xmlGregCal1, xmlGregCal2)) {
 			
 			return new ResponseEntity(HttpStatus.OK);
@@ -299,7 +306,61 @@ public class HomeController {
 		return new ResponseEntity(dodatneUsluge, HttpStatus.OK);
 		
 	}
+	
+	@RequestMapping(value = "/sortCena", method = RequestMethod.POST, consumes="application/json")
+	public ResponseEntity<?> sortCena(
+			@RequestBody List<SmestajnaJedinica> smestJedinice,
+			HttpServletRequest request) {
+		
+			System.out.println(smestJedinice);
 
+			smestJedinice.sort(Comparator.comparing(SmestajnaJedinica::getTrenutnaCena));
+
+			System.out.println("Posle sorta");
+			System.out.println(smestJedinice);
+			return new ResponseEntity(smestJedinice, HttpStatus.OK);
+
+			
+	}
+	
+	@RequestMapping(value = "/sortKategorija", method = RequestMethod.POST, consumes="application/json")
+	public ResponseEntity<?> sortKategorija(
+			@RequestBody List<SmestajnaJedinica> smestJedinice,
+			HttpServletRequest request) {
+		
+			System.out.println(smestJedinice);
+			List<SmestajnaJedinica> sortirano = new ArrayList<>();
+
+			for (KategorijaSmestaja k: katRep.findAll()) {
+				for (SmestajnaJedinica sj: smestJedinice) {
+					if (k.getHjid()==sj.getKategorijaSmestaja().getHjid()) {
+						sortirano.add(sj);
+					}
+				}
+			}
+
+			System.out.println("Posle sorta kategorija");
+			System.out.println(sortirano);
+			return new ResponseEntity(sortirano, HttpStatus.OK);
+
+			
+	}
+
+	@RequestMapping(value = "/sortOcena", method = RequestMethod.POST, consumes="application/json")
+	public ResponseEntity<?> sortOcena(
+			@RequestBody List<SmestajnaJedinica> smestJedinice,
+			HttpServletRequest request) {
+		
+			System.out.println(smestJedinice);
+
+			smestJedinice.sort(Comparator.comparing(SmestajnaJedinica::getTrenutnaOcena).reversed());
+
+			System.out.println("Posle sorta ocene");
+			System.out.println(smestJedinice);
+			return new ResponseEntity(smestJedinice, HttpStatus.OK);
+
+			
+	}
 	
 
 	

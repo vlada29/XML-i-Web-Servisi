@@ -1,114 +1,10 @@
-<!-- <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand">Inbox</a>
-      </div>
 
-    </div>
-  </nav>
-  
-  <ul class="nav nav-tabs nav-justified">
-    <li class="active"><a data-toggle="tab" href="#menu0">Inbox</a></li>
-    <li><a data-toggle="tab" href="#menu1">New message</a></li>
-
-  </ul> 
-  
-  <div class="tab-content">
-    <div id="menu0" class="tab-pane fade in active">
-      <app-login></app-login>
-    </div>
-    <div id="menu1" class="tab-pane fade">
-      <app-login></app-login>
-    </div>
-
-  </div>
-   -->
-
-   <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script> -->
-
-<!-- <ul class="nav nav-tabs">
-    <li class="active"><a href="#inbox#panel1" data-toggle="tab">Page 1</a></li>
-    <li><a href="#inbox#panel2" data-toggle="tab">Page 2</a></li>
-</ul>
-
-<div class="tab-content">
-    <div id="inbox#panel1" class="tab-pane ">
-       This is the content of page1............................
-    </div>
-    <div id="inbox#panel2" class="tab-pane">
-       This is the content of page2............................
-    </div>
-</div> -->
-<!-- 
 
 <head>
-  <meta charset="utf-8" />
-  <title>Bootstrap, from Twitter</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  Le styles
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <style>
-  </style>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-
-<body>
-  <div class="container">
-
-
-    <div id="content">
-      <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-        <li class="active"><a href="#red" data-toggle="tab">Red</a>
-        </li>
-        <li><a href="#orange" data-toggle="tab">Orange</a>
-        </li>
-        <li><a href="#yellow" data-toggle="tab">Yellow</a>
-        </li>
-        <li><a href="#green" data-toggle="tab">Green</a>
-        </li>
-        <li><a href="#blue" data-toggle="tab">Blue</a>
-        </li>
-      </ul>
-    </div>
-    <div id="my-tab-content" class="tab-content">
-      <div class="tab-pane active" id="inbox#red">
-        <h1>Red</h1>
-        <p>red red red red red red</p>
-      </div>
-      <div class="tab-pane" id="inbox#orange">
-        <h1>Orange</h1>
-        <p>orange orange orange orange orange</p>
-      </div>
-      <div class="tab-pane" id="yellow">
-        <h1>Yellow</h1>
-        <p>yellow yellow yellow yellow yellow</p>
-      </div>
-      <div class="tab-pane" id="green">
-        <h1>Green</h1>
-        <p>green green green green green</p>
-      </div>
-      <div class="tab-pane" id="blue">
-        <h1>Blue</h1>
-        <p>blue blue blue blue blue</p>
-      </div>
-    </div>
-  </div>
-
-
-
-  
-
-
-
-  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-
-</body>  
- -->
 
  <div class="container">
   <nav class="navbar navbar-expand-lg navbar-light bg-light"
@@ -145,21 +41,75 @@
 <br>
  
 <div class="list-group" *ngFor="let m of receivedMessages">
-    <a href="#" class="list-group-item">
+    <a (click)="showMessage(m)" class="list-group-item">
 
-        <div class="checkbox">
-            <label>
-                <input type="checkbox">
-            </label>
-        </div>
-        <span class="glyphicon glyphicon-star-empty"></span><span class="name" style="min-width: 120px;
-            display: inline-block;">{{m.agent.username}}</span> 
+ 
+        <span class="glyphicon glyphicon-envelope"></span><span class="name" style="min-width: 120px;
+            display: inline-block;"> {{m.agent.username}}</span><span class="">{{m.naslov}}</span>
         <span class="text-muted" style="font-size: 11px;">{{m.content}}</span> <span
-            class="badge"></span> <span class="pull-right"><span class="glyphicon glyphicon-paperclip">
-        
-        </span>
-        </span>
+            class="badge">{{m.datum}} </span> <span class="pull-right">
+              </span> 
         </a>
 </div>
-                
+         
 
+<div class="container" *ngIf="selectMessage==true">
+
+	<div class="row">
+
+   
+		<div class="panel panel-default">
+        <div class="panel-heading clearfix">
+            <a (click)="x()" >
+            <div style = "float: right">
+                <span class="glyphicon glyphicon-remove"></span>
+            </div>
+            </a>
+          <br>
+          <div class="row">
+             <div class="col-md-12">
+                <h3 class="panel-title">  Selected message</h3>
+              </div>
+     
+       
+          
+          </div>
+          <br>
+        </div>
+        <div class="panel-body">
+        
+                <div class="row">
+                  <label class="col-md-2" for="inputTo">From</label>
+                  <div class="col-md-2">{{agentSel}}</div>
+                 
+         
+              </div>
+                  
+                  <div class="row">
+                    <label  class="col-md-2" for="inputSubject">Subject</label>
+                    <div  class="col-md-2" >{{naslovSel}}</div>
+                  </div>
+                  <div class="row">
+                  <label  class="col-md-2" for="inputBody">Message</label>
+                  
+                  <div  class="col-md-2">{{contentSel}}<div><div style="z-index: 2; opacity: 1; margin-left: 594px; margin-top: 27px;" class="gr-textarea-btn " data-grammarly-reactid=".3"><div title="Protected by Grammarly" class="gr-textarea-btn_status" data-grammarly-reactid=".3.0">
+                        </div>
+                  </div>
+                </div>
+            
+                
+                </div>
+
+              
+                 
+                    
+            
+                
+         
+        </div>
+        <button style="float: right " type="button" class="btn btn-success" (click)="reply(messid)">Reply</button>
+      </div>
+      
+
+  </div>
+</div>

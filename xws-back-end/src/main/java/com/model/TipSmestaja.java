@@ -207,4 +207,11 @@ public class TipSmestaja
         return this.hashCode(null, strategy);
     }
 
+	@Override
+	public String toString() {
+		return "TipSmestaja [nazivTipa=" + nazivTipa + ", opisTipa=" + opisTipa + ", hjid=" + hjid + "]";
+	}
+    
+    
+
 }

@@ -5,6 +5,8 @@ public class MessageDto {
 	private String content;
 	private String agent;
 	private String user;
+	private String datum;
+	private String naslov;
 
 	
 	
@@ -15,12 +17,56 @@ public class MessageDto {
 
 
 
-	public MessageDto(String content, String agent, String user) {
+	
+
+
+	public MessageDto(String content, String agent, String user, String datum, String naslov) {
 		super();
 		this.content = content;
 		this.agent = agent;
 		this.user = user;
+		this.datum = datum;
+		this.naslov = naslov;
 	}
+
+
+
+
+
+
+	public String getDatum() {
+		return datum;
+	}
+
+
+
+
+
+
+	public void setDatum(String datum) {
+		this.datum = datum;
+	}
+
+
+
+
+
+
+	public String getNaslov() {
+		return naslov;
+	}
+
+
+
+
+
+
+	public void setNaslov(String naslov) {
+		this.naslov = naslov;
+	}
+
+
+
 
 
 
@@ -62,7 +108,8 @@ public class MessageDto {
 
 	@Override
 	public String toString() {
-		return "MessageDto [content=" + content + ", agent=" + agent + ", user=" + user + "]";
+		return "MessageDto [content=" + content + ", agent=" + agent + ", user=" + user + ", datum=" + datum
+				+ ", naslov=" + naslov + "]";
 	}
 	
 	

@@ -15,4 +15,5 @@ import com.model.SmestajnaJedinica;
 public interface MessageRepository extends JpaRepository<Message, Long>{
 	List<Message> findByAgentHjid(Long hjid);
 	List<Message> findByUserHjid(Long hjid);
+	Message findByHjid(Long hjid);
 }
