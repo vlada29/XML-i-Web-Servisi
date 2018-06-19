@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
   private enableButtonLogin: boolean = true;
 
   private reservations: any[];
-  private reservationsPast: any[];
+  private reservationsRealiz: any[];
 
   constructor(private loginService: LoginServiceService,
   private router: Router, 
@@ -37,7 +37,7 @@ export class ProfileComponent implements OnInit {
       this.reservations = data
       );
       this.profileService.getPastRes(this.loggedUserId).subscribe(data =>
-        this.reservationsPast = data
+        this.reservationsRealiz = data
         );
 
     }

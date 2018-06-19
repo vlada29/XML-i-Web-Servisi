@@ -32,6 +32,8 @@ export class RatingService {
 
       this.http.post(endpoint2,rating).subscribe(data => {});
   }
+
+
   
   
 }

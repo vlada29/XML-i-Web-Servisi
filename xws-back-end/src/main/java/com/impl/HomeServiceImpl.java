@@ -3,7 +3,9 @@ package com.impl;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -93,8 +95,49 @@ public class HomeServiceImpl implements HomeService {
 	
 				GregorianCalendar cal2 = new GregorianCalendar();
 				cal2.setTime(date2);
+				
+				
 	
 				XMLGregorianCalendar xmlGregCal2 =  DatatypeFactory.newInstance().newXMLGregorianCalendar(cal2);
+				
+				List<XMLGregorianCalendar> unetiDatumi = new ArrayList<>();
+				System.out.println(xmlGregCal2.getDay());
+				System.out.println(xmlGregCal1.getDay());
+				int razlika = xmlGregCal2.getDay()-xmlGregCal1.getDay();
+				System.out.println(razlika+"razlika");
+				for (int i = 0; i<=razlika; i++) {
+					Date dat = date1;
+					Calendar c = Calendar.getInstance();
+					c.setTime(dat);
+					c.add(Calendar.DATE, i);
+					Date cDate = c.getTime();
+					GregorianCalendar cc = new GregorianCalendar();
+					cc.setTime(cDate);
+					XMLGregorianCalendar xGc = DatatypeFactory.newInstance().newXMLGregorianCalendar(cc);
+					unetiDatumi.add(xGc);
+				}
+				
+				System.out.println(unetiDatumi);
+				double suma = 0;
+				System.out.println(smjed.getCene());
+				for (PlanCena c: smjed.getCene()) {
+					System.out.println(c);
+					
+					for (XMLGregorianCalendar xd: unetiDatumi) {
+						if (c.getPocetakVazenja().compare(xd)<=0 && c.getKrajVazenja().compare(xd)>0) {
+							System.out.println(suma);
+							suma = suma + c.getCena();
+						}
+					}
+
+
+					
+				}
+				System.out.println("cena"+suma);
+				smjed.setTrenutnaCena(suma);
+				smJedRep.save(smjed);
+
+				
 				int brojac = 0;
 				for (ZauzetostJedinice zauzJed: avRep.findAll()  ) {
 					if (zauzJed.getSmestajnaJedinica().getHjid().equals(smjed.getHjid())) {
@@ -128,25 +171,8 @@ public class HomeServiceImpl implements HomeService {
 				if (brojac==ukupanbr) {
 					System.out.println("DODAJEMO OVU:"+smjed.getCene());
 		//
-					for (PlanCena c: smjed.getCene()) {
-						
-						if (c.getKrajVazenja().compare(xmlGregCal2)>0) {
-							System.out.println("cena"+c);
-							smjed.setTrenutnaCena(c.getCena());
-							smJedRep.save(smjed);
-						}
-						
-					}
 				
-					for (PlanCena c: smjed.getCene()) {
-						
-						if (c.getKrajVazenja().compare(xmlGregCal2)>0) {
-							System.out.println("cena"+c);
-							smjed.setTrenutnaCena(c.getCena());
-							smJedRep.save(smjed);
-						}
-						
-					}
+				
 					filtSmestaj.add(smjed);
 		
 				}
@@ -160,7 +186,7 @@ public class HomeServiceImpl implements HomeService {
 
 	@Override
 	@Transactional(readOnly=false, propagation = Propagation.REQUIRES_NEW)
-	public boolean reserve( Long id, Long idUser, XMLGregorianCalendar d1, XMLGregorianCalendar d2) {
+	public boolean reserve( Long id, Long idUser, XMLGregorianCalendar d1, XMLGregorianCalendar d2) throws DatatypeConfigurationException {
 		SmestajnaJedinica smjed = smJedRep.findOneByHjid(id);
 		User user = userRep.findOneByHjid(idUser);
 		Rezervacija r = new Rezervacija();
@@ -169,7 +195,42 @@ public class HomeServiceImpl implements HomeService {
 		r.setRealizovana(false);
 		r.setUser(user);
 		r.setSmestajnaJedinica(smjed);
-		r.setUkupnaCena(1200.00); // to do: cena
+		List<XMLGregorianCalendar> unetiDatumi = new ArrayList<>();
+		Date date1 = d1.toGregorianCalendar().getTime();
+
+		int razlika = d2.getDay()-d1.getDay();
+		for (int i = 0; i<=razlika; i++) {
+			Date dat = date1;
+			Calendar c = Calendar.getInstance();
+			c.setTime(dat);
+			c.add(Calendar.DATE, i);
+			Date cDate = c.getTime();
+			GregorianCalendar cc = new GregorianCalendar();
+			cc.setTime(cDate);
+			XMLGregorianCalendar xGc = DatatypeFactory.newInstance().newXMLGregorianCalendar(cc);
+			unetiDatumi.add(xGc);
+		}
+		
+		System.out.println(unetiDatumi);
+		double suma = 0;
+		System.out.println(smjed.getCene());
+		for (PlanCena c: smjed.getCene()) {
+			System.out.println(c);
+			
+			for (XMLGregorianCalendar xd: unetiDatumi) {
+				if (c.getPocetakVazenja().compare(xd)<=0 && c.getKrajVazenja().compare(xd)>0) {
+					System.out.println(suma);
+					suma = suma + c.getCena();
+				}
+			}
+
+
+			
+		}
+		System.out.println("cena"+suma);
+		smjed.setTrenutnaCena(suma);
+		smJedRep.save(smjed);
+		r.setUkupnaCena(suma); 
 		
 		
 		ZauzetostJedinice zj = new ZauzetostJedinice();
@@ -265,6 +326,41 @@ public class HomeServiceImpl implements HomeService {
 					&& (smjed.getLokacija().getDrzava().equals(asearchDto.getPlace())
 							|| (smjed.getLokacija().getGrad().equals(asearchDto.getPlace())))
 					) {
+				
+				List<XMLGregorianCalendar> unetiDatumi = new ArrayList<>();
+
+				int razlika = xmlGregCal2.getDay()-xmlGregCal1.getDay();
+				for (int i = 0; i<=razlika; i++) {
+					Date dat = date1;
+					Calendar c = Calendar.getInstance();
+					c.setTime(dat);
+					c.add(Calendar.DATE, i);
+					Date cDate = c.getTime();
+					GregorianCalendar cc = new GregorianCalendar();
+					cc.setTime(cDate);
+					XMLGregorianCalendar xGc = DatatypeFactory.newInstance().newXMLGregorianCalendar(cc);
+					unetiDatumi.add(xGc);
+				}
+				
+				System.out.println(unetiDatumi);
+				double suma = 0;
+				System.out.println(smjed.getCene());
+				for (PlanCena c: smjed.getCene()) {
+					System.out.println(c);
+					
+					for (XMLGregorianCalendar xd: unetiDatumi) {
+						if (c.getPocetakVazenja().compare(xd)<=0 && c.getKrajVazenja().compare(xd)>0) {
+							System.out.println(suma);
+							suma = suma + c.getCena();
+						}
+					}
+
+
+					
+				}
+				System.out.println("cena"+suma);
+				smjed.setTrenutnaCena(suma);
+				smJedRep.save(smjed);
 
 
 				
@@ -299,15 +395,7 @@ public class HomeServiceImpl implements HomeService {
 				if (brojac==ukupanbr) {
 					System.out.println(smjed);
 
-					for (PlanCena c: smjed.getCene()) {
-						
-						if (c.getKrajVazenja().compare(xmlGregCal2)>0) {
-							System.out.println("cena"+c);
-							smjed.setTrenutnaCena(c.getCena());
-							smJedRep.save(smjed);
-						}
-						
-					}
+				
 					filtSmestaj.add(smjed);
 					System.out.println(smjed.getCene());
 				}
@@ -356,15 +444,7 @@ public class HomeServiceImpl implements HomeService {
 			if (sm.getTipSmestaja().getHjid().equals(tip.getHjid()) && sm.getKategorijaSmestaja().getHjid().equals(kat.getHjid())) {
 				System.out.println("Isti tip i kat: "+sm);
 				if (listaUsluga.isEmpty()) {
-					for (PlanCena c: sm.getCene()) {
-						
-						if (c.getKrajVazenja().compare(xmlGregCal2)>0) {
-							System.out.println("cena"+c);
-							sm.setTrenutnaCena(c.getCena());
-							smJedRep.save(sm);
-						}
-						
-					}
+	
 
 					filtSmestajAdv.add(sm);
 				}else {
@@ -379,31 +459,14 @@ public class HomeServiceImpl implements HomeService {
 					System.out.println("lu"+listaUsluga);
 					if (listaUslugaDodatnih.containsAll(listaUsluga)) {
 						System.out.println("Lista sadrzi drugu - dodaj ovu smestajnu jedinicu");
-						for (PlanCena c: sm.getCene()) {
-							
-							if (c.getKrajVazenja().compare(xmlGregCal2)>0) {
-								System.out.println("cena"+c);
-								sm.setTrenutnaCena(c.getCena());
-								smJedRep.save(sm);
-							}
-							
-						}
-
+						
 						filtSmestajAdv.add(sm);
 					}
 				}
 			}else if (sm.getTipSmestaja().getHjid().equals(tip.getHjid()) && kat.getHjid()==(long)(-1) ) {
 				System.out.println("Isti tip, kat nije uneta: "+sm);
 				if (listaUsluga.isEmpty()) {
-					for (PlanCena c: sm.getCene()) {
-						
-						if (c.getKrajVazenja().compare(xmlGregCal2)>0) {
-							System.out.println("cena"+c);
-							sm.setTrenutnaCena(c.getCena());
-							smJedRep.save(sm);
-						}
-						
-					}
+
 					filtSmestajAdv.add(sm);
 				}else {
 					for (UslugaJedinice uj: sm.getUsluge()) {
@@ -415,15 +478,7 @@ public class HomeServiceImpl implements HomeService {
 					System.out.println("lu"+listaUsluga);
 					if (listaUslugaDodatnih.containsAll(listaUsluga)) {
 						System.out.println("Lista sadrzi drugu - dodaj ovu smestajnu jedinicu");
-						for (PlanCena c: sm.getCene()) {
-							
-							if (c.getKrajVazenja().compare(xmlGregCal2)>0) {
-								System.out.println("cena"+c);
-								sm.setTrenutnaCena(c.getCena());
-								smJedRep.save(sm);
-							}
-							
-						}
+		
 						filtSmestajAdv.add(sm);
 					}
 				}
@@ -431,15 +486,7 @@ public class HomeServiceImpl implements HomeService {
 			}else if (sm.getKategorijaSmestaja().getHjid().equals(kat.getHjid()) && tip.getHjid()==(long)(-1)) {
 				System.out.println("Ista kat, tip nije unesen: "+sm);
 				if (listaUsluga.isEmpty()) {
-					for (PlanCena c: sm.getCene()) {
-						
-						if (c.getKrajVazenja().compare(xmlGregCal2)>0) {
-							System.out.println("cena"+c);
-							sm.setTrenutnaCena(c.getCena());
-							smJedRep.save(sm);
-						}
-						
-					}
+
 
 					filtSmestajAdv.add(sm);
 				}else {
@@ -452,16 +499,7 @@ public class HomeServiceImpl implements HomeService {
 					System.out.println("lu"+listaUsluga);
 					if (listaUslugaDodatnih.containsAll(listaUsluga)) {
 						System.out.println("Lista sadrzi drugu - dodaj ovu smestajnu jedinicu");
-						for (PlanCena c: sm.getCene()) {
-							
-							if (c.getKrajVazenja().compare(xmlGregCal2)>0) {
-								System.out.println("cena"+c);
-								sm.setTrenutnaCena(c.getCena());
-								smJedRep.save(sm);
-							}
-							
-						}
-
+		
 						filtSmestajAdv.add(sm);
 					}
 				}
@@ -469,15 +507,7 @@ public class HomeServiceImpl implements HomeService {
 			}else if (tip.getHjid()==(long)(-1) && kat.getHjid()==(long)(-1)){
 				System.out.println("Nisu uneti tip i kat: "+sm);
 				if (listaUsluga.isEmpty()) {
-					for (PlanCena c: sm.getCene()) {
-						
-						if (c.getKrajVazenja().compare(xmlGregCal2)>0) {
-							System.out.println("cena"+c);
-							sm.setTrenutnaCena(c.getCena());
-							smJedRep.save(sm);
-						}
-						
-					}
+			
 
 					filtSmestajAdv.add(sm);
 				}else {
@@ -492,15 +522,7 @@ public class HomeServiceImpl implements HomeService {
 					System.out.println("lu"+listaUsluga);
 					if (listaUslugaDodatnih.containsAll(listaUsluga)) {
 						System.out.println("Lista sadrzi drugu - dodaj ovu smestajnu jedinicu");
-						for (PlanCena c: sm.getCene()) {
-							
-							if (c.getKrajVazenja().compare(xmlGregCal2)>0) {
-								System.out.println("cena"+c);
-								sm.setTrenutnaCena(c.getCena());
-								smJedRep.save(sm);
-							}
-							
-						}
+				
 						filtSmestajAdv.add(sm);
 					}
 				}

@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.model.DodatnaUsluga;
 import com.model.KategorijaSmestaja;
+import com.model.Message;
+import com.model.Ocena;
 import com.model.Rezervacija;
 import com.model.SmestajnaJedinica;
 import com.model.User;
@@ -37,9 +39,11 @@ import com.model.dto.SearchDto;
 import com.repositories.AvailabilityRepository;
 import com.repositories.DodatneuslugeRepository;
 import com.repositories.KategorijasmestajaRepository;
+import com.repositories.OcenaRepository;
 import com.repositories.RezervacijaRepository;
 import com.repositories.SmestajnaJedinicaRepository;
 import com.repositories.TipsmestajaRepository;
+import com.services.CloudService;
 import com.services.HomeService;
 
 
@@ -50,7 +54,7 @@ public class HomeController {
 	
 	@Autowired
 	HomeService homeService;
-	
+
 	@Autowired
 	RezervacijaRepository rezRep;
 	
@@ -68,6 +72,9 @@ public class HomeController {
 	
 	@Autowired
 	DodatneuslugeRepository dodUslRep;
+	
+	@Autowired
+	OcenaRepository ocenaRep;
 	
 	
 	@RequestMapping(value = "/search", method = RequestMethod.POST, consumes="application/json")
@@ -360,6 +367,33 @@ public class HomeController {
 			return new ResponseEntity(smestJedinice, HttpStatus.OK);
 
 			
+	}
+	
+	@RequestMapping(value = "/getOcena", method = RequestMethod.GET, produces="application/json")
+	public ResponseEntity<?> getMessage(
+			@RequestParam(value="id") String id) {
+		
+		Long hjid = Long.parseLong(id);
+		
+		int brojac = 0;
+		int suma = 0;
+		int ocena = 0;
+		CloudService cloudService = new CloudService();
+		for (Ocena o: cloudService.getOceneArrayForSmestaj(hjid)) {
+			if (o.getSmestajnaJedinica()==hjid) {
+				suma = suma + o.getOcena();
+				brojac++;
+			}
+		}
+		if (brojac!=0) {
+			ocena = suma/brojac;
+		}
+		
+		return new ResponseEntity(ocena, HttpStatus.OK); 
+		
+	
+		
+		
 	}
 	
 

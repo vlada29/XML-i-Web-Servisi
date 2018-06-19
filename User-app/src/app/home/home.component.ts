@@ -6,6 +6,9 @@ import { HomeService } from '../services/home.service';
 import { SearchDTO } from '../model/searchDTO';
 import { AdvancedSearchDTO } from '../model/advancedsearchDTO';
 import { dodatnaDTO } from '../model/dodatnaDTO';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 
 
 
@@ -56,7 +59,8 @@ export class HomeComponent implements OnInit {
   constructor(private loginService: LoginServiceService,
     private route: ActivatedRoute, 
     private homeService: HomeService, 
-    private router: Router) {
+    private router: Router,
+    private _sanitizer: DomSanitizer) {
 
      }
 
@@ -283,6 +287,63 @@ export class HomeComponent implements OnInit {
     this.sortOcena = false;
     this.search();
   }
+
+  // slike
+
+  image_urls = [];
+  image_to_show: any;
+  binaryData = [];
+  show_images = false;
+  public o_images: Observable<any>
+  b64strings = [];
+
+  createUrls(i, hjid){
+    console.log("createurls usao");
+    var x = document.getElementById(hjid);
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+
+   this.searchResults.forEach((item, index) => {
+         if(index!=i){
+             x = document.getElementById(item.hjid);
+             x.style.display = "none";
+         }
+     });
+
+
+
+
+
+    var urlCreator = window.URL; // || window.webkitURL;
+    this.image_urls = [];
+    this.b64strings = [];
+    for(let image_blob of this.searchResults[i].picture){
+        this.b64strings.push(image_blob);
+        this.binaryData = [];
+        this.binaryData.push(image_blob);
+        this.image_to_show = urlCreator.createObjectURL(new Blob(this.binaryData, {type: "application/zip"}));
+        this.image_urls.push(this.image_to_show);
+
+
+    }
+    console.log(this.image_urls);
+    this.o_images =  Observable.of(this.image_urls);
+    this.show_images = true;
+
+// } else {
+ //   this.show_images = false;
+// }
+
+}
+
+approveImage(toReturnImage){
+  return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
+            + toReturnImage);
+
+}
 
 
 

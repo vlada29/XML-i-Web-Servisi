@@ -26,12 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
 import com.model.Agent;
 import com.model.Message;
+import com.model.Rezervacija;
 import com.model.User;
 import com.model.dto.RegistrationUserDto;
 import com.model.dto.LoginUserDto;
 import com.model.dto.MessageDto;
 import com.repositories.AgentRepository;
 import com.repositories.MessageRepository;
+import com.repositories.RezervacijaRepository;
 import com.repositories.UserRepository;
 import com.services.UserService;
 
@@ -50,6 +52,9 @@ public class UserController {
 	
 	@Autowired
 	MessageRepository messRep;
+	
+	@Autowired
+	RezervacijaRepository rezRep;
 	
 	@Autowired
 	UserService userService;
@@ -201,6 +206,16 @@ public class UserController {
 		if (a==null) {
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
+		//da li je agent u listi rezervacija
+		int brojac = 0;
+		for (Rezervacija r: rezRep.findAll()) {
+			if (r.getUser().getHjid()==u.getHjid() && r.getSmestajnaJedinica().getAgent().getHjid()==a.getHjid()) {
+				brojac++;
+			}
+		}
+		if (brojac==0) {
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
 		m.setAgent(a);
 		m.setContent(messageDto.getContent());
 		m.setSenderType("user");
@@ -279,6 +294,8 @@ public class UserController {
 		
 		
 	}
+	
+	
 	
 	
 	

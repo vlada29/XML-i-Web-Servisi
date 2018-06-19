@@ -14,7 +14,7 @@ import com.model.dto.SearchDto;
 public interface HomeService {
 	
 	public ArrayList<SmestajnaJedinica> findSearch(SearchDto searchDto) throws ParseException, DatatypeConfigurationException;
-	public boolean reserve(Long id, Long idUser, XMLGregorianCalendar d1, XMLGregorianCalendar d2);
+	public boolean reserve(Long id, Long idUser, XMLGregorianCalendar d1, XMLGregorianCalendar d2) throws DatatypeConfigurationException;
 	public ArrayList<SmestajnaJedinica> advancedSearch(AdvancedSearchDto asearchDto) throws ParseException, DatatypeConfigurationException;
 
 }

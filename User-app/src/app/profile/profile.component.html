@@ -3,8 +3,8 @@
 <label for="mobile-nav" class="gaadiexp white" tabindex="0"><span></span></label>
 <nav role="navigation" class="header-nav">
     <div class="fixed-nav">
-        <a class="navbar-brand"  style="margin-left:50px;" href="auction.gaadiexpert.com"></a>
-
+  
+<h2 style="color: orange; font-family: 'Roboto'">BOOKING</h2>
         <div class="menu">
             <div class="list-group-hover sidebar-widget-1">
 	            <ul class="list-unstyled">
@@ -34,8 +34,9 @@
     <div class="container">
         <div class="row">
             
+            <h2 style="color: orange; font-family: 'Roboto'"> {{loggedUser.ime}}'s profile and reservation details</h2>
             <div class="col-sm-12" style="text-align: center">
-              <h2 style="color: orange; font-family: 'Roboto'"> Wellcome, {{loggedUser.ime}} !</h2>
+              
             </div>
 
 
@@ -45,7 +46,56 @@
 
 </div>
 
+<br>
+<h3>Reservations</h3>
+<div class="container">
+    <div class="row">
+        <div class="[ col-xs-12 col-sm-offset-2 col-sm-8 ]">
+            <ul class="event-list" *ngFor="let r of reservations; let i = index" >
+                <li >
+  
+                    <img alt="Independence Day" src="https://farm4.staticflickr.com/3100/2693171833_3545fb852c_q.jpg" />
+                    <div class="info">
+                        <h2 (click)="more(r.hjid)" class="title">{{r.smestajnaJedinica.lokacija.grad}}, {{r.smestajnaJedinica.lokacija.drzava}},
+                            {{r.smestajnaJedinica.lokacija.ulica}}, {{r.smestajnaJedinica.lokacija.broj}}</h2>
+                        <p class="desc">{{r.smestajnaJedinica.tipSmestaja.nazivTipa}}</p>
+                        
+                        <ul>
+								<li style="width:50%;"><a href="#website"><span class="fa fa-globe"></span><b>Time period</b> {{r.od}} - {{r.do}}</a></li>
+                                <li style="width:50%;"><span class="fa fa-money"></span>{{r.smestajnaJedinica.brojOsoba}} persons, RSD {{r.ukupnaCena}}</li>
+                                <button type="button" class="btn btn-danger " (click)="cancel(r.hjid)">Cancel</button>
+                        </ul>
+                    </div>
+                   
+                   
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 
+<h3>Past reservations</h3>
+<div class="container">
+    <div class="row">
+        <div class="[ col-xs-12 col-sm-offset-2 col-sm-8 ]">
+            <ul class="event-list" *ngFor="let r of reservationsRealiz; let i = index"  >
+                
+                <li (click)="more(r.hjid)">
+
+                    <img alt="Independence Day" src="https://farm4.staticflickr.com/3100/2693171833_3545fb852c_q.jpg" />
+                    <div class="info">
+                        <h2 class="title">{{r.smestajnaJedinica.lokacija.grad}}, {{r.smestajnaJedinica.lokacija.drzava}},
+                            {{r.smestajnaJedinica.lokacija.ulica}}, {{r.smestajnaJedinica.lokacija.broj}}</h2>
+                        <p class="desc">{{r.smestajnaJedinica.tipSmestaja.nazivTipa}}</p>
+                    </div>
+         
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- 
 <div class="wrapper">
     <table id="acrylic">
         <thead>
@@ -54,6 +104,8 @@
                 <th>Naziv</th>
                 <th>Tip smestaja</th>
                 <th>Broj osoba</th>
+                <th>Od - Do</th>
+                <th>Cena</th>
 
             </tr>
         </thead>
@@ -64,6 +116,8 @@
                 <td>{{r.smestajnaJedinica.naziv}}</td>
                 <td>{{r.smestajnaJedinica.tipSmestaja.nazivTipa}}</td>
                 <td>{{r.smestajnaJedinica.brojOsoba}}</td>
+                <td>{{r.od}} - {{r.do}}</td>
+                <td>{{r.ukupnaCena}}</td>
                 <td><button type="button" class="btn btn-danger " (click)="cancel(r.hjid)">Cancel</button>
                 <button type="button" class="btn btn-primary " (click)="more(r.hjid)">Show more</button></td>
 
@@ -72,4 +126,4 @@
         </tbody>
     </table>
 </div>
-
+ -->

@@ -186,7 +186,7 @@
         </div>
     </div>
 
- <div *ngFor="let s of searchResults">
+ <div *ngFor="let s of searchResults;  let i=index">
     <div class="row">
         <div class="col-md-12 ">
             <div class="crane-grid-listing-block">
@@ -195,7 +195,14 @@
 	          <div class="crane-grid-listing clearfix">
 	              <div class="col-md-4 crane-image-block ">
 	                  <div class="crane-list-img">
-	                      <img class="img-responsive"src="https://media-cdn.tripadvisor.com/media/photo-s/03/9b/2f/ce/maldives.jpg">
+                        <button class="btn btn-primary"  type="button" (click)="createUrls(i, s.hjid)">Show Images</button>
+                        <div   [attr.id]="s.hjid" >
+                            <div *ngFor="let str of b64strings ">
+
+                                <a><img [src]="'data:image/jpg;base64,'+str" style="width: 200px;height:150px;"/></a>
+                                <img [src]="approveImage(str)"/>
+                            </div>
+                        </div>
 	                  </div>
                   </div>
                   
