@@ -26,14 +26,15 @@
 
                 <thead>
                   <tr>
-                    <th>From</th>
+                    <th>From - Subject</th>
+                    
                   </tr>
                 </thead>
                 <tbody *ngFor="let m of my_messages; let i=index">
 
-                  <tr *ngIf="m.senderType=='User'">
+                  <tr *ngIf="m.senderType=='user' || m.senderType=='User'">
                     <td >
-                        <button type="button" class="btn btn-default btn-block"  (click)="openMessage(m)">{{m.user.username}}</button>
+                        <button type="button" class="btn btn-default btn-block"  (click)="openMessage(m)">{{m.dat | date:'dd/MM/yyyy'}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{m.user.username}}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{m.naslov}}</button>
                     </td>
                   </tr>
                 </tbody>
@@ -49,9 +50,9 @@
                               </tr>
                             </thead>
                             <tbody *ngFor="let m of my_messages">
-                               <tr *ngIf="m.senderType=='Agent'">
+                               <tr *ngIf="m.senderType=='agent' || m.senderType=='Agent'">
                                  <td >
-                                     <button type="button" class="btn btn-default btn-block" (click)="openSentMessage(m.content)">{{m.user.username}}</button>
+                                     <button type="button" class="btn btn-default btn-block" (click)="openSentMessage(m.content)">{{m.dat | date:'dd/MM/yyyy'}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{m.user.username}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{m.naslov}}</button>
                                  </td>
 
 

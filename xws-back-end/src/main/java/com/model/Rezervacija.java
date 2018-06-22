@@ -138,7 +138,7 @@ public class Rezervacija
      *     
      */
     @ManyToOne(targetEntity = SmestajnaJedinica.class, cascade = {
-        CascadeType.ALL
+        CascadeType.MERGE
     })
     @JoinColumn(name = "SMESTAJNA_JEDINICA_REZERVACI_0")
     public SmestajnaJedinica getSmestajnaJedinica() {

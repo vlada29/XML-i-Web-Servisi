@@ -83,6 +83,7 @@ export class UnitComponent implements OnInit {
     this.getCats();
     this.getTypes();
     this.getExtras();
+    this.getResOfMyUnits();
     //$('.selectpicker').selectpicker('refresh');
     // setTimeout(() => {
     //   $('.selectpicker').selectpicker('refresh');
@@ -110,8 +111,8 @@ export class UnitComponent implements OnInit {
 
   my_units: any;
   getMyUnits(){
-      //this.http.get('/getMyUnits/'+this.login_service.username).subscribe(data => {
-        this.http.get('/getMyUnits/'+'daca').subscribe(data => {
+      this.http.get('/getMyUnits/'+this.login_service.user.username).subscribe(data => {
+       // this.http.get('/getMyUnits/'+'daca').subscribe(data => {
         if(data != null){
           console.log('My Units: ',data);
           this.my_units = data as any[];
@@ -234,14 +235,17 @@ export class UnitComponent implements OnInit {
       console.log(unit);
 
       if(this.slike.length > 0){
-          this.http.post('/createNewUnit/daca', unit).subscribe(data => {
+          this.http.post('/createNewUnit/'+this.login_service.user.username, unit).subscribe(data => {
               if(data != null){
                   console.log('After creating: ');
                   console.log(data);
                   this.my_units = [];
-                  this.my_units = data as any[];
-                  //this.getMyUnits();
+                 // this.my_units = data as any[];
+                  this.getMyUnits();
+                  this.cene=[];
+           	  this.show_images = false; 	
               } else {
+              	  this.cene=[];
                   alert('Error while creating new unit!');
               }
            })
@@ -249,7 +253,7 @@ export class UnitComponent implements OnInit {
            alert('You need to upload atleast one image!');
        }
 
-
+  this.show_images = false; 	
        this.filesPathsOnly = [];
   }
 
@@ -344,7 +348,7 @@ odustani(){
 
   @ViewChild('modalZauzimanje') modalZauzimanje:ElementRef;
 
-  zauzetost = null;
+  rezervacija = null;
    zauzmi(i){
        console.log('reserving row: ', i);
        this.row_z = i;
@@ -360,19 +364,53 @@ odustani(){
         hjid: this.my_units[this.row_z].hjid
        }
 
-       this.zauzetost = {
-           smestajnaJedinica: unit,
+       this.rezervacija = {
+          
            //od: this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day+'T00:00:00',
            //do: this.toDate.year+'-'+this.toDate.month+'-'+this.toDate.day+'T00:00:00'
-
+			smestajnaJedinica: unit,
            od: this.fromDate.year+'-'+this.fromDate.month+'-'+this.fromDate.day,
            do: this.toDate.year+'-'+this.toDate.month+'-'+this.toDate.day
        }
 
-       this.http.post('/reserve', this.zauzetost).subscribe(data => {
+       this.http.post('/reserve' ,this.rezervacija).subscribe(data => {
+       	if(data!=null){
            this.getMyUnits();
+           this.getResOfMyUnits();
+           }else{
+           alert('Already reserved for given dates!');
+           }
        })
    }
+   
+   res_of_my_units : any;
+  getResOfMyUnits(){
+      this.http.get('/getResOfMyUnits/'+this.login_service.user.username).subscribe(data => {
+      if(data != null){
+        console.log('Res of my units: ',data);
+        this.res_of_my_units = data as any[];
+		this.updateZauzetost();
+
+      }
+    })
+  }
+
+	updateZauzetost(){
+		for(let unit of this.my_units){
+			for(let res of this.res_of_my_units){	
+				if(res.smestajnaJedinica.hjid == unit.hjid){
+					var zauz = {
+						od: res.od,
+						do: res.do
+					}
+					unit.listaZauzetosti.push(zauz);
+				}
+			}
+			
+		}
+	}
+
+
 
    image_urls = [];
    image_to_show: any;

@@ -67,23 +67,23 @@ public class AgentsBackEndApplication implements CommandLineRunner{
 		
 		aService.deleteAll();
 		aService.save(a);
-		rezService.deleteAll();
-		messService.deleteAll();	
-		unitService.deleteAll();
-		extrasRepo.deleteAll();
-		catRepo.deleteAll();
-		typesRepo.deleteAll();
-		
-		syncService.syncroniseWithCloudRes(a.getUsername());
-		syncService.syncroniseWithCloudWS("daca");
-		syncService.syncroniseWithCloudMess(Long.valueOf(0));
-		syncService.syncroniseWithCloudCategories();
-		syncService.syncroniseWithCloudExtras();
-		syncService.syncroniseWithCloudTypes();
+//		rezService.deleteAll();
+//		messService.deleteAll();	
+//		unitService.deleteAll();
+//		extrasRepo.deleteAll();
+//		catRepo.deleteAll();
+//		typesRepo.deleteAll();
+//		
+//		syncService.syncroniseWithCloudRes(a.getUsername());
+//		syncService.syncroniseWithCloudWS("daca");
+//		syncService.syncroniseWithCloudMess(Long.valueOf(0));
+//		syncService.syncroniseWithCloudCategories();
+//		syncService.syncroniseWithCloudExtras();
+//		syncService.syncroniseWithCloudTypes();
 		
 		//slike
-		//storageService.deleteAll();
-		//storageService.init();
+		storageService.deleteAll();
+		storageService.init();
 		
 	}
 }

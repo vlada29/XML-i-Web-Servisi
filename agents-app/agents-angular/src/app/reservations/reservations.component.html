@@ -15,6 +15,7 @@
               <table class="table table-condensed">
                 <thead>
                   <tr>
+                    <th>Reservation ID</th>
                     <th>Unit ID</th>
                     <th>Od</th>
                     <th>Do</th>
@@ -26,10 +27,11 @@
                 </thead>
                 <tbody *ngFor="let r of res_of_my_units">
                   <tr>
+                    <td>{{r.hjid}}</td>
                     <td>{{r.smestajnaJedinica.hjid}}</td>
-                    <td>{{r.od}}</td>
-                    <td>{{r.do}}</td>
-
+                    <td>{{r.od | date:'dd/MM/yyyy'}}</td>
+                    <td>{{r.do | date:'dd/MM/yyyy'}}</td>
+                     
                     <td *ngFor="let d of r.dodatneUsluge">
                         {{d.nazivUsluge}}
                     </td>

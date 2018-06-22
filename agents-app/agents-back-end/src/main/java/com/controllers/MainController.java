@@ -32,6 +32,7 @@ import com.model.Agent;
 import com.model.DodatnaUsluga;
 import com.model.KategorijaSmestaja;
 import com.model.Message;
+import com.model.PlanCena;
 import com.model.Rezervacija;
 import com.model.SmestajnaJedinica;
 import com.model.SmestajnaJedinicaPictureItem;
@@ -100,6 +101,23 @@ public class MainController {
 		String prettyJsonString = gson.toJson(je);
 		//System.out.println("New unit = " + prettyJsonString);
 		
+		List<PlanCena> cene = unit.getCene();
+		if(cene.size()>1) {
+			for(PlanCena pc : unit.getCene()) {
+				for(int i = 0; i<cene.size(); i++) {
+					if(pc!=cene.get(i)) {
+						if((( cene.get(i).getPocetakVazenjaItem().getTime() <= pc.getKrajVazenjaItem().getTime()) &&
+								(cene.get(i).getKrajVazenjaItem().getTime()  >= pc.getPocetakVazenjaItem().getTime()))
+								 
+								 
+								) {
+							System.out.println("Price error");
+							return null;
+						}
+					}
+				}
+			}
+		}
 		
 		
 		ArrayList<SmestajnaJedinica> units = new ArrayList<>();
@@ -225,8 +243,21 @@ public class MainController {
 				ObjectMapper mapper = new ObjectMapper();
 				String u = mapper.writeValueAsString(aService.findByUsername(agent.getUsername()));
 				
+				
+				unitService.deleteAll();
+				rezService.deleteAll();
+				catRepo.deleteAll();
+				typesRepo.deleteAll();
+				extrasRepo.deleteAll();
+				messService.deleteAll();
+				avaService.deleteAll();
+				
 				syncService.syncroniseWithCloudWS(agent.getUsername());
 				syncService.syncroniseWithCloudRes(agent.getUsername());
+				syncService.syncroniseWithCloudCategories();
+				syncService.syncroniseWithCloudExtras();
+				syncService.syncroniseWithCloudMess(aService.findByUsername(agent.getUsername()).getHjid());
+				syncService.syncroniseWithCloudTypes();
 				System.out.println("Synchronising finished.");
 				
 				return u;
@@ -247,7 +278,7 @@ public class MainController {
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_XML_VALUE)
 	@ResponseStatus(value = HttpStatus.OK)
-	public String reserve(@RequestBody ZauzetostJedinice zauzetost) throws SOAPException, JAXBException, IOException, JSONException{
+	public String reserve(@RequestBody Rezervacija zauzetost ) throws SOAPException, JAXBException, IOException, JSONException{
 		ObjectMapper mapper = new ObjectMapper();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		JsonParser jp = new JsonParser();
@@ -255,33 +286,17 @@ public class MainController {
 		String prettyJsonString = gson.toJson(je);
 		System.out.println("Zauzetost = " + prettyJsonString);
 		
-	    
-		MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
-		MongoDatabase baza = mongoClient.getDatabase("test");
-		MongoCollection<Document> units = baza.getCollection("smestajnaJedinica");
+ 
+		Rezervacija r = soapService.reserve(zauzetost.getHjid(), zauzetost);
 		
-		//Gson g = new GsonBuilder().create();
-		//String prom_json = g.toJson(zauzetost);
-		SmestajnaJedinica sj = unitService.findOneByHjid(zauzetost.getSmestajnaJedinica().getHjid());
-		if(sj.getListaZauzetosti()==null){
-			sj.setListaZauzetosti(new ArrayList<ZauzetostJedinice>());
-			sj.getListaZauzetosti().add(zauzetost);
-		} else {
-			sj.getListaZauzetosti().add(zauzetost);
+		 
+		if(r!=null) {
+			rezService.save(r);
+			return "{\"message\":\"OK\"}";
 		}
-
-		System.out.println("pre"+unitService.findAll());
-		unitService.deleteSmestajnaJedinicaByHjid(zauzetost.getSmestajnaJedinica().getHjid());
-		System.out.println("posle"+unitService.findAll());
-		unitService.save(sj);
-		System.out.println("nakraju"+unitService.findAll());
-
-		
-		
-		soapService.reserve(zauzetost);
-		
-		mongoClient.close();
-		return "{\"message\":\"OK\"}";
+		else {
+			return null;
+		}
 	}
 	
 	

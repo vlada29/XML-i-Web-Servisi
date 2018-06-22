@@ -65,8 +65,8 @@ public class CloudSynchronisationService {
 	
 	public void syncroniseWithCloudWS(String username) throws JAXBException, SOAPException{
 		System.out.println("Synchronising with Azure database...");
-		String se = "http://localhost:8080/soapWS";
-		String sa = "http://localhost:8080/Units_Wrapper";
+		String se = "http://192.168.1.2:8080/soapWS";
+		String sa = "http://192.168.1.2:8080/Units_Wrapper";
 		
 		
 		List<SmestajnaJedinica> units = unitService.findAll();
@@ -121,8 +121,8 @@ public class CloudSynchronisationService {
 	
 	public void syncroniseWithCloudRes(String username) throws JAXBException, SOAPException{
 		System.out.println("Synchronising with Azure database...");
-		String se = "http://localhost:8080/soapWS";
-		String sa = "http://localhost:8080/Res_Wrapper";
+		String se = "http://192.168.1.2:8080/soapWS";
+		String sa = "http://192.168.1.2:8080/Res_Wrapper";
 		
 		
 		List<Rezervacija> reservations = rezService.findAll();
@@ -175,19 +175,20 @@ public class CloudSynchronisationService {
 	
 	public void syncroniseWithCloudMess(Long hjid) throws JAXBException, SOAPException{
 		System.out.println("Synchronising with Azure database...");
-		String se = "http://localhost:8080/soapWS";
-		String sa = "http://localhost:8080/Mess_Wrapper";
+		String se = "http://192.168.1.2:8080/soapWS";
+		String sa = "http://192.168.1.2:8080/Mess_Wrapper";
 		
 		
 		List<Message> messages = messService.findAll();
 		System.out.println("*******************************************");
 		System.out.println("***[BEFORE SYNC] Messages in Local database:***");
 		for(Message r : messages){
+			 
 			System.out.println(r);
 		}
 		System.out.println("*******************************************");
 		MessWrapper rw = new MessWrapper();
-		rw.setMessages(messages);
+		rw.setMessages(new ArrayList<Message>()); //messages
 		rw.setHjid(hjid);
 		
 		JAXBContext jaxbContext = JAXBContext.newInstance(MessWrapper.class);
@@ -216,6 +217,8 @@ public class CloudSynchronisationService {
 		System.out.println("*******************************************");
 
 		for(Message r : messagesAfter){
+			if(r.getDatum()!=null)
+				r.setDat(r.getDatum().getTime());
 			messService.save(r);
 		}
 		
@@ -230,8 +233,8 @@ public class CloudSynchronisationService {
 	}
 	
 	public void syncroniseWithCloudCategories() throws JAXBException, SOAPException{
-		String se = "http://localhost:8080/soapWS";
-		String sa = "http://localhost:8080/Cats_Wrapper";
+		String se = "http://192.168.1.2:8080/soapWS";
+		String sa = "http://192.168.1.2:8080/Cats_Wrapper";
 
 		CatsWrapper rw = new CatsWrapper();
 		
@@ -270,8 +273,8 @@ public class CloudSynchronisationService {
 	}
 	
 	public void syncroniseWithCloudTypes() throws JAXBException, SOAPException{
-		String se = "http://localhost:8080/soapWS";
-		String sa = "http://localhost:8080/Types_Wrapper";
+		String se = "http://192.168.1.2:8080/soapWS";
+		String sa = "http://192.168.1.2:8080/Types_Wrapper";
 			
 		TypesWrapper rw = new TypesWrapper();
 
@@ -310,8 +313,8 @@ public class CloudSynchronisationService {
 	}
 	
 	public void syncroniseWithCloudExtras() throws JAXBException, SOAPException{
-		String se = "http://localhost:8080/soapWS";
-		String sa = "http://localhost:8080/Extras_Wrapper";
+		String se = "http://192.168.1.2:8080/soapWS";
+		String sa = "http://192.168.1.2:8080/Extras_Wrapper";
 
 		ExtrasWrapper rw = new ExtrasWrapper();
 		

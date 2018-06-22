@@ -12,7 +12,7 @@ import {SyncComponent} from './sync/sync.component';
 const routes: Routes = [
   {
     path: '',
-    component: WorkspaceComponent,
+    component: LoginComponent,
     pathMatch: 'full'
   },
   {

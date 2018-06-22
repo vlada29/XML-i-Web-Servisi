@@ -20,5 +20,6 @@ public interface RezervacijaRepository extends JpaRepository<Rezervacija, Long>{
 	@Query("update Rezervacija r set r.realizovana = true where r.hjid = ?1")
 	void confirmArrival(Long hjid);
 	Rezervacija findOneByHjid(Long hjid);
+	
 }
 
