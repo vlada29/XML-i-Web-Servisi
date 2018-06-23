@@ -62,13 +62,13 @@ public class SOAPUtils {
 
             // Send SOAP Message to SOAP Server
             System.out.println("U call Action je: " + soapAction);
-            System.out.println("U call Request je: " + request);
+            //System.out.println("U call Request je: " + request);
             System.out.println("U call SoapEndPoint je: " + soapEndpointUrl);
             soapResponse = soapConnection.call(createSOAPRequest(soapAction, request), soapEndpointUrl);
 
             // Print the SOAP Response
-            System.out.println("Response SOAP Message:" + soapResponse);
-            soapResponse.writeTo(System.out);
+            //System.out.println("Response SOAP Message:" + soapResponse);
+            //soapResponse.writeTo(System.out);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             soapResponse.writeTo(baos);
             
@@ -97,7 +97,7 @@ public class SOAPUtils {
         /* Print the request message, just for debugging purposes */
         System.out.println("*************************************************************************************");
         System.out.println("Request SOAP Message:");
-        //soapMessage.writeTo(System.out);
+        soapMessage.writeTo(System.out);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         soapMessage.writeTo(baos);
         System.out.println(prettyFormat(new String(baos.toByteArray(),  java.nio.charset.StandardCharsets.UTF_8)));

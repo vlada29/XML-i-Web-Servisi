@@ -1,6 +1,7 @@
 package com.soapservices;
 
 import java.io.StringWriter;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -21,6 +22,8 @@ import com.model.ZauzetostJedinice;
 import com.services.RezService;
 import com.services.UnitService;
 import com.soapservices.soapenv.ConfirmArrival;
+import com.soapservices.soapenv.MessWrapper;
+import com.soapservices.soapenv.ReservationWrapper;
 import com.soaputils.SOAPUtils;
 @Transactional
 @Service
@@ -34,8 +37,8 @@ public class SoapActionsService {
 	
 	public void confirmArrival(String username, Long hjid) throws JAXBException, SOAPException{
 		System.out.println("Confirming arrival on Azure...");
-		String se = "http://localhost:8080/soapWS";
-		String sa = "http://localhost:8080/Confirm_Arrival";
+		String se = "http://192.168.1.2:8080/soapWS";
+		String sa = "http://192.168.1.2:8080/Confirm_Arrival";
 
 		ConfirmArrival ca = new ConfirmArrival();
 		ca.setUsername(username);
@@ -55,8 +58,8 @@ public class SoapActionsService {
 	
 	public void createNewUnit(SmestajnaJedinica unit) throws JAXBException, SOAPException{
 		System.out.println("Sending create request...");
-		String se = "http://localhost:8080/soapWS";
-		String sa = "http://localhost:8080/Smestajna_Jedinica";
+		String se = "http://192.168.1.2:8080/soapWS";
+		String sa = "http://192.168.1.2:8080/Smestajna_Jedinica";
 		
 		
 		
@@ -95,27 +98,41 @@ public class SoapActionsService {
 		
 	}
 	
-	public void reserve(ZauzetostJedinice zj) throws JAXBException, SOAPException{
+	public Rezervacija reserve(Long hjid, Rezervacija rw) throws JAXBException, SOAPException{
 		System.out.println("Reserving on Azure...");
-		String se = "http://localhost:8080/soapWS";
-		String sa = "http://localhost:8080/Zauzetost_Jedinice";
+		String se = "http://192.168.1.2:8080/soapWS";
+		String sa = "http://192.168.1.2:8080/Rezervacija";
 		
-		JAXBContext jaxbContext = JAXBContext.newInstance(ZauzetostJedinice.class);
+		
+		
+		JAXBContext jaxbContext = JAXBContext.newInstance(Rezervacija.class);
 		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 		StringWriter sw = new StringWriter();
-		jaxbMarshaller.marshal(zj, sw);
+		jaxbMarshaller.marshal(rw, sw);
 		String xmlString = sw.toString();
 		
 		System.out.println("XML.toString(JSONObject)-> " + xmlString);
-		SOAPUtils.callSoapWebService(se, sa, xmlString);
+		 
+		SOAPMessage message = SOAPUtils.callSoapWebService(se, sa, xmlString);
 		
+		Unmarshaller unmarshaller = JAXBContext.newInstance(Rezervacija.class).createUnmarshaller();
+		Rezervacija rw2 = (Rezervacija)unmarshaller.unmarshal(message.getSOAPBody().extractContentAsDocument());
+		 
+		 
+		if(rw2.getSmestajnaJedinica().getHjid().equals(Long.valueOf(-1))) {//uspesno rezervisano
+			return null;
+		} else {
+			return rw2;
+		}
 		
 	}
 	
 	public void sendMessage(Message message) throws JAXBException, SOAPException{
+		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		message.setDatum(date);
 		System.out.println("Reserving on Azure...");
-		String se = "http://localhost:8080/soapWS";
-		String sa = "http://localhost:8080/Message";
+		String se = "http://192.168.1.2:8080/soapWS";
+		String sa = "http://192.168.1.2:8080/Message";
 		
 		JAXBContext jaxbContext = JAXBContext.newInstance(Message.class);
 		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();

@@ -29,6 +29,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import org.jvnet.jaxb2_commons.lang.Equals;
 import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
 import org.jvnet.jaxb2_commons.lang.HashCode;
@@ -66,7 +68,9 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
     "senderType",
     "user",
     "agent",
-    "content"
+    "content",
+    "naslov",
+    "datum"
 })
 @XmlRootElement(name = "Message")
 @Entity(name = "Message")
@@ -87,9 +91,9 @@ public class Message
     @XmlAttribute(name = "Hjid")
     protected Long hjid;
     
-    @Column(name = "naslov", length = 25)
+    @XmlAttribute(name = "naslov")
     private String naslov;
-    @Column(name = "datum", length = 25)
+    @XmlJavaTypeAdapter(SqlDateAdapter.class)
     private Date datum;
 
     /**
@@ -127,7 +131,7 @@ public class Message
      *     
      */
     @ManyToOne(targetEntity = User.class, cascade = {
-        CascadeType.ALL
+        CascadeType.MERGE
     })
     @JoinColumn(name = "USER__MESSAGE_HJID")
     public User getUser() {
@@ -155,7 +159,7 @@ public class Message
      *     
      */
     @ManyToOne(targetEntity = Agent.class, cascade = {
-        CascadeType.ALL
+        CascadeType.MERGE
     })
     @JoinColumn(name = "AGENT_MESSAGE_HJID")
     public Agent getAgent() {
@@ -227,8 +231,8 @@ public class Message
         this.hjid = value;
     }
     
-    
-
+    @Basic
+    @Column(name = "naslov", length = 25)
     public String getNaslov() {
 		return naslov;
 	}
@@ -236,7 +240,8 @@ public class Message
 	public void setNaslov(String naslov) {
 		this.naslov = naslov;
 	}
-
+	@Basic
+	@Column(name = "datum", length = 25)
 	public Date getDatum() {
 		return datum;
 	}

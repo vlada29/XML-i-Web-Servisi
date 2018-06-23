@@ -1,6 +1,7 @@
 package com.soapservices;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -207,6 +208,52 @@ public class AgentEndpoint {
 		rw.setHjid(request.getHjid());
 		
 		return rw;
+	}
+	
+	@PayloadRoot(namespace="model", localPart = "Rezervacija")
+	@ResponsePayload
+	public Rezervacija reserve(@RequestPayload Rezervacija request)  throws Exception {
+		for(Rezervacija zj : rezService.findAll()) {
+			
+			if(zj.getSmestajnaJedinica().getHjid().equals(request.getSmestajnaJedinica().getHjid())) {
+			 
+				//(StartA <= EndB)  and  (EndA >= StartB)
+				
+			 
+				if(((request.getOdItem().getTime() <= zj.getDoItem().getTime()+86400000) &&
+						(request.getDoItem().getTime() >= zj.getOdItem().getTime()))
+						|| isOverlapping(request.getOdItem(),request.getDoItem(),zj.getOdItem(),zj.getDoItem())
+						|| 
+						 zj.getDoItem().compareTo(request.getOdItem())==0
+						    /* historyDate <= todayDate <= futureDate */ 
+						 
+						
+						) {
+				//System.out.println();
+			//	if(((zj.getOdItem().getTime() <= request.getOdItem().getTime()) && (zj.getDoItem().getTime() >= request.getOdItem().getTime()))
+				//	|| ((zj.getOdItem().getTime() >= request.getOdItem().getTime()) && (zj.getOdItem().getTime() <= request.getDoItem().getTime()))
+			//		||  (request.getOdItem().getTime()==zj.getDoItem().getTime())
+					// ) {			
+				request.getSmestajnaJedinica().setHjid(Long.valueOf(-1));
+							return request;
+						}
+			}
+			
+		}
+		request.setSmestajnaJedinica(unitService.findByHjid(request.getSmestajnaJedinica().getHjid()));
+		Rezervacija r = rezService.save(request);
+		System.out.println("Reserved: " + r);
+		ZauzetostJedinice zj = new ZauzetostJedinice();
+		zj.setSmestajnaJedinica(unitService.findByHjid(request.getSmestajnaJedinica().getHjid()));
+		zj.setDo(request.getDo());
+		zj.setOd(request.getOd());
+		avaService.save(zj);
+		return r;
+	}
+	public boolean isOverlapping(Date von1, Date bis1, Date von2, Date bis2) {
+	    return (von1.compareTo(von2) <= 0 && bis1.compareTo(von2) >= 0)
+	            || (von1.compareTo(bis2) <= 0 && bis1.compareTo(bis2) >= 0)
+	            || (von1.compareTo(bis2) <= 0 && bis1.compareTo(von2) >= 0);
 	}
 	
 	@PayloadRoot(namespace="model", localPart = "Confirm_Arrival")

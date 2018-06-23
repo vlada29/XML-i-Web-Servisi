@@ -133,8 +133,8 @@ public class SmestajnaJedinica
     protected Long hjid;
     protected transient List<SmestajnaJedinicaPictureItem> pictureItems;
     protected transient List<SmestajnaJedinicaSlikeItem> slikeItems;
-    private double trenutnaCena;
-    private double trenutnaOcena;
+    private transient double trenutnaCena;
+    private transient double trenutnaOcena;
  
 
     public double getTrenutnaCena() {

@@ -20,7 +20,7 @@ export class ReservationsComponent implements OnInit {
   }
   res_of_my_units : any;
   getResOfMyUnits(){
-      this.http.get('/getResOfMyUnits/daca').subscribe(data => {
+      this.http.get('/getResOfMyUnits/'+this.login_service.user.username).subscribe(data => {
       if(data != null){
         console.log('Res of my units: ',data);
         this.res_of_my_units = data as any[];
