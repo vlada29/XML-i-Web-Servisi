@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.model.Komentar;
 import com.model.Ocena;
+import com.model.User;
 
 @SuppressWarnings("deprecation")
 public class CloudService {
@@ -38,7 +39,9 @@ public class CloudService {
 			
 			for (Map.Entry<String, Ocena> entry : body.entrySet())
 			{
-			    ocene.add(entry.getValue());
+				if(!ocene.contains(entry.getValue())) {
+				    ocene.add(entry.getValue());
+				}
 			}
 			
 		}catch (Exception e) {
@@ -47,6 +50,25 @@ public class CloudService {
 
 		return ocene;
 	}
+	
+	public ArrayList<Komentar> pretrazivanjeRejtinga(Long id,int ocena){
+		ArrayList<Komentar> komentari = new ArrayList<Komentar>();
+		
+		for(Ocena o : getOceneArrayForSmestaj(id)) {
+			if(o.getOcena()==ocena) {
+				User u = o.getUser();
+				for(Komentar k : getKomentariArrayForSmestaj(id)) {
+					if(k.getUser().getUsername().equals(u.getUsername())) {
+						if(!komentari.contains(k)) {
+							komentari.add(k);
+						}
+					}
+				}
+			}
+		}
+		return komentari;
+	}
+	
 	
 	public ArrayList<Komentar> getKomentariArrayForSmestaj(Long id){
 		ArrayList<Komentar> komentari = new ArrayList<Komentar>();
@@ -63,7 +85,9 @@ public class CloudService {
 			for (Map.Entry<String, Komentar> entry : body.entrySet())
 			{
 				if(entry.getValue().isOdobren()) {
-					komentari.add(entry.getValue());
+					if(!komentari.contains(entry.getValue())) {
+						komentari.add(entry.getValue());	
+					}
 				}
 			}
 			
@@ -134,13 +158,12 @@ public class CloudService {
 	}
 	
 	public String getKomentariForAdmin() {
+		ArrayList<Komentar> k = new ArrayList<Komentar>();
 		String ret = "[";
 		Gson g = new Gson();
 		try {	
 			String data = getDataForKomentariAdmin();
-			System.out.println(data);
 			if(data == null) {
-				System.out.println("data je null");
 				throw new Exception();
 			}
 			Type type = new TypeToken<Map<String, Komentar>>(){}.getType();
@@ -151,12 +174,15 @@ public class CloudService {
 			for (Map.Entry<String, Komentar> entry : body.entrySet())
 			{
 				if(!entry.getValue().isOdobren()) {
-					if(zarez) {
-						ret+=",";
+					if(!k.contains(entry.getValue())) {
+						k.add(entry.getValue());
+						if(zarez) {
+							ret+=",";
+						}
+						CommentWrapper cw = new CommentWrapper(entry.getValue(),entry.getKey());
+						ret+=g.toJson(cw);
+						zarez=true;
 					}
-					CommentWrapper cw = new CommentWrapper(entry.getValue(),entry.getKey());
-					ret+=g.toJson(cw);
-					zarez=true;
 				}
 			}
 			
@@ -183,7 +209,8 @@ public class CloudService {
 			char[] buffer = new char[1024];
 			Reader reader = new BufferedReader( new InputStreamReader( is, "UTF-8" ) );
 			int n;
-			while( (n=reader.read(buffer)) != -1 ) {
+			while( (n
+					=reader.read(buffer)) != -1 ) {
 				writer.write( buffer, 0, n );
 			}
 			
