@@ -15,6 +15,7 @@ import com.model.Rezervacija;
 import com.model.SmestajnaJedinica;
 import com.model.SmestajnaJedinicaPictureItem;
 import com.model.ZauzetostJedinice;
+import com.repositories.AgentRepository;
 import com.repositories.DodatneuslugeRepository;
 import com.repositories.KategorijasmestajaRepository;
 import com.repositories.TipsmestajaRepository;
@@ -22,6 +23,7 @@ import com.services.AvailabilityService;
 import com.services.MessageService;
 import com.services.RezService;
 import com.services.UnitService;
+import com.soapservices.soapenv.AgentsWrapper;
 import com.soapservices.soapenv.CatsWrapper;
 import com.soapservices.soapenv.ConfirmArrival;
 import com.soapservices.soapenv.ExtrasWrapper;
@@ -52,6 +54,9 @@ public class AgentEndpoint {
 	
 	@Autowired 
 	private DodatneuslugeRepository extrasRepo;
+	
+	@Autowired
+	private AgentRepository agentRepo;
 	
 	@PayloadRoot(namespace="model", localPart = "Smestajna_Jedinica")
 	@ResponsePayload
@@ -216,25 +221,12 @@ public class AgentEndpoint {
 		for(Rezervacija zj : rezService.findAll()) {
 			
 			if(zj.getSmestajnaJedinica().getHjid().equals(request.getSmestajnaJedinica().getHjid())) {
-			 
-				//(StartA <= EndB)  and  (EndA >= StartB)
-				
-			 
 				if(((request.getOdItem().getTime() <= zj.getDoItem().getTime()+86400000) &&
 						(request.getDoItem().getTime() >= zj.getOdItem().getTime()))
 						|| isOverlapping(request.getOdItem(),request.getDoItem(),zj.getOdItem(),zj.getDoItem())
-						|| 
-						 zj.getDoItem().compareTo(request.getOdItem())==0
-						    /* historyDate <= todayDate <= futureDate */ 
-						 
-						
+						|| zj.getDoItem().compareTo(request.getOdItem())==0
 						) {
-				//System.out.println();
-			//	if(((zj.getOdItem().getTime() <= request.getOdItem().getTime()) && (zj.getDoItem().getTime() >= request.getOdItem().getTime()))
-				//	|| ((zj.getOdItem().getTime() >= request.getOdItem().getTime()) && (zj.getOdItem().getTime() <= request.getDoItem().getTime()))
-			//		||  (request.getOdItem().getTime()==zj.getDoItem().getTime())
-					// ) {			
-				request.getSmestajnaJedinica().setHjid(Long.valueOf(-1));
+							request.getSmestajnaJedinica().setHjid(Long.valueOf(-1));
 							return request;
 						}
 			}
@@ -286,6 +278,14 @@ public class AgentEndpoint {
 	@ResponsePayload
 	public Message sendMessage(@RequestPayload Message message)  throws Exception {
 		return messService.save(message);
+	}
+	
+	@PayloadRoot(namespace="model", localPart = "Agents_Wrapper")
+	@ResponsePayload
+	public AgentsWrapper getAgents(@RequestPayload AgentsWrapper request)  throws Exception {
+		AgentsWrapper cw = new AgentsWrapper();
+		cw.setAgents(agentRepo.findAll());
+		return cw;
 	}
 	
 	@PayloadRoot(namespace="model", localPart = "Cats_Wrapper")
