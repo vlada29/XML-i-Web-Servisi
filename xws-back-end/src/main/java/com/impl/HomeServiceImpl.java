@@ -136,24 +136,24 @@ public class HomeServiceImpl implements HomeService {
 				smjed.setTrenutnaCena(suma);
 				
 
-					int brojacO = 0;
-					int sumaO = 0;
-					int ocena = 0;
-					CloudService cloudService = new CloudService();
-					
-					if (cloudService.getOceneArrayForSmestaj(smjed.getHjid())!=null) {
-							for (Ocena o: cloudService.getOceneArrayForSmestaj(smjed.getHjid())) {
-								System.out.println(o.getOcena());
-									sumaO = sumaO + o.getOcena();
-									brojacO++;
-								
-							}
-							if (brojacO!=0) {
-								ocena = sumaO/brojacO;
-								smjed.setTrenutnaOcena(ocena);
-								
-							}
-					}
+//					int brojacO = 0;
+//					int sumaO = 0;
+//					int ocena = 0;
+//					CloudService cloudService = new CloudService();
+//					
+//					if (cloudService.getOceneArrayForSmestaj(smjed.getHjid())!=null) {
+//							for (Ocena o: cloudService.getOceneArrayForSmestaj(smjed.getHjid())) {
+//								System.out.println(o.getOcena());
+//									sumaO = sumaO + o.getOcena();
+//									brojacO++;
+//								
+//							}
+//							if (brojacO!=0) {
+//								ocena = sumaO/brojacO;
+//								smjed.setTrenutnaOcena(ocena);
+//								
+//							}
+//					}
 				
 				smJedRep.save(smjed);
 
@@ -387,22 +387,22 @@ public class HomeServiceImpl implements HomeService {
 				System.out.println("cena"+suma);
 				smjed.setTrenutnaCena(suma);
 				
-				int brojacO = 0;
-				int sumaO = 0;
-				int ocena = 0;
-				CloudService cloudService = new CloudService();
-				
-				for (Ocena o: cloudService.getOceneArrayForSmestaj(smjed.getHjid())) {
-					System.out.println(o.getOcena());
-						sumaO = sumaO + o.getOcena();
-						brojacO++;
-					
-				}
-				if (brojacO!=0) {
-					ocena = sumaO/brojacO;
-					smjed.setTrenutnaOcena(ocena);
-					
-				}
+//				int brojacO = 0;
+//				int sumaO = 0;
+//				int ocena = 0;
+//				CloudService cloudService = new CloudService();
+//				
+//				for (Ocena o: cloudService.getOceneArrayForSmestaj(smjed.getHjid())) {
+//					System.out.println(o.getOcena());
+//						sumaO = sumaO + o.getOcena();
+//						brojacO++;
+//					
+//				}
+//				if (brojacO!=0) {
+//					ocena = sumaO/brojacO;
+//					smjed.setTrenutnaOcena(ocena);
+//					
+//				}
 				smJedRep.save(smjed);
 
 

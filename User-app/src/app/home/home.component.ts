@@ -9,6 +9,7 @@ import { dodatnaDTO } from '../model/dodatnaDTO';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
+import { RatingService } from '../services/rating.service';
 
 
 
@@ -52,15 +53,18 @@ export class HomeComponent implements OnInit {
   private sortCena: boolean = false;
   private sortKat: boolean = false;
   private sortOcena: boolean = false;
+  private trenutnaOcena: any[] = [];
 
-
+  private poredjenje: any;
+  private model: any;
 
 
   constructor(private loginService: LoginServiceService,
     private route: ActivatedRoute, 
     private homeService: HomeService, 
     private router: Router,
-    private _sanitizer: DomSanitizer) {
+    private _sanitizer: DomSanitizer,
+    private ratingService: RatingService) {
 
      }
 
@@ -133,7 +137,16 @@ export class HomeComponent implements OnInit {
         
         this.homeService.search(s).subscribe(data =>
             {this.searchResults = data;
-              console.log(this.searchResults)
+              console.log(this.searchResults);
+              for (let i=0; i<this.searchResults.length; i++){
+                this.ratingService.getOcena(this.searchResults[i].hjid).subscribe(
+                  data =>{
+                  this.trenutnaOcena[i] = data;
+                  console.log(data);
+               //   this.ratingService.setOcena(this.reservations[i].smestajnaJedinica, data).subscribe();
+                  }
+                 );
+              }
             });
  
           
@@ -175,7 +188,16 @@ export class HomeComponent implements OnInit {
         console.log(s);
         this.homeService.searchAdvanced(s).subscribe(data =>
           {this.searchResults = data;
-            console.log(this.searchResults)
+            console.log(this.searchResults);
+            for (let i=0; i<this.searchResults.length; i++){
+              this.ratingService.getOcena(this.searchResults[i].hjid).subscribe(
+                data =>{
+                this.trenutnaOcena[i] = data;
+                console.log(data);
+             //   this.ratingService.setOcena(this.reservations[i].smestajnaJedinica, data).subscribe();
+                }
+               );
+            }
           });
 
 
@@ -246,7 +268,16 @@ export class HomeComponent implements OnInit {
     if (this.sortCena==true){
       console.log("Sortiraj po ceni");
       this.homeService.sortCena(pretragaLista).subscribe(data =>
-      this.searchResults = data);
+      {this.searchResults = data;
+        for (let i=0; i<this.searchResults.length; i++){
+          this.ratingService.getOcena(this.searchResults[i].hjid).subscribe(
+            data =>{
+            this.trenutnaOcena[i] = data;
+            console.log(data);
+            }
+           );
+        }
+      });
     }else{
       console.log("Vrati nazad");
       this.search();
@@ -259,7 +290,17 @@ export class HomeComponent implements OnInit {
     if (this.sortKat==true){
       console.log("Sortiraj po kat");
       this.homeService.sortKat(pretragaLista).subscribe(data =>
-      this.searchResults = data);
+      {this.searchResults = data;
+        for (let i=0; i<this.searchResults.length; i++){
+          this.ratingService.getOcena(this.searchResults[i].hjid).subscribe(
+            data =>{
+            this.trenutnaOcena[i] = data;
+            console.log(data);
+         //   this.ratingService.setOcena(this.reservations[i].smestajnaJedinica, data).subscribe();
+            }
+           );
+        }
+      });
     }else{
       console.log("Vrati nazad");
       this.search();
@@ -272,7 +313,17 @@ export class HomeComponent implements OnInit {
     if (this.sortOcena==true){
       console.log("Sortiraj po oceni");
       this.homeService.sortOcena(pretragaLista).subscribe(data =>
-      this.searchResults = data);
+      {this.searchResults = data;
+        for (let i=0; i<this.searchResults.length; i++){
+          this.ratingService.getOcena(this.searchResults[i].hjid).subscribe(
+            data =>{
+            this.trenutnaOcena[i] = data;
+            console.log(data);
+         //   this.ratingService.setOcena(this.reservations[i].smestajnaJedinica, data).subscribe();
+            }
+           );
+        }
+      });
     }else{
       console.log("Vrati nazad");
       this.search();
@@ -342,6 +393,25 @@ export class HomeComponent implements OnInit {
 approveImage(toReturnImage){
   return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
             + toReturnImage);
+
+}
+
+ok(pretragaLista: any){
+  console.log(this.poredjenje);
+  console.log(this.model);
+
+  if (this.model == "greater"){
+    this.ratingService.greater(pretragaLista, this.poredjenje).subscribe( data =>
+      this.searchResults = data )
+  }
+  if (this.model == "less"){
+    this.ratingService.less(pretragaLista, this.poredjenje).subscribe( data =>
+      this.searchResults = data )
+  }
+  if (this.model == "equal"){
+    this.ratingService.equal(pretragaLista, this.poredjenje).subscribe( data =>
+      this.searchResults = data )
+  }
 
 }
 

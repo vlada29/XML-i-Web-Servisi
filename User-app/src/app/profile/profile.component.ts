@@ -22,6 +22,9 @@ export class ProfileComponent implements OnInit {
   private reservations: any[];
   private reservationsRealiz: any[];
 
+  private reservationsOcena: any[] = [];
+  private reservationsRealizOcena: any[] = [];
+
   private rating: number[] = [];
   private showCom: boolean[] = [];
   private content: any;
@@ -44,13 +47,36 @@ export class ProfileComponent implements OnInit {
       this.profileService.getRes(this.loggedUserId).subscribe(data =>
       {this.reservations = data;
         console.log(this.reservations);
+        for (let i=0; i<this.reservations.length; i++){
+         this.ratingService.getOcena(this.reservations[i].smestajnaJedinica.hjid).subscribe(
+          data =>{
+          this.reservationsOcena[i] = data;
+          console.log(data);
+       //   this.ratingService.setOcena(this.reservations[i].smestajnaJedinica, data).subscribe();
+          }
+         );
+        }
       }
       );
       this.profileService.getPastRes(this.loggedUserId).subscribe(data =>
         { this.reservationsRealiz = data;
           for (let i = 0; i<data.length; i++){
             this.showCom[i] = false;
-          } }
+            this.ratingService.getOcena(this.reservationsRealiz[i].smestajnaJedinica.hjid).subscribe(
+              data =>{
+              this.reservationsRealizOcena[i] = data;
+              console.log("ocena"+data);
+             // this.ratingService.setOcena(this.reservationsRealiz[i].smestajnaJedinica, data).subscribe();
+              }
+             );
+
+
+          } 
+          
+
+        
+        
+        }
         );
 
     }

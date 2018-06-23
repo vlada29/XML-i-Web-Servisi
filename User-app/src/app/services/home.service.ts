@@ -4,6 +4,13 @@ import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular
 import { Observable } from 'rxjs/Observable';
 import { SearchDTO } from '../model/searchDTO';
 import { AdvancedSearchDTO } from '../model/advancedsearchDTO';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/concatMap';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/observable/forkJoin';
+import 'rxjs/add/operator/takeLast';
 
 @Injectable()
 export class HomeService {
@@ -26,25 +33,7 @@ search(searchDTO : SearchDTO) : Observable<any> {
         alert(err.status + " Search error.");
         return Observable.throw(err);
     }); 
-    // return this.http
-    //      .get("http://localhost:8080/search", { headers: headers })
-    //      .map((data: [any]) => data)
-    //      .concatMap((searchResults: any[]) => {
-    //          const observables = searchResults.map(r => this.http.get("http://localhost:8080/getCenu", {
-    //              params: new HttpParams().append('idSmJed',r.smestajnaJedinica), headers: headers 
-    //          }));
-         
-    //          return Observable.forkJoin(observables, (...results) => 
-    //            results.map((result, i) => {
-    //              cena[i] = result;
-    //              return searchResults[i]; 
-    //            })
-    //          )
-    //        }).takeLast(1) 
-    //      .catch((err: HttpErrorResponse) => {
- 
-    //          return Observable.throw(err);
-    //      });
+
     
 }
 
@@ -138,6 +127,9 @@ getReservation(id: any): Observable<any>{
 
         return Observable.throw(err);
     });
+
+    
+
 }
 
 getDodatne(): Observable<any>{

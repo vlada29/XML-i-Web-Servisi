@@ -41,7 +41,12 @@
                     <div class="crane-grid-listing clearfix">
                         <div class="col-md-4 crane-image-block ">
                             <div class="crane-list-img">
-                                <img class="img-responsive"src="https://media-cdn.tripadvisor.com/media/photo-s/03/9b/2f/ce/maldives.jpg">
+                                    <div   [attr.id]="r.smestajnaJedinica.hjid" >
+                                        <div *ngFor="let str of b64strings ">
+                                            <a><img [src]="'data:image/jpg;base64,'+str" style="width: 200px;height:150px;"/></a>
+                                        </div>
+                                    </div>
+                               
                             </div>
                           </div>
                           
@@ -73,7 +78,8 @@
                                   </div>
                                   <div>
                                    
-                                            <p>Cena: {{r?.ukupnaCena}}</p>
+                                            <p>Cena: {{r?.ukupnaCena}} Ocena: {{ocena}}</p>
+                                            
                                    
                                     
                                   </div>
@@ -118,10 +124,8 @@
               <div  *ngFor="let c of comments">
                <div class="comments-list">
                    <div class="media">
-                       <p class="pull-right"><small>5 days ago</small></p>
-                        <a class="media-left" href="#">
-                          <img src="http://lorempixel.com/40/40/people/1/">
-                        </a>
+                    
+ 
                         <div class="media-body">
                             
                           <h4 class="media-heading user_name">{{c?.user.username}}</h4>

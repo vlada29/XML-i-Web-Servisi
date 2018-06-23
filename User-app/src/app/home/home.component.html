@@ -126,6 +126,7 @@
 
         </div>
 
+
         <div class="row" *ngIf="enableError==true" style="color: red">
             <h4>
             Please choose place, dates and number of persons to search lodging!
@@ -153,17 +154,41 @@
             </div>
         </div>
     <div *ngIf="searchResults">
-            <label class="labela">Sortiraj po ceni
+            <div class="row">
+                <div class="col-md-2">
+                    <h5>Search by rating:</h5>
+                </div>
+                <div class="col-md-2">
+                    <label class="labela">
+                    <input type="radio" name="greater" value="greater" [(ngModel)] = "model" >Greater than</label>
+                </div>
+                <div class="col-md-2">
+                    <label class="labela">
+                    <input type="radio" name="less" value="less" [(ngModel)] = "model" >Less than</label>
+                </div>
+                <div class="col-md-2">
+                    <label class="labela">
+                    <input type="radio" name="equal" value="equal" [(ngModel)] = "model" >Equal</label>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" [(ngModel)]="poredjenje" style=" width: 40px; height: 20px">
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-warning" (click)="ok(searchResults)">Ok</button>
+                </div>   
+                </div>
+
+            <label class="labela">Price sort
                     <input type="checkbox" name="sortCena" [(ngModel)]="sortCena" (change)="sortCenaChanged(searchResults)"  >
             </label>
-            <label class="labela">Sortiraj po kategoriji
+            <label class="labela">Category sort
                 <input type="checkbox" name="sortKat" [(ngModel)]="sortKat" (change)="sortKategorijaChanged(searchResults)"  >
         </label>
-        <label class="labela">Sortiraj po oceni
+        <label class="labela">Rating sort
             <input type="checkbox" name="sortOcena" [(ngModel)]="sortOcena" (change)="sortOcenaChanged(searchResults)"  >
     </label>
     
-        <button type="button" class="btn btn-warning" (click)="backSearch()">Ponisti sve</button>
+        <button type="button" class="btn btn-warning" (click)="backSearch()">X</button>
 
    
     </div>
@@ -232,7 +257,7 @@
                                 <p>Opis: {{s.opis}}</p>
                             </div>
                             <div class="col-md-3">
-                                <p>Ocena: {{s.trenutnaOcena}}</p>
+                                <p>Ocena: {{trenutnaOcena[i]}}</p>
                             </div>
                           </div>
                           <div>
