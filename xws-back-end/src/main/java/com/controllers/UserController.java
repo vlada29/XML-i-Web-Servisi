@@ -148,6 +148,9 @@ public class UserController {
 		
 		User logged = userService.findUser(loginUserDTO);
 		System.out.println(logged);
+		if (logged.isActive()==false) {
+			return new ResponseEntity(HttpStatus.BAD_REQUEST); 
+		}
 		if (logged!=null) {
 			userService.setCurrentUser(logged);
 			return new ResponseEntity(logged, HttpStatus.OK);
@@ -206,6 +209,7 @@ public class UserController {
 		if (a==null) {
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
+		
 		//da li je agent u listi rezervacija
 		int brojac = 0;
 		for (Rezervacija r: rezRep.findAll()) {

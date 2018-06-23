@@ -126,6 +126,9 @@ public class HomeController {
 		System.out.println(id);
 		System.out.println(idUser);
 		
+		System.out.println(xmlGregCal1);
+		System.out.println(xmlGregCal2);
+		
 
 
 		if (homeService.reserve(hjid, hjidUser, xmlGregCal1, xmlGregCal2)) {
@@ -359,7 +362,25 @@ public class HomeController {
 			HttpServletRequest request) {
 		
 			System.out.println(smestJedinice);
-
+			for (SmestajnaJedinica sj: smestJedinice) {
+				int brojac = 0;
+				int suma = 0;
+				int ocena = 0;
+				CloudService cloudService = new CloudService();
+				
+				for (Ocena o: cloudService.getOceneArrayForSmestaj(sj.getHjid())) {
+					System.out.println(o.getOcena());
+						suma = suma + o.getOcena();
+						brojac++;
+					
+				}
+				if (brojac!=0) {
+					ocena = suma/brojac;
+					sj.setTrenutnaOcena(ocena);
+					smJedRep.save(sj);
+				}
+			}
+			
 			smestJedinice.sort(Comparator.comparing(SmestajnaJedinica::getTrenutnaOcena).reversed());
 
 			System.out.println("Posle sorta ocene");
@@ -367,33 +388,6 @@ public class HomeController {
 			return new ResponseEntity(smestJedinice, HttpStatus.OK);
 
 			
-	}
-	
-	@RequestMapping(value = "/getOcena", method = RequestMethod.GET, produces="application/json")
-	public ResponseEntity<?> getMessage(
-			@RequestParam(value="id") String id) {
-		
-		Long hjid = Long.parseLong(id);
-		
-		int brojac = 0;
-		int suma = 0;
-		int ocena = 0;
-		CloudService cloudService = new CloudService();
-		for (Ocena o: cloudService.getOceneArrayForSmestaj(hjid)) {
-			if (o.getSmestajnaJedinica()==hjid) {
-				suma = suma + o.getOcena();
-				brojac++;
-			}
-		}
-		if (brojac!=0) {
-			ocena = suma/brojac;
-		}
-		
-		return new ResponseEntity(ocena, HttpStatus.OK); 
-		
-	
-		
-		
 	}
 	
 

@@ -26,32 +26,32 @@ export class ProfileService {
      });
 
 
-    return this.http.get("http://localhost:8080/getReservations", {headers:headers, params: params})
-    .map((data:Observable<any>) => data)
-    .catch((err:HttpErrorResponse) =>
-    {
+    // return this.http.get("http://localhost:8080/getReservations", {headers:headers, params: params})
+    // .map((data:Observable<any>) => data)
+    // .catch((err:HttpErrorResponse) =>
+    // {
 
-        return Observable.throw(err);
-    });
-    // return this.http
-    //      .get("http://localhost:8080/getReservations", { params: params, headers: headers })
-    //      .map((data: [any]) => data)
-    //      .concatMap((reservations: any[]) => {
-    //          const observables = reservations.map(r => this.http.get("http://localhost:8080/getResInfo", {
-    //              params: new HttpParams().append('idSmJed',r.smestajnaJedinica), headers: headers 
-    //          }));
+    //     return Observable.throw(err);
+    // });
+    return this.http
+         .get("http://localhost:8080/getReservations", { params: params, headers: headers })
+         .map((data: [any]) => data)
+         .concatMap((reservations: any[]) => {
+             const observables = reservations.map(r => this.http.get("http://localhost:8080/getOcena", {
+                 params: new HttpParams().append('id',r.smestajnaJedinica.hjid), headers: headers 
+             }));
          
-    //          return Observable.forkJoin(observables, (...results) => 
-    //            results.map((result, i) => {
-    //              reservations[i].smestajnaJedinica = result;
-    //              return reservations[i]; 
-    //            })
-    //          )
-    //        }).takeLast(1) 
-    //      .catch((err: HttpErrorResponse) => {
+             return Observable.forkJoin(observables, (...results) => 
+               results.map((result, i) => {
+                 reservations[i].trenutnaOcena = result;
+                 return reservations[i]; 
+               })
+             )
+           }).takeLast(1) 
+         .catch((err: HttpErrorResponse) => {
  
-    //          return Observable.throw(err);
-    //      });
+             return Observable.throw(err);
+         });
 
   }
 
@@ -65,13 +65,34 @@ export class ProfileService {
      });
 
      
-    return this.http.get("http://localhost:8080/getPastReservations", {headers:headers, params: params})
-    .map((data:Observable<any>) => data)
-    .catch((err:HttpErrorResponse) =>
-    {
+    // return this.http.get("http://localhost:8080/getPastReservations", {headers:headers, params: params})
+    // .map((data:Observable<any>) => data)
+    // .catch((err:HttpErrorResponse) =>
+    // {
 
-        return Observable.throw(err);
-    });
+    //     return Observable.throw(err);
+    // });
+
+    return this.http
+         .get("http://localhost:8080/getPastReservations", { params: params, headers: headers })
+         .map((data: [any]) => data)
+         .concatMap((reservations: any[]) => {
+             const observables = reservations.map(r => this.http.get("http://localhost:8080/getOcena", {
+                 params: new HttpParams().append('id',r.smestajnaJedinica.hjid), headers: headers 
+             }));
+         
+             return Observable.forkJoin(observables, (...results) => 
+               results.map((result, i) => {
+                 reservations[i].trenutnaOcena = result;
+                 console.log(reservations[i].trenutnaOcena);
+                 return reservations[i]; 
+               })
+             )
+           }).takeLast(1) 
+         .catch((err: HttpErrorResponse) => {
+ 
+             return Observable.throw(err);
+         });
 
   }
 

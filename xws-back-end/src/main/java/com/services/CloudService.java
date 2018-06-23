@@ -63,7 +63,15 @@ public class CloudService {
 			for (Map.Entry<String, Komentar> entry : body.entrySet())
 			{
 				if(entry.getValue().isOdobren()) {
-					komentari.add(entry.getValue());
+					System.out.println(entry.getValue());
+					//komentari.add(entry.getValue());
+					Komentar k = new Komentar();
+					k.setHjid(entry.getValue().getHjid());
+					k.setOdobren(entry.getValue().isOdobren());
+					k.setSadrzaj(entry.getValue().getSadrzaj());
+					k.setSmestajnaJedinica(entry.getValue().getSmestajnaJedinica());
+					k.setUser(entry.getValue().getUser());
+					komentari.add(k);
 				}
 			}
 			

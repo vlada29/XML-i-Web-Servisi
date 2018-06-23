@@ -3,8 +3,8 @@
 <label for="mobile-nav" class="gaadiexp white" tabindex="0"><span></span></label>
 <nav role="navigation" class="header-nav">
     <div class="fixed-nav">
-        <a class="navbar-brand"  style="margin-left:50px;" href="auction.gaadiexpert.com"></a>
 
+        <h2 style="color: orange; font-family: 'Roboto'">BOOKING</h2>
         <div class="menu">
             <div class="list-group-hover sidebar-widget-1">
 	            <ul class="list-unstyled">
@@ -49,31 +49,31 @@
                             <div class="crane-list-content">
                                 <div class="crane-title" >
                                       <br>
-                                    <h3>{{r?.smestajnaJedinica.lokacija.drzava}} {{r.smestajnaJedinica.lokacija.grad}}</h3>
+                                    <h3>{{r?.smestajnaJedinica.lokacija.drzava}} {{r?.smestajnaJedinica.lokacija.grad}}</h3>
                                 </div>
                                 
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <p><i class="fa fa-phone"></i>Type: {{r.smestajnaJedinica.tipSmestaja.nazivTipa}}</p>
+                                        <p><i class="fa fa-phone"></i>Type: {{r?.smestajnaJedinica.tipSmestaja.nazivTipa}}</p>
                                       </div>
                                       <div class="col-md-3">
-                                        <p><i class="fa fa-phone"></i>Category: {{r.smestajnaJedinica.kategorijaSmestaja.nazivKategorije}}</p>
+                                        <p><i class="fa fa-phone"></i>Category: {{r?.smestajnaJedinica.kategorijaSmestaja.nazivKategorije}}</p>
                                     </div>
 
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">
         
-                                          <p>Location: {{r.smestajnaJedinica.lokacija.ulica}} {{r.smestajnaJedinica.lokacija.broj}}</p>
+                                          <p>Location: {{r?.smestajnaJedinica.lokacija.ulica}} {{r?.smestajnaJedinica.lokacija.broj}}</p>
                                     
                                       </div>
                                       <div class="col-md-3">
-                                        <p>Description: {{r.smestajnaJedinica.opis}}</p>
+                                        <p>Description: {{r?.smestajnaJedinica.opis}}</p>
                                     </div>
                                   </div>
                                   <div>
                                    
-                                            <p>Cena: {{r.ukupnaCena}}</p>
+                                            <p>Cena: {{r?.ukupnaCena}}</p>
                                    
                                     
                                   </div>
@@ -90,15 +90,12 @@
                         <div class="col-md-2 padding-b-10 ">
                             <div class="margin-t-40 hidden-xs"></div>
                             <div>
-                              Agent: {{r.smestajnaJedinica.agent.ime}} {{r.smestajnaJedinica.agent.prezime}}
+                              Agent: {{r?.smestajnaJedinica.agent.ime}} {{r?.smestajnaJedinica.agent.prezime}}
                             </div>
                             <br>
-                            <div class="row">
-                             
-
-                               
-                            
-                                <button class="btn btn-primary mb-2 mr-2" (click)="messageAgent(r.smestajnaJedinica.agent.username)">Message agent</button>
+                            <div class="row" *ngIf="r.realizovana==true">
+                         
+                                <button class="btn btn-primary mb-2 mr-2" (click)="messageAgent(r)">Message agent</button>
                           </div>
                         </div>
                     </div>
@@ -110,7 +107,38 @@
                     
                 </div>
             </div>
-         
+         <div class="row">
+      
+<div class="container">
+        <div class="row">
+            <div class="col-md-8">
+              <div class="page-header">
+                <h4>Comments </h4>
+              </div> 
+              <div  *ngFor="let c of comments">
+               <div class="comments-list">
+                   <div class="media">
+                       <p class="pull-right"><small>5 days ago</small></p>
+                        <a class="media-left" href="#">
+                          <img src="http://lorempixel.com/40/40/people/1/">
+                        </a>
+                        <div class="media-body">
+                            
+                          <h4 class="media-heading user_name">{{c?.user.username}}</h4>
+                          {{c?.sadrzaj}}
+                        
+                        </div>
+                      </div>
+                  
+               </div>
+            </div>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+         </div>
 
     </div>
    

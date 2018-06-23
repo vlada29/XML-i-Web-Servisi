@@ -18,6 +18,7 @@ import { ReservationComponent } from './reservation/reservation.component';
 import { InboxComponent } from './inbox/inbox.component';
 import { MessageComponent } from './message/message.component';
 import { SentComponent } from './sent/sent.component';
+import { RatingService } from './services/rating.service';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { SentComponent } from './sent/sent.component';
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy},
   LoginServiceService,
   HomeService,
-  ProfileService],
+  ProfileService, 
+  RatingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

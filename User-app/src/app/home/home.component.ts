@@ -107,7 +107,7 @@ export class HomeComponent implements OnInit {
     // to do: vallidacija na frontu
     //-za datume
 
-    if (this.from<this.sysdate || this.to<this.sysdate ){
+    if (this.from<this.sysdate || this.to<this.sysdate || this.to<this.from ){
       this.enableError= false;
       this.enableErrorDate = true;
     }else{
@@ -329,7 +329,7 @@ export class HomeComponent implements OnInit {
 
 
     }
-    console.log(this.image_urls);
+    console.log(this.b64strings);
     this.o_images =  Observable.of(this.image_urls);
     this.show_images = true;
 

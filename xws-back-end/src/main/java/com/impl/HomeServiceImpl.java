@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.model.KategorijaSmestaja;
+import com.model.Ocena;
 import com.model.PlanCena;
 import com.model.Rezervacija;
 import com.model.SmestajnaJedinica;
@@ -35,6 +36,7 @@ import com.repositories.RezervacijaRepository;
 import com.repositories.SmestajnaJedinicaRepository;
 import com.repositories.TipsmestajaRepository;
 import com.repositories.UserRepository;
+import com.services.CloudService;
 import com.services.HomeService;
 import com.model.UslugaJedinice;
 import org.springframework.transaction.annotation.Propagation;
@@ -69,17 +71,13 @@ public class HomeServiceImpl implements HomeService {
 		// TODO Auto-generated method stub
 		ArrayList<SmestajnaJedinica> savSmestaj = smJedRep.findAll();
 		ArrayList<SmestajnaJedinica> filtSmestaj = new ArrayList<>();
-		
-
-		
-		
+	
 		for (SmestajnaJedinica smjed: savSmestaj) {
-			
-		
-			
+	
 			if (smjed.getBrojOsoba()==(Integer.parseInt(searchDto.getNumberPerson()))
 					&& (smjed.getLokacija().getDrzava().equals(searchDto.getPlace())
-							|| (smjed.getLokacija().getGrad().equals(searchDto.getPlace())))
+							|| (smjed.getLokacija().getGrad().equals(searchDto.getPlace()))
+							&& smjed.isDostupna()==true)
 					) {
 	
 
@@ -101,9 +99,10 @@ public class HomeServiceImpl implements HomeService {
 				XMLGregorianCalendar xmlGregCal2 =  DatatypeFactory.newInstance().newXMLGregorianCalendar(cal2);
 				
 				List<XMLGregorianCalendar> unetiDatumi = new ArrayList<>();
-				System.out.println(xmlGregCal2.getDay());
-				System.out.println(xmlGregCal1.getDay());
-				int razlika = xmlGregCal2.getDay()-xmlGregCal1.getDay();
+
+				
+				int razlikaTime = (int)(date2.getTime() - date1.getTime());
+				long razlika = razlikaTime / (1000 * 60 * 60 * 24);
 				System.out.println(razlika+"razlika");
 				for (int i = 0; i<=razlika; i++) {
 					Date dat = date1;
@@ -135,6 +134,27 @@ public class HomeServiceImpl implements HomeService {
 				}
 				System.out.println("cena"+suma);
 				smjed.setTrenutnaCena(suma);
+				
+
+					int brojacO = 0;
+					int sumaO = 0;
+					int ocena = 0;
+					CloudService cloudService = new CloudService();
+					
+					if (cloudService.getOceneArrayForSmestaj(smjed.getHjid())!=null) {
+							for (Ocena o: cloudService.getOceneArrayForSmestaj(smjed.getHjid())) {
+								System.out.println(o.getOcena());
+									sumaO = sumaO + o.getOcena();
+									brojacO++;
+								
+							}
+							if (brojacO!=0) {
+								ocena = sumaO/brojacO;
+								smjed.setTrenutnaOcena(ocena);
+								
+							}
+					}
+				
 				smJedRep.save(smjed);
 
 				
@@ -197,8 +217,11 @@ public class HomeServiceImpl implements HomeService {
 		r.setSmestajnaJedinica(smjed);
 		List<XMLGregorianCalendar> unetiDatumi = new ArrayList<>();
 		Date date1 = d1.toGregorianCalendar().getTime();
+		Date date2 = d2.toGregorianCalendar().getTime();
+		
 
-		int razlika = d2.getDay()-d1.getDay();
+		int razlikaTime = (int)(date2.getTime() - date1.getTime());
+		long razlika = razlikaTime / (1000 * 60 * 60 * 24);
 		for (int i = 0; i<=razlika; i++) {
 			Date dat = date1;
 			Calendar c = Calendar.getInstance();
@@ -276,7 +299,7 @@ public class HomeServiceImpl implements HomeService {
 		
 		
 		try{
-			
+
 			rezRep.save(r);
 
 			try {
@@ -324,12 +347,15 @@ public class HomeServiceImpl implements HomeService {
 		for (SmestajnaJedinica smjed: savSmestaj) {
 			if (smjed.getBrojOsoba()==(Integer.parseInt(asearchDto.getNumberPerson()))
 					&& (smjed.getLokacija().getDrzava().equals(asearchDto.getPlace())
-							|| (smjed.getLokacija().getGrad().equals(asearchDto.getPlace())))
+							|| (smjed.getLokacija().getGrad().equals(asearchDto.getPlace()))
+							&& smjed.isDostupna()==true)
 					) {
 				
 				List<XMLGregorianCalendar> unetiDatumi = new ArrayList<>();
-
-				int razlika = xmlGregCal2.getDay()-xmlGregCal1.getDay();
+				
+				
+				int razlikaTime = (int)(date2.getTime() - date1.getTime());
+				long razlika = razlikaTime / (1000 * 60 * 60 * 24);
 				for (int i = 0; i<=razlika; i++) {
 					Date dat = date1;
 					Calendar c = Calendar.getInstance();
@@ -360,6 +386,23 @@ public class HomeServiceImpl implements HomeService {
 				}
 				System.out.println("cena"+suma);
 				smjed.setTrenutnaCena(suma);
+				
+				int brojacO = 0;
+				int sumaO = 0;
+				int ocena = 0;
+				CloudService cloudService = new CloudService();
+				
+				for (Ocena o: cloudService.getOceneArrayForSmestaj(smjed.getHjid())) {
+					System.out.println(o.getOcena());
+						sumaO = sumaO + o.getOcena();
+						brojacO++;
+					
+				}
+				if (brojacO!=0) {
+					ocena = sumaO/brojacO;
+					smjed.setTrenutnaOcena(ocena);
+					
+				}
 				smJedRep.save(smjed);
 
 
@@ -472,13 +515,11 @@ public class HomeServiceImpl implements HomeService {
 					for (UslugaJedinice uj: sm.getUsluge()) {
 						listaUslugaDodatnih.add(uj.getUsluga().getNazivUsluge());
 					}
-					java.util.Collections.sort(listaUslugaDodatnih);
-					
+					java.util.Collections.sort(listaUslugaDodatnih);					
 					System.out.println("lud"+listaUslugaDodatnih);
 					System.out.println("lu"+listaUsluga);
 					if (listaUslugaDodatnih.containsAll(listaUsluga)) {
-						System.out.println("Lista sadrzi drugu - dodaj ovu smestajnu jedinicu");
-		
+						System.out.println("Lista sadrzi drugu - dodaj ovu smestajnu jedinicu");		
 						filtSmestajAdv.add(sm);
 					}
 				}
@@ -486,8 +527,6 @@ public class HomeServiceImpl implements HomeService {
 			}else if (sm.getKategorijaSmestaja().getHjid().equals(kat.getHjid()) && tip.getHjid()==(long)(-1)) {
 				System.out.println("Ista kat, tip nije unesen: "+sm);
 				if (listaUsluga.isEmpty()) {
-
-
 					filtSmestajAdv.add(sm);
 				}else {
 					for (UslugaJedinice uj: sm.getUsluge()) {
@@ -499,7 +538,6 @@ public class HomeServiceImpl implements HomeService {
 					System.out.println("lu"+listaUsluga);
 					if (listaUslugaDodatnih.containsAll(listaUsluga)) {
 						System.out.println("Lista sadrzi drugu - dodaj ovu smestajnu jedinicu");
-		
 						filtSmestajAdv.add(sm);
 					}
 				}
@@ -507,8 +545,6 @@ public class HomeServiceImpl implements HomeService {
 			}else if (tip.getHjid()==(long)(-1) && kat.getHjid()==(long)(-1)){
 				System.out.println("Nisu uneti tip i kat: "+sm);
 				if (listaUsluga.isEmpty()) {
-			
-
 					filtSmestajAdv.add(sm);
 				}else {
 					System.out.println(sm.getHjid());
@@ -516,27 +552,19 @@ public class HomeServiceImpl implements HomeService {
 						System.out.println(uj);
 						listaUslugaDodatnih.add(uj.getUsluga().getNazivUsluge());
 					}
-					java.util.Collections.sort(listaUslugaDodatnih);
-					
+					java.util.Collections.sort(listaUslugaDodatnih);	
 					System.out.println("lud"+listaUslugaDodatnih);
 					System.out.println("lu"+listaUsluga);
 					if (listaUslugaDodatnih.containsAll(listaUsluga)) {
 						System.out.println("Lista sadrzi drugu - dodaj ovu smestajnu jedinicu");
-				
 						filtSmestajAdv.add(sm);
 					}
-				}
-				
+				}				
 			}
-
-			
+	
 		}
 		
 		return filtSmestajAdv;
 	}
-	
-	
-	
-
 	
 }

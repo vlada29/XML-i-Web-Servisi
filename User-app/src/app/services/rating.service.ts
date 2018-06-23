@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+
 
 @Injectable()
 export class RatingService {
@@ -7,7 +9,7 @@ export class RatingService {
   constructor(private http: HttpClient) { }
 
   public postComment(smestajnaJedinica,user,sadrzaj){
-      var endpoint = 'https://us-central1-rating-system-ca802.cloudfunctions.net/addComment';
+      var endpoint = 'https://us-central1-rating-system-ca802.cloudfunctions.net/dodajKomentar';
 
       const comment = {
         hjid: 0,  
@@ -27,11 +29,15 @@ export class RatingService {
         hjid: 0,
         smestajnaJedinica: smestajnaJedinica,
         user: user,
-        ocena: ocena
+        ocena: parseInt(ocena)
       };
+      console.log(rating);
 
       this.http.post(endpoint2,rating).subscribe(data => {});
   }
+
+
+
 
 
   

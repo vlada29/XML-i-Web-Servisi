@@ -3,8 +3,8 @@
 <label for="mobile-nav" class="gaadiexp white" tabindex="0"><span></span></label>
 <nav role="navigation" class="header-nav">
     <div class="fixed-nav">
-        <a class="navbar-brand"  style="margin-left:50px;" href="auction.gaadiexpert.com"></a>
-
+     
+        <h2 style="color: orange; font-family: 'Roboto'">BOOKING</h2>
         <div class="menu">
             <div class="list-group-hover sidebar-widget-1">
 	            <ul class="list-unstyled">
@@ -128,12 +128,12 @@
 
         <div class="row" *ngIf="enableError==true" style="color: red">
             <h4>
-            You have to choose place, dates and number of persons to search lodging!
+            Please choose place, dates and number of persons to search lodging!
         </h4>
         </div>
         <div class="row" *ngIf="enableErrorDate==true" style="color: red">
                 <h4>
-                You have to choose dates after today!
+                Please check your dates again!
             </h4>
             </div>
     </div>
@@ -195,12 +195,10 @@
 	          <div class="crane-grid-listing clearfix">
 	              <div class="col-md-4 crane-image-block ">
 	                  <div class="crane-list-img">
-                        <button class="btn btn-primary"  type="button" (click)="createUrls(i, s.hjid)">Show Images</button>
+             <button class="btn btn-primary"  type="button" (click)="createUrls(i, s.hjid)">Show Images</button> 
                         <div   [attr.id]="s.hjid" >
                             <div *ngFor="let str of b64strings ">
-
                                 <a><img [src]="'data:image/jpg;base64,'+str" style="width: 200px;height:150px;"/></a>
-                                <img [src]="approveImage(str)"/>
                             </div>
                         </div>
 	                  </div>
@@ -232,6 +230,9 @@
                               </div>
                               <div class="col-md-3">
                                 <p>Opis: {{s.opis}}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <p>Ocena: {{s.trenutnaOcena}}</p>
                             </div>
                           </div>
                           <div>
