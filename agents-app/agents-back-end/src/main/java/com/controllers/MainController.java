@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
@@ -308,6 +309,10 @@ public class MainController {
 		JsonElement je = jp.parse(mapper.writeValueAsString(message));
 		String prettyJsonString = gson.toJson(je);
 		System.out.println("Message = " + prettyJsonString);
+		
+		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		message.setDatum(date);
+		message.setDat(date.getTime());
 		
 		messService.save(message);
 		

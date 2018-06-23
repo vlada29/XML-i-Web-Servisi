@@ -128,8 +128,7 @@ public class SoapActionsService {
 	}
 	
 	public void sendMessage(Message message) throws JAXBException, SOAPException{
-		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-		message.setDatum(date);
+		
 		System.out.println("Reserving on Azure...");
 		String se = "http://ac42ab69.ngrok.io/soapWS";
 		String sa = "http://ac42ab69.ngrok.io/Message";

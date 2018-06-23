@@ -69,6 +69,7 @@ export class MessagesComponent implements OnInit {
             agent: agent,
             user: user,
             content: replycontent.value,
+            naslov: this.naslov,
             senderType: 'Agent'
          }
          this.http.post('/sendMessage', message).subscribe(data => {

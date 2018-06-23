@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {Observable} from 'rxjs/Observable';
-import { IUser } from '../interfaces/Iuser';
+import { IUser } from '../interfaces/IUser';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable()
@@ -25,6 +25,7 @@ export class LoginService {
 
    logout(){
     this.loggedIn = false;
+    this.user = null;
     }
 
     getUser(): Observable<IUser> {

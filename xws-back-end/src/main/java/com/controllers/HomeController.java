@@ -161,10 +161,12 @@ public class HomeController {
 		
 		for (Rezervacija r: sveRezervacije) {
 			System.out.println(r);
-			if (r.isRealizovana()==false && r.getUser().getHjid()==hjidUser
-					&& r.getOd().compare(xmlGregCal)>0) {
-				rezervacije.add(r);
-				
+			if(r.getUser()!=null) {
+				if (r.isRealizovana()==false && r.getUser().getHjid()==hjidUser
+						&& r.getOd().compare(xmlGregCal)>0) {
+					rezervacije.add(r);
+					
+				}
 			}
 		}
 		System.out.println(rezervacije);
@@ -184,9 +186,11 @@ public class HomeController {
 		
 		for (Rezervacija r: sveRezervacije) {
 			System.out.println(r);
-			if (r.isRealizovana()==true && r.getUser().getHjid()==hjidUser) {
-				rezervacije.add(r);
-				
+			if(r.getUser()!=null) {
+				if (r.isRealizovana()==true && r.getUser().getHjid()==hjidUser) {
+					rezervacije.add(r);
+					
+				}
 			}
 		}
 		System.out.println(rezervacije);
@@ -257,10 +261,12 @@ public class HomeController {
 		
 		for (Rezervacija r: sveRezervacije) {
 			System.out.println(r);
-			if (r.isRealizovana()==false && r.getUser().getHjid()==hjidUser
-					&& r.getOd().compare(xmlGregCal)>0) {
-				rezervacije.add(r);
-				
+			if(r.getUser()!=null) {
+				if (r.isRealizovana()==false && r.getUser().getHjid()==hjidUser
+						&& r.getOd().compare(xmlGregCal)>0) {
+					rezervacije.add(r);
+					
+				}
 			}
 		}
 		System.out.println(rezervacije);

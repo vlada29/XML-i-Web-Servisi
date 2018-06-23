@@ -199,16 +199,7 @@ export class UnitComponent implements OnInit {
 
       //this.dodatne_usluge.push(DodatneUsluge);
 
-
-      var agent = {
-         username: "daca",
-         // password: "daca",
-         // ime: "Danilo",
-         // prezime: "Bujisa",
-         // adresa: "Milice Tomic 14",
-         // poslovniMBR: 4323,
-          hjid: 0
-      }
+ 
 
       var usluge = [];
       for(let u of this.extrasModelProperty){
@@ -220,7 +211,7 @@ export class UnitComponent implements OnInit {
       console.log('usluge: ', usluge);
       var unit = {
         naziv: "none",
-        agent: agent,
+        agent: this.login_service.user,
         lokacija: location,
         opis: opis,
         brojOsoba: guests,
