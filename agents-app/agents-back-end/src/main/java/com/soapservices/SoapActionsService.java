@@ -37,8 +37,8 @@ public class SoapActionsService {
 	
 	public void confirmArrival(String username, Long hjid) throws JAXBException, SOAPException{
 		System.out.println("Confirming arrival on Azure...");
-		String se = "http://192.168.1.2:8080/soapWS";
-		String sa = "http://192.168.1.2:8080/Confirm_Arrival";
+		String se = "http://ac42ab69.ngrok.io/soapWS";
+		String sa = "http://ac42ab69.ngrok.io/Confirm_Arrival";
 
 		ConfirmArrival ca = new ConfirmArrival();
 		ca.setUsername(username);
@@ -58,8 +58,8 @@ public class SoapActionsService {
 	
 	public void createNewUnit(SmestajnaJedinica unit) throws JAXBException, SOAPException{
 		System.out.println("Sending create request...");
-		String se = "http://192.168.1.2:8080/soapWS";
-		String sa = "http://192.168.1.2:8080/Smestajna_Jedinica";
+		String se = "http://ac42ab69.ngrok.io/soapWS";
+		String sa = "http://ac42ab69.ngrok.io/Smestajna_Jedinica";
 		
 		
 		
@@ -100,8 +100,8 @@ public class SoapActionsService {
 	
 	public Rezervacija reserve(Long hjid, Rezervacija rw) throws JAXBException, SOAPException{
 		System.out.println("Reserving on Azure...");
-		String se = "http://192.168.1.2:8080/soapWS";
-		String sa = "http://192.168.1.2:8080/Rezervacija";
+		String se = "http://ac42ab69.ngrok.io/soapWS";
+		String sa = "http://ac42ab69.ngrok.io/Rezervacija";
 		
 		
 		
@@ -131,8 +131,8 @@ public class SoapActionsService {
 		java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 		message.setDatum(date);
 		System.out.println("Reserving on Azure...");
-		String se = "http://192.168.1.2:8080/soapWS";
-		String sa = "http://192.168.1.2:8080/Message";
+		String se = "http://ac42ab69.ngrok.io/soapWS";
+		String sa = "http://ac42ab69.ngrok.io/Message";
 		
 		JAXBContext jaxbContext = JAXBContext.newInstance(Message.class);
 		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();

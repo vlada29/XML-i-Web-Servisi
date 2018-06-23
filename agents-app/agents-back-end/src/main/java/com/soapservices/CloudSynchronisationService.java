@@ -23,18 +23,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.Gson;
+import com.model.Agent;
 import com.model.DodatnaUsluga;
 import com.model.KategorijaSmestaja;
 import com.model.Message;
 import com.model.Rezervacija;
 import com.model.SmestajnaJedinica;
 import com.model.TipSmestaja;
+import com.repositories.AgentRepository;
 import com.repositories.CategoryRepository;
 import com.repositories.ExtrasRepository;
 import com.repositories.TypesRepository;
 import com.services.MessageService;
 import com.services.RezService;
 import com.services.UnitService;
+import com.soapservices.soapenv.AgentsWrapper;
 import com.soapservices.soapenv.CatsWrapper;
 import com.soapservices.soapenv.ExtrasWrapper;
 import com.soapservices.soapenv.MessWrapper;
@@ -63,10 +66,13 @@ public class CloudSynchronisationService {
 	@Autowired
 	TypesRepository typesRepo;
 	
+	@Autowired
+	AgentRepository agentRepo;
+	
 	public void syncroniseWithCloudWS(String username) throws JAXBException, SOAPException{
 		System.out.println("Synchronising with Azure database...");
-		String se = "http://192.168.1.2:8080/soapWS";
-		String sa = "http://192.168.1.2:8080/Units_Wrapper";
+		String se = "http://ac42ab69.ngrok.io/soapWS";
+		String sa = "http://ac42ab69.ngrok.io/Units_Wrapper";
 		
 		
 		List<SmestajnaJedinica> units = unitService.findAll();
@@ -121,8 +127,8 @@ public class CloudSynchronisationService {
 	
 	public void syncroniseWithCloudRes(String username) throws JAXBException, SOAPException{
 		System.out.println("Synchronising with Azure database...");
-		String se = "http://192.168.1.2:8080/soapWS";
-		String sa = "http://192.168.1.2:8080/Res_Wrapper";
+		String se = "http://ac42ab69.ngrok.io/soapWS";
+		String sa = "http://ac42ab69.ngrok.io/Res_Wrapper";
 		
 		
 		List<Rezervacija> reservations = rezService.findAll();
@@ -175,8 +181,8 @@ public class CloudSynchronisationService {
 	
 	public void syncroniseWithCloudMess(Long hjid) throws JAXBException, SOAPException{
 		System.out.println("Synchronising with Azure database...");
-		String se = "http://192.168.1.2:8080/soapWS";
-		String sa = "http://192.168.1.2:8080/Mess_Wrapper";
+		String se = "http://ac42ab69.ngrok.io/soapWS";
+		String sa = "http://ac42ab69.ngrok.io/Mess_Wrapper";
 		
 		
 		List<Message> messages = messService.findAll();
@@ -231,10 +237,34 @@ public class CloudSynchronisationService {
 		
 		
 	}
+
+	public void syncroniseWithCloudAgents() throws JAXBException, SOAPException{
+		String se = "http://ac42ab69.ngrok.io/soapWS";
+		String sa = "http://ac42ab69.ngrok.io/Agents_Wrapper";
+
+		AgentsWrapper rw = new AgentsWrapper();
+		
+		JAXBContext jaxbContext = JAXBContext.newInstance(AgentsWrapper.class);
+		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+		StringWriter sw = new StringWriter();
+		jaxbMarshaller.marshal(rw, sw);
+		String xmlString = sw.toString();
+		
+		SOAPMessage message = SOAPUtils.callSoapWebService(se, sa, xmlString);
+		
+		Unmarshaller unmarshaller = JAXBContext.newInstance(AgentsWrapper.class).createUnmarshaller();
+		AgentsWrapper cw = (AgentsWrapper)unmarshaller.unmarshal(message.getSOAPBody().extractContentAsDocument());
+		
+		agentRepo.deleteAll();
+
+		for(Agent a : cw.getAgents()){
+			agentRepo.save(a);
+		}
+	}
 	
 	public void syncroniseWithCloudCategories() throws JAXBException, SOAPException{
-		String se = "http://192.168.1.2:8080/soapWS";
-		String sa = "http://192.168.1.2:8080/Cats_Wrapper";
+		String se = "http://ac42ab69.ngrok.io/soapWS";
+		String sa = "http://ac42ab69.ngrok.io/Cats_Wrapper";
 
 		CatsWrapper rw = new CatsWrapper();
 		
@@ -273,8 +303,8 @@ public class CloudSynchronisationService {
 	}
 	
 	public void syncroniseWithCloudTypes() throws JAXBException, SOAPException{
-		String se = "http://192.168.1.2:8080/soapWS";
-		String sa = "http://192.168.1.2:8080/Types_Wrapper";
+		String se = "http://ac42ab69.ngrok.io/soapWS";
+		String sa = "http://ac42ab69.ngrok.io/Types_Wrapper";
 			
 		TypesWrapper rw = new TypesWrapper();
 
@@ -313,8 +343,8 @@ public class CloudSynchronisationService {
 	}
 	
 	public void syncroniseWithCloudExtras() throws JAXBException, SOAPException{
-		String se = "http://192.168.1.2:8080/soapWS";
-		String sa = "http://192.168.1.2:8080/Extras_Wrapper";
+		String se = "http://ac42ab69.ngrok.io/soapWS";
+		String sa = "http://ac42ab69.ngrok.io/Extras_Wrapper";
 
 		ExtrasWrapper rw = new ExtrasWrapper();
 		

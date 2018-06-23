@@ -83,7 +83,7 @@ export class UnitComponent implements OnInit {
     this.getCats();
     this.getTypes();
     this.getExtras();
-    this.getResOfMyUnits();
+    
     //$('.selectpicker').selectpicker('refresh');
     // setTimeout(() => {
     //   $('.selectpicker').selectpicker('refresh');
@@ -116,6 +116,7 @@ export class UnitComponent implements OnInit {
         if(data != null){
           console.log('My Units: ',data);
           this.my_units = data as any[];
+          this.getResOfMyUnits();
 
 
         }
@@ -243,6 +244,8 @@ export class UnitComponent implements OnInit {
                  // this.my_units = data as any[];
                   this.getMyUnits();
                   this.cene=[];
+                  this.slike=[];
+                  this.b64strings=[];
            	  this.show_images = false; 	
               } else {
               	  this.cene=[];
@@ -252,8 +255,8 @@ export class UnitComponent implements OnInit {
        } else {
            alert('You need to upload atleast one image!');
        }
-
-  this.show_images = false; 	
+       this.b64strings=[];
+       this.show_images = false; 	
        this.filesPathsOnly = [];
   }
 
@@ -375,7 +378,7 @@ odustani(){
 
        this.http.post('/reserve' ,this.rezervacija).subscribe(data => {
        	if(data!=null){
-           this.getMyUnits();
+           //this.getMyUnits();
            this.getResOfMyUnits();
            }else{
            alert('Already reserved for given dates!');
@@ -397,6 +400,7 @@ odustani(){
 
 	updateZauzetost(){
 		for(let unit of this.my_units){
+			unit.listaZauzetosti = [];
 			for(let res of this.res_of_my_units){	
 				if(res.smestajnaJedinica.hjid == unit.hjid){
 					var zauz = {

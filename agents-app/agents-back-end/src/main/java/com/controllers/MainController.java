@@ -92,14 +92,14 @@ public class MainController {
 			produces = MediaType.APPLICATION_XML_VALUE)
 	@ResponseStatus(value = HttpStatus.OK)
 	public String createNewUnit(@RequestBody SmestajnaJedinica unit, @PathVariable String username) throws SOAPException, JAXBException, IOException, JSONException{
-		//System.out.println("KAda stigne: " + unit.getListaZauzetosti().get(0).getOd());
+		 
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		JsonParser jp = new JsonParser();
 		JsonElement je = jp.parse(mapper.writeValueAsString(unit));
 		String prettyJsonString = gson.toJson(je);
-		//System.out.println("New unit = " + prettyJsonString);
+		System.out.println("New unit = " + prettyJsonString);
 		
 		List<PlanCena> cene = unit.getCene();
 		if(cene.size()>1) {
@@ -108,8 +108,6 @@ public class MainController {
 					if(pc!=cene.get(i)) {
 						if((( cene.get(i).getPocetakVazenjaItem().getTime() <= pc.getKrajVazenjaItem().getTime()) &&
 								(cene.get(i).getKrajVazenjaItem().getTime()  >= pc.getPocetakVazenjaItem().getTime()))
-								 
-								 
 								) {
 							System.out.println("Price error");
 							return null;
@@ -149,8 +147,6 @@ public class MainController {
 		ObjectMapper mapper2 = new ObjectMapper();
 		   	   
 	    String u = mapper2.writeValueAsString(units);
-	    //System.out.println("After creating, " + unit.getAgent().getUsername()+"'s units:");
-	    //System.out.println(u);
 	    return u;
 	}
 	
@@ -173,8 +169,6 @@ public class MainController {
 		ObjectMapper mapper = new ObjectMapper();
 		   	   
 	    String u = mapper.writeValueAsString(units);
-	    //System.out.println(username+"'s units:");
-	    //System.out.println(u);
 	    return u;
 	}
 	

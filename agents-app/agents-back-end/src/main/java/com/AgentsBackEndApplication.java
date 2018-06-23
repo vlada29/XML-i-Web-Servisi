@@ -57,31 +57,7 @@ public class AgentsBackEndApplication implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception {
-		Agent a = new Agent();
-		a.setUsername("daca");
-		a.setPassword("daca");
-		a.setIme("Danilo");
-		a.setPrezime("Bujisa");
-		a.setAdresa("Milice Tomic 14");
-		a.setHjid(Long.valueOf(0));
-		
-		aService.deleteAll();
-		aService.save(a);
-//		rezService.deleteAll();
-//		messService.deleteAll();	
-//		unitService.deleteAll();
-//		extrasRepo.deleteAll();
-//		catRepo.deleteAll();
-//		typesRepo.deleteAll();
-//		
-//		syncService.syncroniseWithCloudRes(a.getUsername());
-//		syncService.syncroniseWithCloudWS("daca");
-//		syncService.syncroniseWithCloudMess(Long.valueOf(0));
-//		syncService.syncroniseWithCloudCategories();
-//		syncService.syncroniseWithCloudExtras();
-//		syncService.syncroniseWithCloudTypes();
-		
-		//slike
+		syncService.syncroniseWithCloudAgents();
 		storageService.deleteAll();
 		storageService.init();
 		
