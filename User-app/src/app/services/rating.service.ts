@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class RatingService {
 
+  private url: any ="http://ac42ab69.ngrok.io";
+
   constructor(private http: HttpClient) { }
 
   public postComment(smestajnaJedinica,user,sadrzaj){
@@ -44,7 +46,7 @@ export class RatingService {
         'Content-Type': 'application/json'
      });
 
-    return this.http.get("http://localhost:8080/getOcena", {headers:headers, params: params})
+    return this.http.get(this.url+"/getOcena", {headers:headers, params: params})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
@@ -64,7 +66,7 @@ greater(pretragaLista: any, broj: any) : Observable<any> {
   let json = JSON.parse(JSON.stringify(pretragaLista));
   console.log(json);
   return this.http
-  .post("http://localhost:8080/greater", json, {headers:headers, params: params})
+  .post(this.url+"/greater", json, {headers:headers, params: params})
   .map((data:Observable<any>) => data)
   .catch((err:HttpErrorResponse) =>
   {
@@ -87,7 +89,7 @@ less(pretragaLista: any, broj: any) : Observable<any> {
   let json = JSON.parse(JSON.stringify(pretragaLista));
   console.log(json);
   return this.http
-  .post("http://localhost:8080/less", json, {headers:headers, params: params})
+  .post(this.url+"/less", json, {headers:headers, params: params})
   .map((data:Observable<any>) => data)
   .catch((err:HttpErrorResponse) =>
   {
@@ -110,7 +112,7 @@ equal(pretragaLista: any, broj: any) : Observable<any> {
   let json = JSON.parse(JSON.stringify(pretragaLista));
   console.log(json);
   return this.http
-  .post("http://localhost:8080/equal", json, {headers:headers, params: params})
+  .post(this.url+"/equal", json, {headers:headers, params: params})
   .map((data:Observable<any>) => data)
   .catch((err:HttpErrorResponse) =>
   {

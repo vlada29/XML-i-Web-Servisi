@@ -14,6 +14,8 @@ import 'rxjs/add/operator/takeLast';
 @Injectable()
 export class ProfileService {
 
+    private url: any = "http://ac42ab69.ngrok.io"
+
   constructor(private http:HttpClient, private router: Router) { }
 
   getRes(idUser: any){
@@ -25,19 +27,11 @@ export class ProfileService {
         'Content-Type': 'application/json'
      });
 
-
-    // return this.http.get("http://localhost:8080/getReservations", {headers:headers, params: params})
-    // .map((data:Observable<any>) => data)
-    // .catch((err:HttpErrorResponse) =>
-    // {
-
-    //     return Observable.throw(err);
-    // });
     return this.http
-         .get("http://localhost:8080/getReservations", { params: params, headers: headers })
+         .get(this.url+"/getReservations", { params: params, headers: headers })
          .map((data: [any]) => data)
          .concatMap((reservations: any[]) => {
-             const observables = reservations.map(r => this.http.get("http://localhost:8080/getOcena", {
+             const observables = reservations.map(r => this.http.get(this.url+"/getOcena", {
                  params: new HttpParams().append('id',r.smestajnaJedinica.hjid), headers: headers 
              }));
          
@@ -64,20 +58,12 @@ export class ProfileService {
         'Content-Type': 'application/json'
      });
 
-     
-    // return this.http.get("http://localhost:8080/getPastReservations", {headers:headers, params: params})
-    // .map((data:Observable<any>) => data)
-    // .catch((err:HttpErrorResponse) =>
-    // {
-
-    //     return Observable.throw(err);
-    // });
 
     return this.http
-         .get("http://localhost:8080/getPastReservations", { params: params, headers: headers })
+         .get(this.url+"/getPastReservations", { params: params, headers: headers })
          .map((data: [any]) => data)
          .concatMap((reservations: any[]) => {
-             const observables = reservations.map(r => this.http.get("http://localhost:8080/getOcena", {
+             const observables = reservations.map(r => this.http.get(this.url+"/getOcena", {
                  params: new HttpParams().append('id',r.smestajnaJedinica.hjid), headers: headers 
              }));
          
@@ -107,7 +93,7 @@ export class ProfileService {
      });
 
 
-    return this.http.get("http://localhost:8080/cancel", {headers:headers, params: params})
+    return this.http.get(this.url+"/cancel", {headers:headers, params: params})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
@@ -125,7 +111,7 @@ export class ProfileService {
     let json = JSON.parse(JSON.stringify(message));
     console.log(json);
     return this.http
-    .post("http://localhost:8080/sendMessage", json, {headers:headers})
+    .post(this.url+"/sendMessage", json, {headers:headers})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
@@ -145,7 +131,7 @@ getSentMessages(idUser: any){
      });
 
      
-    return this.http.get("http://localhost:8080/getSentMessages", {headers:headers, params: params})
+    return this.http.get(this.url+"/getSentMessages", {headers:headers, params: params})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
@@ -165,7 +151,7 @@ getSentMessages(idUser: any){
      });
 
      
-    return this.http.get("http://localhost:8080/getReceivedMessages", {headers:headers, params: params})
+    return this.http.get(this.url+"/getReceivedMessages", {headers:headers, params: params})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
@@ -185,7 +171,7 @@ getSentMessages(idUser: any){
      });
 
 
-    return this.http.get("http://localhost:8080/getMessage", {headers:headers, params: params})
+    return this.http.get(this.url+"/getMessage", {headers:headers, params: params})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {

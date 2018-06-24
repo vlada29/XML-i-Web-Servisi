@@ -1,13 +1,9 @@
-
 {
-  "/**": {
-    "target": {
-        "host": "http://localhost:8080",
-        "protocol": "https:",
-        "port": 443
-      },
-    "secure": false,
-    "changeOrigin": true,
-    "logLevel": "info"
-  }
+	"/": {
+		"target":"http://ac42ab69.ngrok.io",
+		"secure": false,
+		"changeOrigin": true,
+ 		"logLevel": "debug",
+		"pathRewrite": {"^/" : ""}
+	}
 }

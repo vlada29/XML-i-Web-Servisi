@@ -15,6 +15,8 @@ import 'rxjs/add/operator/takeLast';
 @Injectable()
 export class HomeService {
 
+    private url: any = "http://ac42ab69.ngrok.io"
+
   constructor(private http:HttpClient, private router: Router) { }
 
 search(searchDTO : SearchDTO) : Observable<any> {
@@ -26,7 +28,7 @@ search(searchDTO : SearchDTO) : Observable<any> {
     let json = JSON.parse(JSON.stringify(searchDTO));
     console.log(json);
     return this.http
-    .post("http://localhost:8080/search", json, {headers:headers})
+    .post(this.url+"/search", json, {headers:headers})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
@@ -48,7 +50,7 @@ reserve(id: any, idUser: any, from: any, to: any): Observable<any>{
         'Content-Type': 'application/json'
      });
 
-    return this.http.get("http://localhost:8080/reserve", {headers:headers, params: params})
+    return this.http.get(this.url+"/reserve", {headers:headers, params: params})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
@@ -65,7 +67,7 @@ getCategories(): Observable<any>{
         'Content-Type': 'application/json'
      });
 
-    return this.http.get("http://localhost:8080/getCategories", {headers:headers})
+    return this.http.get(this.url+"/getCategories", {headers:headers})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
@@ -81,7 +83,7 @@ getTypes(): Observable<any>{
         'Content-Type': 'application/json'
      });
 
-    return this.http.get("http://localhost:8080/getTypes", {headers:headers})
+    return this.http.get(this.url+"/getTypes", {headers:headers})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
@@ -103,7 +105,7 @@ searchAdvanced(advancedsearchDTO : AdvancedSearchDTO) : Observable<any> {
 
     console.log(json);
     return this.http
-    .post("http://localhost:8080/searchAdvanced", json, {headers:headers})
+    .post(this.url+"/searchAdvanced", json, {headers:headers})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
@@ -120,7 +122,7 @@ getReservation(id: any): Observable<any>{
         'Content-Type': 'application/json'
      });
 
-    return this.http.get("http://localhost:8080/getReservation", {headers:headers, params: params})
+    return this.http.get(this.url+"/getReservation", {headers:headers, params: params})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
@@ -139,7 +141,7 @@ getDodatne(): Observable<any>{
         'Content-Type': 'application/json'
      });
 
-    return this.http.get("http://localhost:8080/getDodatne", {headers:headers})
+    return this.http.get(this.url+"/getDodatne", {headers:headers})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
@@ -161,7 +163,7 @@ sortCena(searchList: any) : Observable<any> {
 
     console.log(json);
     return this.http
-    .post("http://localhost:8080/sortCena", json, {headers:headers})
+    .post(this.url+"/sortCena", json, {headers:headers})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
@@ -184,7 +186,7 @@ sortKat(searchList: any) : Observable<any> {
 
     console.log(json);
     return this.http
-    .post("http://localhost:8080/sortKategorija", json, {headers:headers})
+    .post(this.url+"/sortKategorija", json, {headers:headers})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
@@ -207,7 +209,7 @@ sortOcena(searchList: any) : Observable<any> {
 
     console.log(json);
     return this.http
-    .post("http://localhost:8080/sortOcena", json, {headers:headers})
+    .post(this.url+"/sortOcena", json, {headers:headers})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
@@ -224,7 +226,7 @@ getCom(id: any): Observable<any>{
         'Content-Type': 'application/json'
      });
 
-    return this.http.get("http://localhost:8080/getCom", {headers:headers, params: params})
+    return this.http.get(this.url+"/getCom", {headers:headers, params: params})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {

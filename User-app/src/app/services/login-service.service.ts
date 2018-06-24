@@ -12,6 +12,8 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class LoginServiceService {
 
+    private url: any = "http://ac42ab69.ngrok.io";
+
   constructor(private http:HttpClient, private router: Router) { }
 
   // for login and registration component
@@ -25,7 +27,7 @@ export class LoginServiceService {
     let json = JSON.parse(JSON.stringify(user));
     console.log(json);
     return this.http
-    .post("http://localhost:8080/registrationMessage", json, {headers:headers})
+    .post(this.url+"/registrationMessage", json, {headers:headers})
     .catch((err:HttpErrorResponse) =>
     {
         alert(err.status + " Registration failed.");
@@ -43,7 +45,7 @@ submitLogin(user: any) : Observable<any>{
     let json = JSON.parse(JSON.stringify(user));
     console.log(json);
     return this.http
-    .post("http://localhost:8080/userLogin", json, {headers:headers})
+    .post(this.url+"/userLogin", json, {headers:headers})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
@@ -61,7 +63,7 @@ getLoggedUser(): Observable<any>{
         'Content-Type': 'application/json'
      });
 
-    return this.http.get("http://localhost:8080/getLoggedUser", {headers:headers})
+    return this.http.get(this.url+"/getLoggedUser", {headers:headers})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
@@ -78,7 +80,7 @@ getLoggedUserById(id: any): Observable<any>{
         'Content-Type': 'application/json'
      });
 
-    return this.http.get("http://localhost:8080/getLoggedUserById", {headers:headers, params: params})
+    return this.http.get(this.url+"/getLoggedUserById", {headers:headers, params: params})
     .map((data:Observable<any>) => data)
     .catch((err:HttpErrorResponse) =>
     {
