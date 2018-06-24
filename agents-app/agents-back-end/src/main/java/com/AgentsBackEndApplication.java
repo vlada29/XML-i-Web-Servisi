@@ -57,7 +57,6 @@ public class AgentsBackEndApplication implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception {
-		syncService.syncroniseWithCloudAgents();
 		storageService.deleteAll();
 		storageService.init();
 		

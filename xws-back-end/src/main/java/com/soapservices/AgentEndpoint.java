@@ -10,6 +10,7 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import com.model.Agent;
 import com.model.Message;
 import com.model.Rezervacija;
 import com.model.SmestajnaJedinica;
@@ -286,6 +287,19 @@ public class AgentEndpoint {
 		AgentsWrapper cw = new AgentsWrapper();
 		cw.setAgents(agentRepo.findAll());
 		return cw;
+	}
+	
+	@PayloadRoot(namespace="model", localPart = "Agent")
+	@ResponsePayload
+	public Agent login(@RequestPayload Agent agent)  throws Exception {
+		if (agentRepo.findByUsername(agent.getUsername()) != null){
+			if(agentRepo.findByUsername(agent.getUsername()).getPassword().equals(agent.getPassword())){
+				agent = agentRepo.findByUsername(agent.getUsername());
+				return agent;
+			}
+		}
+		agent.setHjid(Long.valueOf(-1));
+		return agent;
 	}
 	
 	@PayloadRoot(namespace="model", localPart = "Cats_Wrapper")

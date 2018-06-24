@@ -71,8 +71,8 @@ public class CloudSynchronisationService {
 	
 	public void syncroniseWithCloudWS(String username) throws JAXBException, SOAPException{
 		System.out.println("Synchronising with Azure database...");
-		String se = "http://ac42ab69.ngrok.io/soapWS";
-		String sa = "http://ac42ab69.ngrok.io/Units_Wrapper";
+		String se = "http://a15c4eb3.ngrok.io/soapWS";
+		String sa = "http://a15c4eb3.ngrok.io/Units_Wrapper";
 		
 		
 		List<SmestajnaJedinica> units = unitService.findAll();
@@ -127,8 +127,8 @@ public class CloudSynchronisationService {
 	
 	public void syncroniseWithCloudRes(String username) throws JAXBException, SOAPException{
 		System.out.println("Synchronising with Azure database...");
-		String se = "http://ac42ab69.ngrok.io/soapWS";
-		String sa = "http://ac42ab69.ngrok.io/Res_Wrapper";
+		String se = "http://a15c4eb3.ngrok.io/soapWS";
+		String sa = "http://a15c4eb3.ngrok.io/Res_Wrapper";
 		
 		
 		List<Rezervacija> reservations = rezService.findAll();
@@ -181,8 +181,8 @@ public class CloudSynchronisationService {
 	
 	public void syncroniseWithCloudMess(Long hjid) throws JAXBException, SOAPException{
 		System.out.println("Synchronising with Azure database...");
-		String se = "http://ac42ab69.ngrok.io/soapWS";
-		String sa = "http://ac42ab69.ngrok.io/Mess_Wrapper";
+		String se = "http://a15c4eb3.ngrok.io/soapWS";
+		String sa = "http://a15c4eb3.ngrok.io/Mess_Wrapper";
 		
 		
 		List<Message> messages = messService.findAll();
@@ -239,8 +239,8 @@ public class CloudSynchronisationService {
 	}
 
 	public void syncroniseWithCloudAgents() throws JAXBException, SOAPException{
-		String se = "http://ac42ab69.ngrok.io/soapWS";
-		String sa = "http://ac42ab69.ngrok.io/Agents_Wrapper";
+		String se = "http://a15c4eb3.ngrok.io/soapWS";
+		String sa = "http://a15c4eb3.ngrok.io/Agents_Wrapper";
 
 		AgentsWrapper rw = new AgentsWrapper();
 		
@@ -263,8 +263,8 @@ public class CloudSynchronisationService {
 	}
 	
 	public void syncroniseWithCloudCategories() throws JAXBException, SOAPException{
-		String se = "http://ac42ab69.ngrok.io/soapWS";
-		String sa = "http://ac42ab69.ngrok.io/Cats_Wrapper";
+		String se = "http://a15c4eb3.ngrok.io/soapWS";
+		String sa = "http://a15c4eb3.ngrok.io/Cats_Wrapper";
 
 		CatsWrapper rw = new CatsWrapper();
 		
@@ -303,8 +303,8 @@ public class CloudSynchronisationService {
 	}
 	
 	public void syncroniseWithCloudTypes() throws JAXBException, SOAPException{
-		String se = "http://ac42ab69.ngrok.io/soapWS";
-		String sa = "http://ac42ab69.ngrok.io/Types_Wrapper";
+		String se = "http://a15c4eb3.ngrok.io/soapWS";
+		String sa = "http://a15c4eb3.ngrok.io/Types_Wrapper";
 			
 		TypesWrapper rw = new TypesWrapper();
 
@@ -343,8 +343,8 @@ public class CloudSynchronisationService {
 	}
 	
 	public void syncroniseWithCloudExtras() throws JAXBException, SOAPException{
-		String se = "http://ac42ab69.ngrok.io/soapWS";
-		String sa = "http://ac42ab69.ngrok.io/Extras_Wrapper";
+		String se = "http://a15c4eb3.ngrok.io/soapWS";
+		String sa = "http://a15c4eb3.ngrok.io/Extras_Wrapper";
 
 		ExtrasWrapper rw = new ExtrasWrapper();
 		

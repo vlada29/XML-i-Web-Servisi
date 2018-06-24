@@ -233,6 +233,8 @@ public class MainController {
 			produces = MediaType.APPLICATION_XML_VALUE)
 	@ResponseStatus(value = HttpStatus.OK)
 	public String login(@RequestBody Agent agent) throws SOAPException, JAXBException, IOException, JSONException{
+		soapService.login(agent);
+		
 		if (aService.findByUsername(agent.getUsername()) != null){
 			if(aService.findByUsername(agent.getUsername()).getPassword().equals(agent.getPassword())){
 				ObjectMapper mapper = new ObjectMapper();
