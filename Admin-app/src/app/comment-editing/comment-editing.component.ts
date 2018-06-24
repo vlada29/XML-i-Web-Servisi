@@ -18,12 +18,13 @@ export class CommentEditingComponent implements OnInit {
   approve(com){
     this.comment_service.approveComment(com).subscribe(
             data => {this.comment_service.getComments().subscribe(data => this.comments = data);},
-            error => {alert("Greska")});
+            error => {this.comment_service.getComments().subscribe(data => this.comments = data);} 
+          );
   }
 
   remove(com){
     this.comment_service.deleteComment(com).subscribe(
             data => {this.comment_service.getComments().subscribe(data => this.comments = data);},
-            error => {alert("Greska")});
+            error => {this.comment_service.getComments().subscribe(data => this.comments = data);});
   }
 }
